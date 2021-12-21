@@ -9,12 +9,13 @@ export class DgtrackserviceService {
   constructor(private _http:HttpClient) { }
   datapost(){
     var obj: any = [];
-    // return this._http.post('http://adminiot.iotsolution.net/summaryAPI2/api/Info/Clients', null)
-    return this._http.post('http://adminiot.iotsolution.net/summaryAPI2/API/Client/getDateTime', obj);
+     return this._http.post('https://localhost:44308/API/Client/getDateTime', obj)
+    //return this._http.post('http://adminiot.iotsolution.net/summaryAPI2/API/Client/getDateTime', obj);
   }
   apicall(inputs:any){
 
-    let url='http://adminiot.iotsolution.net/summaryAPI2/API/Client/Details';
+    //let url='http://adminiot.iotsolution.net/summaryAPI2/API/Client/Details';
+    let url = 'https://localhost:44308/API/Client/ClientData';
 
     const headers = {'Content-Type':'application/json'};  
 
