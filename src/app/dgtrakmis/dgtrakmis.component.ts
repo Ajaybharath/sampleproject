@@ -1,56 +1,27 @@
 import { ThrowStmt } from '@angular/compiler';
 import { mapToExpression } from '@angular/compiler/src/render3/view/util';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit,ViewChild} from '@angular/core';
+import { debug } from 'console';
+import { parse } from 'querystring';
 import { DgtrackserviceService } from '../dgtrackservice.service';
+import * as apexChart from '../js/apexchart.js';
+
+
+
 @Component({
   selector: 'app-dgtrakmis',
-  template: `
-    <div class="table1">
-    <table>
-    <tr>
-    <td style="background-color:	rgb(100, 181, 246);" class="size">Total Devices<br/><div class="size1">{{totalDevice}}</div></td>&nbsp;
-    <td style="background-color:	rgb(129, 199, 132);" class="size">Reporting<br/><div class="size1">{{totalReporting}}</div></td>&nbsp;
-    <td style="background-color:	rgb(97, 97, 97);" class="size">Not Reporting<br/><div class="size1">{{totalNotReporting}}</div></td>&nbsp;
-    <td style="background-color:	rgb(206, 147, 216);" class="size">Domain<br/><div class="size1">{{totalDomain}}</div></td>&nbsp;
-    <td style="background-color:	rgb(240, 98, 146);" class="size">Sub Domain<br/><div class="size1">{{totalSubDomain}}</div></td>&nbsp;
-    <td style="background-color:	rgb(76, 175, 80);" class="size">Regions/Loc.<br/><div class="size1">{{Regions}}</div></td>&nbsp;
-    <td style="background-color:white;color:black;width:210px;height:80px; box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;font-family:Verdana;border-radius:5px"><div style="background-color:rgb(97, 97, 97);padding:5px;top: 0;color:white">Report At:</div><br/><div style="font-size:15px">{{DateTime.reportAt}}</div></td>
-    </tr>
-    </table>
-    </div>
-    <br/><br/>
-    <div>
-    <div>
-    <th style="width:20px"></th><th style="width: 120px;">Domain</th><th style="width: 120px;">Sub Domain</th><th>Total Device</th><th>Reporting</th><th>Not Reporting</th><th>Reporting%</th>
-    </div>
-    <div style="overflow-y: scroll; height:400px; width: 775px; box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px; ">
-    <table>
-    <tr *ngFor="let user of Details;let i = index" [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
-    <td style="width:20px">{{i+1}}.</td>
-    <td style="width: 120px;">{{user.domain}}</td>
-    <td style="width: 120px;"><a href="{{user.portal}}" target="_blank" rel="noopener noreferrer">{{user.subDomain}}</a></td>
-    <td>{{user.totalDevice}}</td>
-    <td>{{user.reporting}}</td>
-    <td>{{user.notReporting}}</td>
-    <td>{{reporting[i]}}</td>
-    </tr>
-    </table>
-    </div>
-    </div>
-    
-  `,
-  styles: [
-    `
-    
-    `
-  ]
+  templateUrl: './dgtrakmis.component.html',
+  styleUrls: ['./dgtrakmis.component.css']
 })
 export class DGTRAKMISComponent implements OnInit {
   DateTime: any = [];
   Details: any = [];
   reporting: any = [];
   domain: any = [];
-  
+  subDomain: any = [];
+  @ViewChild('map') gmap: any;
+  mapContainer: google.maps.Map;
+  marker: google.maps.Marker;
   // map: google.maps.Map;
   // @ViewChild('map', {static: false}) gmap: ElementRef;
   private totalDevice = 0;
@@ -58,15 +29,15 @@ export class DGTRAKMISComponent implements OnInit {
   constructor(private service: DgtrackserviceService) { }
   inputs = { "uid": "idea", "pwd": "bytes" };
   ngOnInit() {
-    
     this.service.apicall(this.inputs).subscribe(data => {
-      this.Details = data
       
+      this.Details = data
       console.log(data);
       for (var i = 0; i < this.Details.length; i++) {
         this.totalDevice += parseInt(this.Details[i].totalDevice);
         this.totalReporting += parseInt(this.Details[i].reporting);
         this.totalNotReporting += parseInt(this.Details[i].notReporting);
+        this.subDomain.push(this.Details[i].subDomain);
         this.domain.push(this.Details[i].domain);
         this.totalSubDomain = parseInt(this.Details.length);
         if (parseInt(this.Details[i].reporting) == 0 || parseInt(this.Details[i].totalDevice) == 0) {
@@ -75,14 +46,61 @@ export class DGTRAKMISComponent implements OnInit {
         else {
           this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
         }
-        
       }
+      //debugger
+      
+      //getting unique domain from domain list(property) 
       function onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
       }
       var unique = this.domain.filter(onlyUnique);
       console.log(unique);
       this.totalDomain = unique.length;
+      //chart
+    // var yaxis = [1,3,5,6,7,8];
+    // var xaxis = ["mon","tue","wed","thus","fri","sat"];
+      var Reporting = this.reporting;
+      var subDomainval = this.subDomain;
+      debugger
+      console.log(this.subDomain);
+      console.log(this.reporting);
+      var chartOptions = {
+        series: [
+          {
+            name: "Reporting%",
+            data: this.reporting
+          }
+        ],
+        chart: {
+          height: 180,
+          type: "line",
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: "straight"
+        },
+        title: {
+          text: "DG Trak Summary Graph",
+          align: "left"
+        },
+        grid: {
+          row: {
+            colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+            opacity: 0.5
+          }
+        },
+        xaxis: {
+          categories:this.subDomain
+        }
+        
+      };
+      var chart = new apexChart(document.querySelector('#chart'), chartOptions);
+        chart.render();
     }
     );
     this.service.datapost().subscribe(data => {
@@ -91,6 +109,18 @@ export class DGTRAKMISComponent implements OnInit {
       console.log('27 > ' + this.DateTime.reportAt);
     });
     console.log('30 > ' + this.DateTime);
-    
+    //mapContainer
+    var lat = "17.4330175";// this._commanService.getDefaultLat();
+    var lon = "78.3728449";// this._commanService.getDefaultLng();
+    var centerLatLng = new google.maps.LatLng(Number(lat), Number(lon));
+    this.mapContainer = new google.maps.Map(this.gmap.nativeElement,
+      {
+        center: centerLatLng,
+        zoom: 12,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        gestureHandling: 'greedy'
+      }
+    );
+    this.marker = new google.maps.Marker({ position: centerLatLng, map: this.mapContainer });
   }
 }
