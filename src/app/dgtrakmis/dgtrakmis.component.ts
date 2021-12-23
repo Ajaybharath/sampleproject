@@ -73,7 +73,8 @@ export class DGTRAKMISComponent implements OnInit {
         ],
         chart: {
           height: 180,
-          type: "line",
+          //type: "area",
+          type:"line",
           zoom: {
             enabled: false
           }
@@ -83,9 +84,11 @@ export class DGTRAKMISComponent implements OnInit {
         },
         stroke: {
           curve: "straight"
+          // curve:"smooth"
         },
         title: {
           text: "DG Trak Summary Graph",
+          fontFamily: 'Times New Roman',
           align: "left"
         },
         grid: {
