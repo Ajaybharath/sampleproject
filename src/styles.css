@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 body {background-color: #F0FFF0;}
-th{
+/* th{
   background-color: #3d34a5;
   color: cornsilk;
   text-align: center;
@@ -11,31 +11,16 @@ th{
   font-size: 15px;
   text-overflow: ellipsis;
   opacity: 0.8;
-}
-td{
+} */
+/* td{
     text-align: center;
     color:black;
     width: 108px;
     border-collapse: collapse;
     border-color: white;
     text-overflow: ellipsis;
-}
-.size{
-    color:white;
-    width:150px;
-    height:80px;
-    border: 0px solid;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-    border-radius: 5px;
-    text-align: left;
-    font-family:Verdana;
-    text-justify: auto;
-    text-orientation: sideways;
-    text-indent: 20px;
-  }
-  .size1{
-      font-size: 30px;
-  }
+} */
+
   a:link {
     color: rgb(12, 12, 12);
     background-color: transparent;
@@ -52,7 +37,7 @@ td{
     text-decoration: none;
   }
  .table1{
-   margin-left: 6%;
+  margin-left: 2%;
   }
   .mapClass{
     margin-left: 60%;

@@ -7,38 +7,59 @@
     <td style="background-color:	rgb(206, 147, 216);" class="size">Domain<br/><div class="size1">{{totalDomain}}</div></td>&nbsp;
     <td style="background-color:	rgb(240, 98, 146);" class="size">Sub Domain<br/><div class="size1">{{totalSubDomain}}</div></td>&nbsp;
     <td style="background-color:	rgb(76, 175, 80);" class="size">Regions/Loc.<br/><div class="size1">{{Regions}}</div></td>&nbsp;
-    <td style="background-color:    white;color:black;width:210px;height:80px; box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;font-family:Verdana;border-radius:5px"><div style="background-color:rgb(97, 97, 97);padding:5px;top: 0;color:white">Report At:</div><br/><div style="font-size:15px">{{DateTime.reportAt}}</div></td>
+    <td class="reportAt" >Report At:<br/><br/><div style="font-size: 20px;">{{DateTime.reportAt}}</div></td>&nbsp;
     </tr>
     </table>
     </div>
     <br/>
     <div>
-      <div class="parent-div">
-        <div id="chart" style="height:100px; width: 748px;overflow-y: scroll;overflow-x: scroll;" class = "child-div2">
-          <!-- <div id="timeline-chart"></div> -->
-        </div>
+      <div>
         <div class = "child-div1">
-        <div>
-        <th style="width:20px"></th><th style="width: 120px;">Domain</th><th style="width: 120px;">Sub Domain</th><th>Total Device</th><th>Reporting</th><th>Not Reporting</th><th>Reporting%</th>
+          <div style="width: 100%;">
+          <th style="width: 34px;"></th><th style="width: 256px; text-align: center;">Domain</th><th style="width: 154px;">Sub Domain</th><th style="width:154px">Total Device</th><th style="width:100px">Reporting</th><th style="width:100px">N.Reporting</th><th style="width:100px">Reporting%</th><th style="width:100px">Good</th><th style="width:100px">warning</th><th style="width:100px">Critical</th>
+          </div>
+          <div style="overflow-y: scroll; height:180px; width: 100%; box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px; " >
+            <table>
+            <tr *ngFor="let user of Details;let i = index" [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
+            <td style="width:30px">{{i+1}}.</td>
+            <td style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;width: 155px;" >{{user.domain}}</td>
+            <td style="width:154px"><a href="{{user.portal}}" target="_blank" rel="noopener noreferrer">{{user.subDomain}}</a></td>
+            <td style="width:154px">{{user.totalDevice}}</td>
+            <td style="width:100px">{{user.reporting}}</td>
+            <td style="width:100px">{{user.notReporting}}</td>
+            <td style="width:100px">{{reporting[i]}}</td>
+            <td style="width:100px" ></td>
+            <td style="width:100px"></td>
+            <td style="width:100px"></td>
+            </tr>
+            </table>
+          </div>
         </div>
-        <div style="overflow-y: scroll; height:180px; width: 770px;; box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px; " >
-        <table>
-        <tr *ngFor="let user of Details;let i = index" [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
-        <td style="width:20px">{{i+1}}.</td>
-        <td style="width: 120px;">{{user.domain}}</td>
-        <td style="width: 120px;"><a href="{{user.portal}}" target="_blank" rel="noopener noreferrer">{{user.subDomain}}</a></td>
-        <td>{{user.totalDevice}}</td>
-        <td>{{user.reporting}}</td>
-        <td>{{user.notReporting}}</td>
-        <td>{{reporting[i]}}</td>
-        </tr>
-        </table>
+        <div #map class = "child-div2" style="width: 20%; height: 210px;padding-left: 20px;"></div>
+      </div>
+      <br/><br/>
+      <div class="parent-div">
+        <!-- <div id="chart" style="height:100px; width: 748px;overflow-y: scroll;overflow-x: scroll;" class = "child-div2">
+
+        </div> -->
+        <div class = "parent-chart">
+          <div class="parent-chart1">
+            <div id = "chart1" class = "child-chart1"></div><div id = "chart2" class = "child-chart1"></div>
+          </div>
+          <div class="parent-chart2">
+            <div id = "chart3" class = "child-chart1"></div><div id = "chart4" class = "child-chart1"></div>
+          </div>
+          <div class="parent-chart3">
+            <div id = "chart5" class = "child-chart1"></div><div id = "chart6" class = "child-chart1">
+          </div>
+          <div class="parent-chart4">
+            <div id = "chart7" class = "child-chart1"></div><div id = "chart8" class = "child-chart1"></div>
+          </div>
+          <div class="parent-chart4">
+            <div id = "chart9" class = "child-chart1"></div><div id = "chart10" class = "child-chart1"></div>
+          </div>
         </div>
-        
-        </div>
-        <div #map style="width: 400px; height: 440px" class = "child-div3" ></div>
-        
-        </div>
+      </div>
     </div>
     
     

@@ -1,7 +1,7 @@
 import { ThrowStmt } from '@angular/compiler';
 import { mapToExpression } from '@angular/compiler/src/render3/view/util';
 import { Component, OnInit,ViewChild} from '@angular/core';
-import { debug } from 'console';
+// import { debug } from 'console';
 import { parse } from 'querystring';
 import { DgtrackserviceService } from '../dgtrackservice.service';
 import * as apexChart from '../js/apexchart.js';
@@ -29,8 +29,7 @@ export class DGTRAKMISComponent implements OnInit {
   constructor(private service: DgtrackserviceService) { }
   inputs = { "uid": "idea", "pwd": "bytes" };
   ngOnInit() {
-    this.service.apicall(this.inputs).subscribe(data => {
-      
+    this.service.apicall(this.inputs).subscribe(data => { 
       this.Details = data
       console.log(data);
       for (var i = 0; i < this.Details.length; i++) {
@@ -41,6 +40,7 @@ export class DGTRAKMISComponent implements OnInit {
         this.domain.push(this.Details[i].domain);
         this.totalSubDomain = parseInt(this.Details.length);
         if (parseInt(this.Details[i].reporting) == 0 || parseInt(this.Details[i].totalDevice) == 0) {
+
           this.reporting.push(0);
         }
         else {
@@ -56,54 +56,71 @@ export class DGTRAKMISComponent implements OnInit {
       var unique = this.domain.filter(onlyUnique);
       console.log(unique);
       this.totalDomain = unique.length;
-      //chart
-    // var yaxis = [1,3,5,6,7,8];
-    // var xaxis = ["mon","tue","wed","thus","fri","sat"];
-      var Reporting = this.reporting;
-      var subDomainval = this.subDomain;
-      debugger
-      console.log(this.subDomain);
-      console.log(this.reporting);
-      var chartOptions = {
-        series: [
-          {
-            name: "Reporting%",
-            data: this.reporting
+      for(var ic = 0; ic < unique.length; ic++){
+        var subDomainval1 = [];
+        var Reportingval = [];
+        for(var id = 0; id < this.Details.length; id++){
+          if(this.Details[id].domain == unique[ic]){
+            subDomainval1.push(this.Details[id].subDomain)
+            if (parseInt(this.Details[id].reporting) == 0 || parseInt(this.Details[id].totalDevice) == 0) {
+              Reportingval.push(0);
+            }
+            else {
+              Reportingval.push(Math.round(parseInt(this.Details[id].reporting) / parseInt(this.Details[id].totalDevice) * 100));
+            }
           }
-        ],
-        chart: {
-          height: 180,
-          //type: "area",
-          type:"line",
-          zoom: {
-            enabled: false
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: "straight"
-          // curve:"smooth"
-        },
-        title: {
-          text: "DG Trak Summary Graph",
-          fontFamily: 'Times New Roman',
-          align: "left"
-        },
-        grid: {
-          row: {
-            colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-            opacity: 0.5
-          }
-        },
-        xaxis: {
-          categories:this.subDomain
         }
-        
-      };
-      var chart = new apexChart(document.querySelector('#chart'), chartOptions);
-        chart.render();
+        console.log(subDomainval1);
+        console.log(Reportingval);
+        var chartOptions = {
+          series: [
+            {
+              name: "Reporting%",
+              data: Reportingval
+            }
+          ],
+          chart: {
+            height: 180,
+            //type: "area",
+            type:"line",
+            zoom: {
+              enabled: false
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            curve: "straight",
+            width:2
+            // curve:"smooth"
+          },
+          title: {
+            text: unique[ic],
+            fontFamily: 'Times New Roman',
+            align: "left"
+          },
+          grid: {
+            row: {
+              colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+              opacity: 0.5
+            }
+          },
+          xaxis: {
+            categories:subDomainval1,
+            labels: {
+              trim:true,
+              hideOverlappingLabels: false,
+            }
+          }
+         
+        };
+       // var chart = new apexChart(document.querySelector('#chart'), chartOptions);
+       debugger
+       var name = '#chart'+(ic+1);
+       var chart = new apexChart(document.querySelector(name), chartOptions);
+          chart.render();
+      }
     }
     );
     this.service.datapost().subscribe(data => {
@@ -121,7 +138,9 @@ export class DGTRAKMISComponent implements OnInit {
         center: centerLatLng,
         zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        gestureHandling: 'greedy'
+        gestureHandling: 'greedy',
+        mapTypeControl:false,
+        streetViewControl:false
       }
     );
     this.marker = new google.maps.Marker({ position: centerLatLng, map: this.mapContainer });
