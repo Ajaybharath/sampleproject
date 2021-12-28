@@ -1,6 +1,6 @@
 import { ThrowStmt } from '@angular/compiler';
 import { mapToExpression } from '@angular/compiler/src/render3/view/util';
-import { Component, OnInit,ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 // import { debug } from 'console';
 import { parse } from 'querystring';
 import { DgtrackserviceService } from '../dgtrackservice.service';
@@ -15,6 +15,7 @@ import * as apexChart from '../js/apexchart.js';
 })
 export class DGTRAKMISComponent implements OnInit {
   DateTime: any = [];
+  Locations: any = [];
   Details: any = [];
   reporting: any = [];
   domain: any = [];
@@ -29,7 +30,7 @@ export class DGTRAKMISComponent implements OnInit {
   constructor(private service: DgtrackserviceService) { }
   inputs = { "uid": "idea", "pwd": "bytes" };
   ngOnInit() {
-    this.service.apicall(this.inputs).subscribe(data => { 
+    this.service.apicall(this.inputs).subscribe(data => {
       this.Details = data
       console.log(data);
       for (var i = 0; i < this.Details.length; i++) {
@@ -48,7 +49,7 @@ export class DGTRAKMISComponent implements OnInit {
         }
       }
       //debugger
-      
+
       //getting unique domain from domain list(property) 
       function onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
@@ -56,11 +57,11 @@ export class DGTRAKMISComponent implements OnInit {
       var unique = this.domain.filter(onlyUnique);
       console.log(unique);
       this.totalDomain = unique.length;
-      for(var ic = 0; ic < unique.length; ic++){
+      for (var ic = 0; ic < unique.length; ic++) {
         var subDomainval1 = [];
         var Reportingval = [];
-        for(var id = 0; id < this.Details.length; id++){
-          if(this.Details[id].domain == unique[ic]){
+        for (var id = 0; id < this.Details.length; id++) {
+          if (this.Details[id].domain == unique[ic]) {
             subDomainval1.push(this.Details[id].subDomain)
             if (parseInt(this.Details[id].reporting) == 0 || parseInt(this.Details[id].totalDevice) == 0) {
               Reportingval.push(0);
@@ -82,7 +83,7 @@ export class DGTRAKMISComponent implements OnInit {
           chart: {
             height: 180,
             //type: "area",
-            type:"line",
+            type: "line",
             zoom: {
               enabled: false
             }
@@ -92,7 +93,7 @@ export class DGTRAKMISComponent implements OnInit {
           },
           stroke: {
             curve: "straight",
-            width:2
+            width: 2
             // curve:"smooth"
           },
           title: {
@@ -107,42 +108,73 @@ export class DGTRAKMISComponent implements OnInit {
             }
           },
           xaxis: {
-            categories:subDomainval1,
+            categories: subDomainval1,
             labels: {
-              trim:true,
+              trim: true,
               hideOverlappingLabels: false,
             }
           }
-         
+
         };
-       // var chart = new apexChart(document.querySelector('#chart'), chartOptions);
-       debugger
-       var name = '#chart'+(ic+1);
-       var chart = new apexChart(document.querySelector(name), chartOptions);
-          chart.render();
+        // var chart = new apexChart(document.querySelector('#chart'), chartOptions);
+        var name = '#chart' + (ic + 1);
+        var chart = new apexChart(document.querySelector(name), chartOptions);
+        chart.render();
       }
     }
     );
     this.service.datapost().subscribe(data => {
       this.DateTime = data;
-      
+
       console.log('27 > ' + this.DateTime.reportAt);
     });
     console.log('30 > ' + this.DateTime);
+
     //mapContainer
-    var lat = "17.4330175";// this._commanService.getDefaultLat();
-    var lon = "78.3728449";// this._commanService.getDefaultLng();
-    var centerLatLng = new google.maps.LatLng(Number(lat), Number(lon));
-    this.mapContainer = new google.maps.Map(this.gmap.nativeElement,
-      {
-        center: centerLatLng,
-        zoom: 12,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        gestureHandling: 'greedy',
-        mapTypeControl:false,
-        streetViewControl:false
+    this.service.apicallLocation(this.inputs).subscribe(data => {
+      this.Locations = data
+      var locName = [], locArray = [], locLon = [];
+      var lat1 = "17.4295865";// this._commanService.getDefaultLat();
+      var lon1 = "78.3709647";// this._commanService.getDefaultLng();
+      var centerLatLng = new google.maps.LatLng(Number(lat1), Number(lon1));
+      this.mapContainer = new google.maps.Map(this.gmap.nativeElement,
+        {
+          center: centerLatLng,
+          zoom: 1,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          gestureHandling: 'greedy',
+          mapTypeControl: false,
+          streetViewControl: false
+        }
+      );
+      this.marker = new google.maps.Marker({ position: centerLatLng, map: this.mapContainer });
+      for (var loi = 0; loi < this.Locations.length; loi++) {
+        var item: any = { lat: Number, lng: Number };
+        item.lat = Number(this.Locations[loi].location.split(',')[0]);
+        item.lng = Number(this.Locations[loi].location.split(',')[1]);
+        locArray.push(item);
       }
-    );
-    this.marker = new google.maps.Marker({ position: centerLatLng, map: this.mapContainer });
+      var image ={
+        url: "https://cdn-0.emojis.wiki/emoji-pics/microsoft/blue-circle-microsoft.png",
+        // size: new google.maps.Size(20, 32),
+        // origin: new google.maps.Point(0, 0),
+        // anchor: new google.maps.Point(0, 32),
+      }; 
+     
+      for (var loi = 0; loi < this.Locations.length; loi++) {
+        const loc = locArray[loi];
+        // const image =
+        //  {
+        //   url: "https://cdn-0.emojis.wiki/emoji-pics/microsoft/blue-circle-microsoft.png",
+        //   // This marker is 20 pixels wide by 32 pixels high.
+        //   size: new google.maps.Size(20, 32),
+        //   // The origin for this image is (0, 0).
+        //   origin: new google.maps.Point(0, 0),
+        //   // The anchor for this image is the base of the flagpole at (0, 32).
+        //   anchor: new google.maps.Point(0, 32),
+        // };
+        this.marker = new google.maps.Marker({ icon: image, position: loc, map: this.mapContainer });
+      }
+    });
   }
 }
