@@ -144,7 +144,7 @@ export class DGTRAKMISComponent implements OnInit {
           mapTypeId: google.maps.MapTypeId.ROADMAP,
           gestureHandling: 'greedy',
           mapTypeControl: false,
-          streetViewControl: false
+          streetViewControl: false,
         }
       );
       this.marker = new google.maps.Marker({ position: centerLatLng, map: this.mapContainer });
@@ -156,23 +156,12 @@ export class DGTRAKMISComponent implements OnInit {
       }
       var image ={
         url: "https://cdn-0.emojis.wiki/emoji-pics/microsoft/blue-circle-microsoft.png",
-        // size: new google.maps.Size(20, 32),
-        // origin: new google.maps.Point(0, 0),
-        // anchor: new google.maps.Point(0, 32),
+        scaledSize:new google.maps.Size(10, 10),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(0, 10),
       }; 
-     
       for (var loi = 0; loi < this.Locations.length; loi++) {
         const loc = locArray[loi];
-        // const image =
-        //  {
-        //   url: "https://cdn-0.emojis.wiki/emoji-pics/microsoft/blue-circle-microsoft.png",
-        //   // This marker is 20 pixels wide by 32 pixels high.
-        //   size: new google.maps.Size(20, 32),
-        //   // The origin for this image is (0, 0).
-        //   origin: new google.maps.Point(0, 0),
-        //   // The anchor for this image is the base of the flagpole at (0, 32).
-        //   anchor: new google.maps.Point(0, 32),
-        // };
         this.marker = new google.maps.Marker({ icon: image, position: loc, map: this.mapContainer });
       }
     });
