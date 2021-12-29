@@ -23,8 +23,6 @@ export class DGTRAKMISComponent implements OnInit {
   @ViewChild('map') gmap: any;
   mapContainer: google.maps.Map;
   marker: google.maps.Marker;
-  // map: google.maps.Map;
-  // @ViewChild('map', {static: false}) gmap: ElementRef;
   private totalDevice = 0;
   private totalReporting = 0; private totalNotReporting = 0; private totalDomain = 0; private totalSubDomain = 0; private Regions = 0;
   constructor(private service: DgtrackserviceService) { }
@@ -48,8 +46,6 @@ export class DGTRAKMISComponent implements OnInit {
           this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
         }
       }
-      //debugger
-
       //getting unique domain from domain list(property) 
       function onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
@@ -125,11 +121,9 @@ export class DGTRAKMISComponent implements OnInit {
     );
     this.service.datapost().subscribe(data => {
       this.DateTime = data;
-
       console.log('27 > ' + this.DateTime.reportAt);
     });
     console.log('30 > ' + this.DateTime);
-
     //mapContainer
     this.service.apicallLocation(this.inputs).subscribe(data => {
       this.Locations = data
@@ -147,22 +141,26 @@ export class DGTRAKMISComponent implements OnInit {
           streetViewControl: false,
         }
       );
-      this.marker = new google.maps.Marker({ position: centerLatLng, map: this.mapContainer });
-      for (var loi = 0; loi < this.Locations.length; loi++) {
-        var item: any = { lat: Number, lng: Number };
-        item.lat = Number(this.Locations[loi].location.split(',')[0]);
-        item.lng = Number(this.Locations[loi].location.split(',')[1]);
-        locArray.push(item);
-      }
+      //this.marker = new google.maps.Marker({ position: centerLatLng, map: this.mapContainer });
+      // for (var loi = 0; loi < this.Locations.length; loi++) {
+      //   var item: any = { lat: Number, lng: Number };
+      //   item.lat = Number(this.Locations[loi].location.split(',')[0]);
+      //   item.lng = Number(this.Locations[loi].location.split(',')[1]);
+      //   locArray.push(item);
+      // }
       var image ={
         url: "https://cdn-0.emojis.wiki/emoji-pics/microsoft/blue-circle-microsoft.png",
         scaledSize:new google.maps.Size(10, 10),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(0, 10),
       }; 
+      this.Regions = this.Locations.length;
+      debugger
       for (var loi = 0; loi < this.Locations.length; loi++) {
-        const loc = locArray[loi];
-        this.marker = new google.maps.Marker({ icon: image, position: loc, map: this.mapContainer });
+        //const loc = locArray[loi];
+        const titleLoc = this.Locations[loi].name;
+        this.marker = new google.maps.Marker({ icon: image, position: {lat:Number(this.Locations[loi].location.split(',')[0]),lng:Number(this.Locations[loi].location.split(',')[1]) }, map: this.mapContainer,title:titleLoc });
+        // this.marker = new google.maps.Marker({ icon: image, position: loc, map: this.mapContainer,title:titleLoc });
       }
     });
   }
