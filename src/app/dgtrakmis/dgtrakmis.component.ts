@@ -1,6 +1,7 @@
 import { ThrowStmt } from '@angular/compiler';
 import { mapToExpression } from '@angular/compiler/src/render3/view/util';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { cr } from '@angular/core/src/render3';
 // import { debug } from 'console';
 import { parse } from 'querystring';
 import { DgtrackserviceService } from '../dgtrackservice.service';
@@ -30,7 +31,6 @@ export class DGTRAKMISComponent implements OnInit {
   ngOnInit() {
     this.service.apicall(this.inputs).subscribe(data => {
       this.Details = data
-      console.log(data);
       for (var i = 0; i < this.Details.length; i++) {
         this.totalDevice += parseInt(this.Details[i].totalDevice);
         this.totalReporting += parseInt(this.Details[i].reporting);
@@ -46,73 +46,99 @@ export class DGTRAKMISComponent implements OnInit {
           this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
         }
       }
-      //getting unique domain from domain list(property) 
+      console.log(this.Details);
       function onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
       }
       var unique = this.domain.filter(onlyUnique);
-      console.log(unique);
       this.totalDomain = unique.length;
       for (var ic = 0; ic < unique.length; ic++) {
-        var subDomainval1 = [];
-        var Reportingval = [];
+        var subDomainval1 = [],Reportingval = [], goodState = [], warningState = [],criticalState = [],TotalDevices = [], ReportingDevices = [];
         for (var id = 0; id < this.Details.length; id++) {
           if (this.Details[id].domain == unique[ic]) {
             subDomainval1.push(this.Details[id].subDomain)
-            if (parseInt(this.Details[id].reporting) == 0 || parseInt(this.Details[id].totalDevice) == 0) {
-              Reportingval.push(0);
-            }
-            else {
-              Reportingval.push(Math.round(parseInt(this.Details[id].reporting) / parseInt(this.Details[id].totalDevice) * 100));
+            TotalDevices.push(this.Details[id].totalDevice);
+            ReportingDevices.push(this.Details[id].reporting);
+            goodState.push(parseInt(this.Details[id].Good));
+            warningState.push(parseInt(this.Details[id].Warning));
+            criticalState.push(parseInt(this.Details[id].Critical));
+          }
+        }
+        var top3Reporting = [], top3subDomain = [], top3totdevices = [], top3good = [], top3warning = [], top3critical = [];
+        top3Reporting = ReportingDevices.sort(function(a, b){return b - a}).slice(0, 3);
+        for(var t = 0; t < top3Reporting.length; t++){
+          var count = 0;
+          for(var d = 0; d < ReportingDevices.length; d++){
+            debugger
+            if(ReportingDevices[d] == top3Reporting[t] && count == 0){
+              count = count + 1;
+              top3subDomain.push(subDomainval1[d]);
+              top3totdevices.push(TotalDevices[d]);
+              top3good.push(goodState[d]);
+              top3warning.push(warningState[d]);
+              top3critical.push(criticalState[d]);
             }
           }
         }
-        console.log(subDomainval1);
-        console.log(Reportingval);
+        console.log(top3Reporting);
+        console.log(top3subDomain);
+        console.log(top3good);
+        console.log(top3warning);
+        console.log(top3critical);
+        console.log(top3totdevices)
         var chartOptions = {
-          series: [
-            {
-              name: "Reporting%",
-              data: Reportingval
-            }
-          ],
+          series: [{
+          name: 'Total',
+          data: top3totdevices
+        },
+        {
+          name: 'Reporting',
+          data: top3Reporting
+        }, {
+          name: 'Good',
+          data: top3good
+        }, {
+          name: 'Warning',
+          data: top3warning
+        },{
+          name: 'Critical',
+          data: top3critical
+        }
+      ],
           chart: {
-            height: 180,
-            //type: "area",
-            type: "line",
-            zoom: {
-              enabled: false
-            }
+          type: 'bar',
+          height: 350
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '55%',
+            endingShape: 'rounded'
           },
-          dataLabels: {
-            enabled: false
-          },
-          stroke: {
-            curve: "straight",
-            width: 2
-            // curve:"smooth"
-          },
-          title: {
-            text: unique[ic],
-            fontFamily: 'Times New Roman',
-            align: "left"
-          },
-          grid: {
-            row: {
-              colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-              opacity: 0.5
-            }
-          },
-          xaxis: {
-            categories: subDomainval1,
-            labels: {
-              trim: true,
-              hideOverlappingLabels: false,
-            }
-          }
-
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: top3subDomain,
+        },
+        title: {
+              text: unique[ic],
+              fontFamily: 'Times New Roman',
+              align: "left"
+            },
+        fill: {
+          opacity: 1
+        },
+        legend: {
+          show:false
+        },
         };
-        // var chart = new apexChart(document.querySelector('#chart'), chartOptions);
         var name = '#chart' + (ic + 1);
         var chart = new apexChart(document.querySelector(name), chartOptions);
         chart.render();
@@ -141,13 +167,6 @@ export class DGTRAKMISComponent implements OnInit {
           streetViewControl: false,
         }
       );
-      //this.marker = new google.maps.Marker({ position: centerLatLng, map: this.mapContainer });
-      // for (var loi = 0; loi < this.Locations.length; loi++) {
-      //   var item: any = { lat: Number, lng: Number };
-      //   item.lat = Number(this.Locations[loi].location.split(',')[0]);
-      //   item.lng = Number(this.Locations[loi].location.split(',')[1]);
-      //   locArray.push(item);
-      // }
       var image ={
         url: "https://cdn-0.emojis.wiki/emoji-pics/microsoft/blue-circle-microsoft.png",
         scaledSize:new google.maps.Size(10, 10),
@@ -155,12 +174,9 @@ export class DGTRAKMISComponent implements OnInit {
         anchor: new google.maps.Point(0, 10),
       }; 
       this.Regions = this.Locations.length;
-      debugger
       for (var loi = 0; loi < this.Locations.length; loi++) {
-        //const loc = locArray[loi];
         const titleLoc = this.Locations[loi].name;
         this.marker = new google.maps.Marker({ icon: image, position: {lat:Number(this.Locations[loi].location.split(',')[0]),lng:Number(this.Locations[loi].location.split(',')[1]) }, map: this.mapContainer,title:titleLoc });
-        // this.marker = new google.maps.Marker({ icon: image, position: loc, map: this.mapContainer,title:titleLoc });
       }
     });
   }
