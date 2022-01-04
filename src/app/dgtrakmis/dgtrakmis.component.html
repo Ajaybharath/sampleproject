@@ -13,15 +13,19 @@
     </div>
     <br/>
     <div>
+      <div><input type = "text" id = "search"/><i class="fa fa-search"></i>
+      </div>
+      <br/>
       <div>
         <div class = "child-div1">
           <div style="width: 100%;">
-          <th style="width: 34px;"></th><th style="width: 256px; text-align: center;">Domain</th><th style="width: 154px;">Sub Domain</th><th style="width:154px">Total Device</th><th style="width:100px">Reporting</th><th style="width:100px">N.Reporting</th><th style="width:100px">Reporting%</th><th style="width:100px">Good</th><th style="width:100px">warning</th><th style="width:100px">Critical</th>
+          <th style="width: 34px;"></th><th>C_CID</th><th style="width: 256px; text-align: center;">Domain</th><th style="width: 154px;">Sub Domain</th><th style="width:154px">Total Device</th><th style="width:100px">Reporting</th><th style="width:100px">N.Reporting</th><th style="width:100px">Reporting%</th><th style="width:100px">Good</th><th style="width:100px">warning</th><th style="width:100px">Critical</th>
           </div>
           <div style="overflow-y: scroll; height:350px; width: 100%; box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px; " >
             <table>
             <tr *ngFor="let user of Details;let i = index" [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
             <td style="width:30px">{{i+1}}.</td>
+            <td>{{user.C_CID}}</td>
             <td style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;width: 155px;" >{{user.domain}}</td>
             <td style="width:154px"><a href="{{user.portal}}" target="_blank" rel="noopener noreferrer">{{user.subDomain}}</a></td>
             <td style="width:154px">{{user.totalDevice}}</td>
@@ -35,7 +39,6 @@
             </table>
           </div>
         </div>
-        
         <div #map class = "child-div2" style="width: 20%; height: 380px;padding-left: 20px;"></div>
       </div>
       <br/><br/>

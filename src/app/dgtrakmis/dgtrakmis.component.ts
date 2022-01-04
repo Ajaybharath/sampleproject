@@ -7,8 +7,6 @@ import { parse } from 'querystring';
 import { DgtrackserviceService } from '../dgtrackservice.service';
 import * as apexChart from '../js/apexchart.js';
 
-
-
 @Component({
   selector: 'app-dgtrakmis',
   templateUrl: './dgtrakmis.component.html',
@@ -21,6 +19,7 @@ export class DGTRAKMISComponent implements OnInit {
   reporting: any = [];
   domain: any = [];
   subDomain: any = [];
+  tempReporting: any = [];
   @ViewChild('map') gmap: any;
   mapContainer: google.maps.Map;
   marker: google.maps.Marker;
@@ -57,35 +56,31 @@ export class DGTRAKMISComponent implements OnInit {
         for (var id = 0; id < this.Details.length; id++) {
           if (this.Details[id].domain == unique[ic]) {
             subDomainval1.push(this.Details[id].subDomain)
-            TotalDevices.push(this.Details[id].totalDevice);
-            ReportingDevices.push(this.Details[id].reporting);
+            TotalDevices.push(parseInt(this.Details[id].totalDevice));
+            ReportingDevices.push(parseInt(this.Details[id].reporting));
             goodState.push(parseInt(this.Details[id].Good));
             warningState.push(parseInt(this.Details[id].Warning));
             criticalState.push(parseInt(this.Details[id].Critical));
           }
         }
-        var top3Reporting = [], top3subDomain = [], top3totdevices = [], top3good = [], top3warning = [], top3critical = [];
-        top3Reporting = ReportingDevices.sort(function(a, b){return b - a}).slice(0, 3);
-        for(var t = 0; t < top3Reporting.length; t++){
-          var count = 0;
-          for(var d = 0; d < ReportingDevices.length; d++){
-            debugger
-            if(ReportingDevices[d] == top3Reporting[t] && count == 0){
-              count = count + 1;
-              top3subDomain.push(subDomainval1[d]);
-              top3totdevices.push(TotalDevices[d]);
-              top3good.push(goodState[d]);
-              top3warning.push(warningState[d]);
-              top3critical.push(criticalState[d]);
-            }
-          }
+        debugger
+        var test = ReportingDevices.concat();
+        var len = test.length;
+        var indices = new Array(len);
+        for (var i = 0; i < len; ++i) indices[i] = i;
+        indices.sort(function (a, b) { return test[b] < test[a] ? -1 : test[b] > test[a] ? 1 : 0; });
+        var top3ReportingIndex = indices.slice(0,3);
+        // const tempReporting = ReportingDevices.concat();
+        // const _Reporting = tempReporting.sort((a,b) => b-a).slice(0,3);
+        var top3subDomain = [], top3totdevices = [], top3good = [], top3warning = [], top3critical = [],top3Reporting = [];
+        for(var ri = 0 ; ri < top3ReportingIndex.length; ri++){
+          top3Reporting.push(ReportingDevices[top3ReportingIndex[ri]]);
+          top3subDomain.push(subDomainval1[top3ReportingIndex[ri]]);
+          top3totdevices.push(TotalDevices[top3ReportingIndex[ri]]);
+          top3good.push(goodState[top3ReportingIndex[ri]]);
+          top3warning.push(warningState[top3ReportingIndex[ri]]);
+          top3critical.push(criticalState[top3ReportingIndex[ri]]);
         }
-        console.log(top3Reporting);
-        console.log(top3subDomain);
-        console.log(top3good);
-        console.log(top3warning);
-        console.log(top3critical);
-        console.log(top3totdevices)
         var chartOptions = {
           series: [{
           name: 'Total',

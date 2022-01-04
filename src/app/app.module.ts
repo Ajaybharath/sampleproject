@@ -5,6 +5,7 @@ import { DGTRAKMISComponent } from './dgtrakmis/dgtrakmis.component';
 import { DgtrackserviceService } from './dgtrackservice.service';
 import {HttpClientModule} from '@angular/common/http';
 import { MapsComponent } from './maps/maps.component';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 @NgModule({
   declarations: [
     AppComponent,
@@ -13,7 +14,8 @@ import { MapsComponent } from './maps/maps.component';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFontAwesomeModule
   ],
   providers: [DgtrackserviceService],
   bootstrap: [AppComponent]
