@@ -13,9 +13,9 @@
     </div>
     <br/>
     <div>
-      <div><input type = "text" id = "search"/><i class="fa fa-search"></i>
-      </div>
-      <br/>
+      <input type="text" name="searchText" (keyup) = "Search()" [(ngModel)] = "searchText" placeholder="search here..." class = "search" >
+      <!-- <button class="fa fa-search" (click)="Search()"></button> -->
+      <br/><br/>
       <div>
         <div class = "child-div1">
           <div style="width: 100%;">
@@ -23,7 +23,7 @@
           </div>
           <div style="overflow-y: scroll; height:350px; width: 100%; box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px; " >
             <table>
-            <tr *ngFor="let user of Details;let i = index" [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
+            <tr *ngFor="let user of FilteredDetails;let i = index" [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
             <td style="width:30px">{{i+1}}.</td>
             <td>{{user.C_CID}}</td>
             <td style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;width: 155px;" >{{user.domain}}</td>
@@ -48,6 +48,11 @@
         <!-- <div id="chart" style="height:100px; width: 748px;overflow-y: scroll;overflow-x: scroll;" class = "child-div2">
 
         </div> -->
+        <select [(ngModel)] = "selectValue" (change) = "select()" class = "chartSelect">
+          <option>Top Three subDomain</option>
+          <option>Top Five subDomain</option>
+        </select>
+        <br/>
         <div class = "parent-chart">
           <div class="parent-chart1">
             <div id = "chart6" class = "child-chart1"></div><div id = "chart2" class = "child-chart1"></div>

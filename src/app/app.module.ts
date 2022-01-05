@@ -5,19 +5,23 @@ import { DGTRAKMISComponent } from './dgtrakmis/dgtrakmis.component';
 import { DgtrackserviceService } from './dgtrackservice.service';
 import {HttpClientModule} from '@angular/common/http';
 import { MapsComponent } from './maps/maps.component';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { AngularFontAwesomeModule } from 'angular-font-awesome'; 
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
     DGTRAKMISComponent,
-    MapsComponent
+    MapsComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    FormsModule
   ],
   providers: [DgtrackserviceService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+
+}

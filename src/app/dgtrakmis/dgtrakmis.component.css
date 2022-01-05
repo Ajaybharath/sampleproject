@@ -64,3 +64,17 @@ th{
   .size1{
       font-size: 30px;
   }
+  .search{
+      margin-left: 62%;
+      border-radius: 5px;
+      border-style:solid;
+      width: 175px;
+      height: 25px;
+  }
+  .chartSelect{
+    margin-left: 45%;
+    border-radius: 5px;
+    border-style:solid;
+    width: 175px;
+    height: 25px;
+  }

@@ -1,11 +1,13 @@
-import { ThrowStmt } from '@angular/compiler';
+import { debugOutputAstAsTypeScript, ThrowStmt } from '@angular/compiler';
 import { mapToExpression } from '@angular/compiler/src/render3/view/util';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { cr } from '@angular/core/src/render3';
 // import { debug } from 'console';
 import { parse } from 'querystring';
 import { DgtrackserviceService } from '../dgtrackservice.service';
 import * as apexChart from '../js/apexchart.js';
+import { NgModule } from '@angular/core';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-dgtrakmis',
@@ -16,10 +18,14 @@ export class DGTRAKMISComponent implements OnInit {
   DateTime: any = [];
   Locations: any = [];
   Details: any = [];
+  FilteredDetails: any = [];
   reporting: any = [];
   domain: any = [];
   subDomain: any = [];
   tempReporting: any = [];
+  searchText: any;
+  selectValue: any;
+  topval:any;
   @ViewChild('map') gmap: any;
   mapContainer: google.maps.Map;
   marker: google.maps.Marker;
@@ -27,9 +33,12 @@ export class DGTRAKMISComponent implements OnInit {
   private totalReporting = 0; private totalNotReporting = 0; private totalDomain = 0; private totalSubDomain = 0; private Regions = 0;
   constructor(private service: DgtrackserviceService) { }
   inputs = { "uid": "idea", "pwd": "bytes" };
+  selectValue1 = 3;
   ngOnInit() {
+    
     this.service.apicall(this.inputs).subscribe(data => {
       this.Details = data
+      this.FilteredDetails = this.Details;
       for (var i = 0; i < this.Details.length; i++) {
         this.totalDevice += parseInt(this.Details[i].totalDevice);
         this.totalReporting += parseInt(this.Details[i].reporting);
@@ -45,99 +54,7 @@ export class DGTRAKMISComponent implements OnInit {
           this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
         }
       }
-      console.log(this.Details);
-      function onlyUnique(value, index, self) {
-        return self.indexOf(value) === index;
-      }
-      var unique = this.domain.filter(onlyUnique);
-      this.totalDomain = unique.length;
-      for (var ic = 0; ic < unique.length; ic++) {
-        var subDomainval1 = [],Reportingval = [], goodState = [], warningState = [],criticalState = [],TotalDevices = [], ReportingDevices = [];
-        for (var id = 0; id < this.Details.length; id++) {
-          if (this.Details[id].domain == unique[ic]) {
-            subDomainval1.push(this.Details[id].subDomain)
-            TotalDevices.push(parseInt(this.Details[id].totalDevice));
-            ReportingDevices.push(parseInt(this.Details[id].reporting));
-            goodState.push(parseInt(this.Details[id].Good));
-            warningState.push(parseInt(this.Details[id].Warning));
-            criticalState.push(parseInt(this.Details[id].Critical));
-          }
-        }
-        debugger
-        var test = ReportingDevices.concat();
-        var len = test.length;
-        var indices = new Array(len);
-        for (var i = 0; i < len; ++i) indices[i] = i;
-        indices.sort(function (a, b) { return test[b] < test[a] ? -1 : test[b] > test[a] ? 1 : 0; });
-        var top3ReportingIndex = indices.slice(0,3);
-        // const tempReporting = ReportingDevices.concat();
-        // const _Reporting = tempReporting.sort((a,b) => b-a).slice(0,3);
-        var top3subDomain = [], top3totdevices = [], top3good = [], top3warning = [], top3critical = [],top3Reporting = [];
-        for(var ri = 0 ; ri < top3ReportingIndex.length; ri++){
-          top3Reporting.push(ReportingDevices[top3ReportingIndex[ri]]);
-          top3subDomain.push(subDomainval1[top3ReportingIndex[ri]]);
-          top3totdevices.push(TotalDevices[top3ReportingIndex[ri]]);
-          top3good.push(goodState[top3ReportingIndex[ri]]);
-          top3warning.push(warningState[top3ReportingIndex[ri]]);
-          top3critical.push(criticalState[top3ReportingIndex[ri]]);
-        }
-        var chartOptions = {
-          series: [{
-          name: 'Total',
-          data: top3totdevices
-        },
-        {
-          name: 'Reporting',
-          data: top3Reporting
-        }, {
-          name: 'Good',
-          data: top3good
-        }, {
-          name: 'Warning',
-          data: top3warning
-        },{
-          name: 'Critical',
-          data: top3critical
-        }
-      ],
-          chart: {
-          type: 'bar',
-          height: 350
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: '55%',
-            endingShape: 'rounded'
-          },
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          show: true,
-          width: 2,
-          colors: ['transparent']
-        },
-        xaxis: {
-          categories: top3subDomain,
-        },
-        title: {
-              text: unique[ic],
-              fontFamily: 'Times New Roman',
-              align: "left"
-            },
-        fill: {
-          opacity: 1
-        },
-        legend: {
-          show:false
-        },
-        };
-        var name = '#chart' + (ic + 1);
-        var chart = new apexChart(document.querySelector(name), chartOptions);
-        chart.render();
-      }
+      this.chartdata(this.selectValue1);
     }
     );
     this.service.datapost().subscribe(data => {
@@ -175,4 +92,115 @@ export class DGTRAKMISComponent implements OnInit {
       }
     });
   }
+  Search(){
+    //debugger
+    this.FilteredDetails = this.Details.filter(value => value.domain.toLowerCase( ).includes(this.searchText) || value.subDomain.toLowerCase( ).includes(this.searchText) || value.C_CID.includes(this.searchText));
+  } 
+  select(){
+    var value = this.selectValue;
+    if(value == "Top Five subDomain"){
+       this.selectValue1 = 5;
+       this.chartdata(this.selectValue1);
+    }
+    else{
+      this.selectValue1 = 3;
+      this.chartdata(this.selectValue1);
+    }
+  }
+  chartdata(selectValue1:any){
+    
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
+    var unique = this.domain.filter(onlyUnique);
+    this.totalDomain = unique.length;
+    for (var ic = 0; ic < unique.length; ic++) {
+     
+      var subDomainval1 = [],Reportingval = [], goodState = [], warningState = [],criticalState = [],TotalDevices = [], ReportingDevices = [];
+      for (var id = 0; id < this.Details.length; id++) {
+        if (this.Details[id].domain == unique[ic]) {
+          subDomainval1.push(this.Details[id].subDomain)
+          TotalDevices.push(parseInt(this.Details[id].totalDevice));
+          ReportingDevices.push(parseInt(this.Details[id].reporting));
+          goodState.push(parseInt(this.Details[id].Good));
+          warningState.push(parseInt(this.Details[id].Warning));
+          criticalState.push(parseInt(this.Details[id].Critical));
+        }
+      }
+      var test = ReportingDevices.concat();
+      var len = test.length;
+      var indices = new Array(len);
+      for (var i = 0; i < len; ++i) indices[i] = i;
+      indices.sort(function (a, b) { return test[b] < test[a] ? -1 : test[b] > test[a] ? 1 : 0; });
+      var top3ReportingIndex = indices.slice(0,selectValue1);
+      var top3subDomain = [], top3totdevices = [], top3good = [], top3warning = [], top3critical = [],top3Reporting = [];
+      for(var ri = 0 ; ri < top3ReportingIndex.length; ri++){
+        top3Reporting.push(ReportingDevices[top3ReportingIndex[ri]]);
+        top3subDomain.push(subDomainval1[top3ReportingIndex[ri]]);
+        top3totdevices.push(TotalDevices[top3ReportingIndex[ri]]);
+        top3good.push(goodState[top3ReportingIndex[ri]]);
+        top3warning.push(warningState[top3ReportingIndex[ri]]);
+        top3critical.push(criticalState[top3ReportingIndex[ri]]);
+      }
+      debugger
+      var chartOptions = {
+        series: [{
+        name: 'Total',
+        data: top3totdevices
+      },
+      {
+        name: 'Reporting',
+        data: top3Reporting
+      }, {
+        name: 'Good',
+        data: top3good
+      }, {
+        name: 'Warning',
+        data: top3warning
+      },{
+        name: 'Critical',
+        data: top3critical
+      }
+    ],
+        chart: {
+        type: 'bar',
+        height: 350
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '55%',
+          endingShape: 'rounded'
+        },
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        show: true,
+        width: 2,
+        colors: ['transparent']
+      },
+      xaxis: {
+        categories: top3subDomain,
+      },
+      title: {
+            text: unique[ic],
+            fontFamily: 'Times New Roman',
+            align: "left"
+          },
+      fill: {
+        opacity: 1
+      },
+      legend: {
+        show:false
+      },
+      };
+      var name = '#chart' + (ic + 1);
+      document.querySelector(name).innerHTML = "";
+      var chart = new apexChart(document.querySelector(name), chartOptions);
+      chart.render();
+    }
+  }
 }
+
