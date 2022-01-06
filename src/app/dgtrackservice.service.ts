@@ -35,8 +35,5 @@ export class DgtrackserviceService {
     console.log(body);
     return this._http.post(url,body,{'headers':headers}); 
   }
-  chartdata(selectValue:any){
-    debugger
-    console.log("functioncalled" + selectValue);
-  }
+  
 }

@@ -1,9 +1,6 @@
 import { debugOutputAstAsTypeScript, ThrowStmt } from '@angular/compiler';
 import { mapToExpression } from '@angular/compiler/src/render3/view/util';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { cr } from '@angular/core/src/render3';
-// import { debug } from 'console';
-import { parse } from 'querystring';
 import { DgtrackserviceService } from '../dgtrackservice.service';
 import * as apexChart from '../js/apexchart.js';
 import { NgModule } from '@angular/core';
@@ -15,17 +12,10 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./dgtrakmis.component.css']
 })
 export class DGTRAKMISComponent implements OnInit {
-  DateTime: any = [];
-  Locations: any = [];
-  Details: any = [];
-  FilteredDetails: any = [];
-  reporting: any = [];
-  domain: any = [];
-  subDomain: any = [];
-  tempReporting: any = [];
-  searchText: any;
-  selectValue: any;
-  topval:any;
+  DateTime: any = []; Locations: any = []; Details: any = [];
+  FilteredDetails: any = []; reporting: any = []; domain: any = [];
+  subDomain: any = []; tempReporting: any = []; searchText: any;
+  selectValue: any; topval:any;
   @ViewChild('map') gmap: any;
   mapContainer: google.maps.Map;
   marker: google.maps.Marker;
@@ -47,7 +37,6 @@ export class DGTRAKMISComponent implements OnInit {
         this.domain.push(this.Details[i].domain);
         this.totalSubDomain = parseInt(this.Details.length);
         if (parseInt(this.Details[i].reporting) == 0 || parseInt(this.Details[i].totalDevice) == 0) {
-
           this.reporting.push(0);
         }
         else {
@@ -62,7 +51,6 @@ export class DGTRAKMISComponent implements OnInit {
       console.log('27 > ' + this.DateTime.reportAt);
     });
     console.log('30 > ' + this.DateTime);
-    //mapContainer
     this.service.apicallLocation(this.inputs).subscribe(data => {
       this.Locations = data
       var locName = [], locArray = [], locLon = [];
@@ -93,8 +81,7 @@ export class DGTRAKMISComponent implements OnInit {
     });
   }
   Search(){
-    //debugger
-    this.FilteredDetails = this.Details.filter(value => value.domain.toLowerCase( ).includes(this.searchText) || value.subDomain.toLowerCase( ).includes(this.searchText) || value.C_CID.includes(this.searchText));
+    this.FilteredDetails = this.Details.filter(value => value.domain.toLowerCase( ).includes(this.searchText.toLowerCase()) || value.subDomain.toLowerCase( ).includes(this.searchText.toLowerCase()) || value.C_CID.includes(this.searchText.toLowerCase()));
   } 
   select(){
     var value = this.selectValue;
@@ -102,13 +89,20 @@ export class DGTRAKMISComponent implements OnInit {
        this.selectValue1 = 5;
        this.chartdata(this.selectValue1);
     }
-    else{
+    else if(value == "Top Three subDomain"){
       this.selectValue1 = 3;
       this.chartdata(this.selectValue1);
     }
+    else if(value == "Bottom Five subDomain"){
+      this.selectValue1 = -5;
+      this.chartdata(this.selectValue1);
+   }
+   else {
+     this.selectValue1 = -3;
+     this.chartdata(this.selectValue1);
+   }
   }
   chartdata(selectValue1:any){
-    
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
     }
@@ -131,8 +125,24 @@ export class DGTRAKMISComponent implements OnInit {
       var len = test.length;
       var indices = new Array(len);
       for (var i = 0; i < len; ++i) indices[i] = i;
-      indices.sort(function (a, b) { return test[b] < test[a] ? -1 : test[b] > test[a] ? 1 : 0; });
-      var top3ReportingIndex = indices.slice(0,selectValue1);
+      //indices.sort(function (a, b) { return test[b] < test[a] ? -1 : test[b] > test[a] ? 1 : 0; });
+      // if(this.selectValue1 == 3 || this.selectValue1 == 5){
+      //   var top3ReportingIndex = indices.slice(0,selectValue1);
+      // }
+      // else if(this.selectValue1 == -3){
+      //   var top3ReportingIndex = indices.slice(indices.length-3,indices.length);
+      // }
+      // else{
+      //   var top3ReportingIndex = indices.slice(indices.length-5,indices.length);
+      // }
+      if(this.selectValue1 == 3 || this.selectValue1 == 5){
+        indices.sort(function (a, b) { return test[b] < test[a] ? -1 : test[b] > test[a] ? 1 : 0; });
+        var top3ReportingIndex = indices.slice(0,selectValue1);
+      }
+      else if(this.selectValue1 == -3 || this.selectValue1 == -5){
+        indices.sort(function (a, b) { return test[a] < test[b] ? -1 : test[a] > test[b] ? 1 : 0; });
+        var top3ReportingIndex = indices.slice(0,Math.abs(selectValue1));
+      }
       var top3subDomain = [], top3totdevices = [], top3good = [], top3warning = [], top3critical = [],top3Reporting = [];
       for(var ri = 0 ; ri < top3ReportingIndex.length; ri++){
         top3Reporting.push(ReportingDevices[top3ReportingIndex[ri]]);
@@ -203,4 +213,3 @@ export class DGTRAKMISComponent implements OnInit {
     }
   }
 }
-

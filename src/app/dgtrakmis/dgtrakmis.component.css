@@ -1,11 +1,30 @@
 .child-div1{
     width: 75%;
     float: left;
-    padding-right: 20px;
-    padding-left: 10px;
+    padding-right: 40px;
+}
+.child-div1          { overflow: auto;  }
+.child-div1 table {
+    border-collapse: collapse;
+}
+.child-div1 thead th {  
+    position: sticky; top: 0; z-index: 1;
+    color: rgb(239, 236, 241);
+    background-color: #775DD0;
+    padding: 8px 5px;font-size: 15px;
+    font-family: Arial;
+    font-weight: lighter;
+    border-color: #775DD0;
+} 
+.child-div1 td{
+    text-align: center;
+    padding: 8px 5px;
+    font-family: Arial;
+    font-weight: lighter;
 }
 .child-div2{
    width: 10%;
+   
    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 .child-chart1{
@@ -31,23 +50,20 @@
     text-orientation: sideways;
     text-indent: 20px;
 }
-th{
-    background-color: #3d34a5;
+/* th{
+    background-color: #775DD0;
     color: cornsilk;
     text-align: center;
     font-family: Arial;
     font-weight: lighter;
     
-    padding: 8px 5px;
+    /* padding: 8px 5px;
     /* width: 100px; */
-    font-size: 15px;
+    /* font-size: 15px; */
     /* text-overflow: ellipsis; */
-    opacity: 0.8;
-  }
-  td{
-      text-align: center;
-      
-  }
+    /* opacity: 1; */ 
+  /* } */ 
+  
   .size{
     color:white;
     width:150px;
@@ -65,7 +81,7 @@ th{
       font-size: 30px;
   }
   .search{
-      margin-left: 62%;
+      margin-left: 60%;
       border-radius: 5px;
       border-style:solid;
       width: 175px;
