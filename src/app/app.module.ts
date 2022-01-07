@@ -7,6 +7,8 @@ import {HttpClientModule} from '@angular/common/http';
 import { MapsComponent } from './maps/maps.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome'; 
 import { FormsModule } from '@angular/forms';
+
+
 @NgModule({
   declarations: [
     AppComponent,

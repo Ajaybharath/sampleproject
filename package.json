@@ -24,6 +24,9 @@
     "angular-font-awesome": "^3.1.2",
     "apexcharts": "^3.32.0",
     "core-js": "^2.5.4",
+    "dom-to-image": "^2.6.0",
+    "html2canvas": "^1.4.0",
+    "jspdf": "^2.5.0",
     "rxjs": "6.0.0",
     "zone.js": "~0.8.26"
   },
@@ -34,6 +37,7 @@
     "@angular/language-service": "^6.1.0",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
+    "@types/jquery": "^3.5.11",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.2.1",
     "jasmine-core": "~2.99.1",
