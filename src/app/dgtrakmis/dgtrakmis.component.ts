@@ -18,9 +18,8 @@ export class DGTRAKMISComponent implements OnInit {
   DateTime: any = []; Locations: any = []; Details: any = [];
   FilteredDetails: any = []; reporting: any = []; domain: any = [];
   subDomain: any = []; tempReporting: any = []; searchText: any;
-  //hideData = false;
-  hideData1 = true;
-  selectValue: any; topval:any;
+  hideData = false;
+  selectValue: any; topval: any;
   @ViewChild('map') gmap: any;
   mapContainer: google.maps.Map;
   marker: google.maps.Marker;
@@ -30,7 +29,7 @@ export class DGTRAKMISComponent implements OnInit {
   inputs = { "uid": "idea", "pwd": "bytes" };
   selectValue1 = 3;
   ngOnInit() {
-    
+
     this.service.apicall(this.inputs).subscribe(data => {
       this.Details = data
       this.FilteredDetails = this.Details;
@@ -72,83 +71,100 @@ export class DGTRAKMISComponent implements OnInit {
           streetViewControl: false,
         }
       );
-      var image ={
+      var image = {
         url: "https://cdn-0.emojis.wiki/emoji-pics/microsoft/blue-circle-microsoft.png",
-        scaledSize:new google.maps.Size(10, 10),
+        scaledSize: new google.maps.Size(10, 10),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(0, 10),
-      }; 
+      };
       this.Regions = this.Locations.length;
       for (var loi = 0; loi < this.Locations.length; loi++) {
         const titleLoc = this.Locations[loi].name;
-        this.marker = new google.maps.Marker({ icon: image, position: {lat:Number(this.Locations[loi].location.split(',')[0]),lng:Number(this.Locations[loi].location.split(',')[1]) }, map: this.mapContainer,title:titleLoc });
+        this.marker = new google.maps.Marker({ icon: image, position: { lat: Number(this.Locations[loi].location.split(',')[0]), lng: Number(this.Locations[loi].location.split(',')[1]) }, map: this.mapContainer, title: titleLoc });
       }
     });
   }
-  Search(){
-    this.FilteredDetails = this.Details.filter(value => value.domain.toLowerCase( ).includes(this.searchText.toLowerCase()) || value.subDomain.toLowerCase( ).includes(this.searchText.toLowerCase()) || value.C_CID.includes(this.searchText.toLowerCase()));
-  } 
-  select(){
+  Search() {
+    this.FilteredDetails = this.Details.filter(value => value.domain.toLowerCase().includes(this.searchText.toLowerCase()) || value.subDomain.toLowerCase().includes(this.searchText.toLowerCase()) || value.C_CID.includes(this.searchText.toLowerCase()));
+  }
+  select() {
     var value = this.selectValue;
-    if(value == "Top Five subDomain"){
-       this.selectValue1 = 5;
-       this.chartdata(this.selectValue1);
+    if (value == "Top Five subDomain") {
+      this.selectValue1 = 5;
+      this.chartdata(this.selectValue1);
     }
-    else if(value == "Top Three subDomain"){
+    else if (value == "Top Three subDomain") {
       this.selectValue1 = 3;
       this.chartdata(this.selectValue1);
     }
-    else if(value == "Bottom Five subDomain"){
+    else if (value == "Bottom Five subDomain") {
       this.selectValue1 = -5;
       this.chartdata(this.selectValue1);
-   }
-   else {
-     this.selectValue1 = -3;
-     this.chartdata(this.selectValue1);
-   }
+    }
+    else {
+      this.selectValue1 = -3;
+      this.chartdata(this.selectValue1);
+    }
   }
-  
-  download(){
+
+  download() {
     debugger
     //this.hideData = true;
-    const input = document.getElementById('Total Content');//Total Content pdfGenerator
-		var HTML_Width = input.clientWidth;
-		var HTML_Height = input.clientHeight;
-		var top_left_margin = 15;
-		var PDF_Width = HTML_Width+(top_left_margin*2);
-		var PDF_Height = (PDF_Width*1.5)+(top_left_margin*2);
-		var canvas_image_width = HTML_Width;
-		var canvas_image_height = HTML_Height;
-		var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
+    var data = document.getElementById('pdfGenerator');
+    debugger
+    // html2canvas(data).then(canvas => {
+      // Few necessary setting options
+      // var imgWidth = 208;
+      // var pageHeight = 295;
+      // var imgHeight = canvas.height * imgWidth / canvas.width;
+      // var heightLeft = imgHeight;
 
-		html2canvas(input as any).then((canvas) => {
-			canvas.getContext('2d');
-			
-			console.log(canvas.height+"  "+canvas.width);
-			
-			
-			var imgData = canvas.toDataURL("image/jpeg", 1.0);
-			var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
-		    pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
-			
-			
-			for (var i = 1; i <= totalPDFPages; i++) { 
-				pdf.addPage();
-				pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
-			}
-    pdf.save("HTML-Document.pdf");
-    //this.hideData = false;
-    });        
-	};
-  chartdata(selectValue1:any){
+      // const contentDataURL = canvas.toDataURL('image/png')
+      // let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+      // var position = 0;
+      // pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+      // pdf.save('new-file.pdf');
+      const input = document.getElementById('pdfGenerator');//Total Content pdfGenerator
+
+
+      debugger
+      var HTML_Width = input.clientWidth;
+      var HTML_Height = input.clientHeight;
+      var top_left_margin = 15;
+      var PDF_Width = HTML_Width+(top_left_margin*2);
+      var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+      var canvas_image_width = HTML_Width;
+      var canvas_image_height = HTML_Height;
+      var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+
+      html2canvas(input as any).then((canvas) => {
+        canvas.getContext('2d');
+
+        console.log(canvas.height + "  " + canvas.width);
+
+
+        var imgData = canvas.toDataURL("image/jpeg", 1.0);
+        var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+        pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+
+
+        for (var i = 1; i <= totalPDFPages; i++) {
+          pdf.addPage();
+          pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+        }
+        pdf.save("HTML-Document.pdf");
+      // this.hideData = false;
+    });
+  };
+  chartdata(selectValue1: any) {
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
     }
     var unique = this.domain.filter(onlyUnique);
     this.totalDomain = unique.length;
     for (var ic = 0; ic < unique.length; ic++) {
-     
-      var subDomainval1 = [],Reportingval = [], goodState = [], warningState = [],criticalState = [],TotalDevices = [], ReportingDevices = [];
+
+      var subDomainval1 = [], Reportingval = [], goodState = [], warningState = [], criticalState = [], TotalDevices = [], ReportingDevices = [];
       for (var id = 0; id < this.Details.length; id++) {
         if (this.Details[id].domain == unique[ic]) {
           subDomainval1.push(this.Details[id].subDomain)
@@ -173,16 +189,16 @@ export class DGTRAKMISComponent implements OnInit {
       // else{
       //   var top3ReportingIndex = indices.slice(indices.length-5,indices.length);
       // }
-      if(this.selectValue1 == 3 || this.selectValue1 == 5){
+      if (this.selectValue1 == 3 || this.selectValue1 == 5) {
         indices.sort(function (a, b) { return test[b] < test[a] ? -1 : test[b] > test[a] ? 1 : 0; });
-        var top3ReportingIndex = indices.slice(0,selectValue1);
+        var top3ReportingIndex = indices.slice(0, selectValue1);
       }
-      else if(this.selectValue1 == -3 || this.selectValue1 == -5){
+      else if (this.selectValue1 == -3 || this.selectValue1 == -5) {
         indices.sort(function (a, b) { return test[a] < test[b] ? -1 : test[a] > test[b] ? 1 : 0; });
-        var top3ReportingIndex = indices.slice(0,Math.abs(selectValue1));
+        var top3ReportingIndex = indices.slice(0, Math.abs(selectValue1));
       }
-      var top3subDomain = [], top3totdevices = [], top3good = [], top3warning = [], top3critical = [],top3Reporting = [];
-      for(var ri = 0 ; ri < top3ReportingIndex.length; ri++){
+      var top3subDomain = [], top3totdevices = [], top3good = [], top3warning = [], top3critical = [], top3Reporting = [];
+      for (var ri = 0; ri < top3ReportingIndex.length; ri++) {
         top3Reporting.push(ReportingDevices[top3ReportingIndex[ri]]);
         top3subDomain.push(subDomainval1[top3ReportingIndex[ri]]);
         top3totdevices.push(TotalDevices[top3ReportingIndex[ri]]);
@@ -190,59 +206,59 @@ export class DGTRAKMISComponent implements OnInit {
         top3warning.push(warningState[top3ReportingIndex[ri]]);
         top3critical.push(criticalState[top3ReportingIndex[ri]]);
       }
-      debugger
+      //debugger
       var chartOptions = {
         series: [{
-        name: 'Total',
-        data: top3totdevices
-      },
-      {
-        name: 'Reporting',
-        data: top3Reporting
-      }, {
-        name: 'Good',
-        data: top3good
-      }, {
-        name: 'Warning',
-        data: top3warning
-      },{
-        name: 'Critical',
-        data: top3critical
-      }
-    ],
-        chart: {
-        type: 'bar',
-        height: 350
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: '55%',
-          endingShape: 'rounded'
+          name: 'Total',
+          data: top3totdevices
         },
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ['transparent']
-      },
-      xaxis: {
-        categories: top3subDomain,
-      },
-      title: {
-            text: unique[ic],
-            fontFamily: 'Times New Roman',
-            align: "left"
+        {
+          name: 'Reporting',
+          data: top3Reporting
+        }, {
+          name: 'Good',
+          data: top3good
+        }, {
+          name: 'Warning',
+          data: top3warning
+        }, {
+          name: 'Critical',
+          data: top3critical
+        }
+        ],
+        chart: {
+          type: 'bar',
+          height: 350
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '55%',
+            endingShape: 'rounded'
           },
-      fill: {
-        opacity: 1
-      },
-      legend: {
-        show:false
-      },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: top3subDomain,
+        },
+        title: {
+          text: unique[ic],
+          fontFamily: 'Times New Roman',
+          align: "left"
+        },
+        fill: {
+          opacity: 1
+        },
+        legend: {
+          show: false
+        },
       };
       var name = '#chart' + (ic + 1);
       document.querySelector(name).innerHTML = "";
