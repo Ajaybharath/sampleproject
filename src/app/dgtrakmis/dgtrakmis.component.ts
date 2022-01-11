@@ -8,6 +8,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 // import * as jspdf from 'jspdf';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-dgtrakmis',
@@ -26,7 +27,9 @@ export class DGTRAKMISComponent implements OnInit {
   private totalDevice = 0;
   private totalReporting = 0; private totalNotReporting = 0; private totalDomain = 0; private totalSubDomain = 0; private Regions = 0;
   constructor(private service: DgtrackserviceService) { }
+  message: any;
   inputs = { "uid": "idea", "pwd": "bytes" };
+  mailInputs: any;
   selectValue1 = 3;
   ngOnInit() {
 
@@ -50,6 +53,7 @@ export class DGTRAKMISComponent implements OnInit {
       this.chartdata(this.selectValue1);
     }
     );
+
     this.service.datapost().subscribe(data => {
       this.DateTime = data;
       console.log('27 > ' + this.DateTime.reportAt);
@@ -106,55 +110,61 @@ export class DGTRAKMISComponent implements OnInit {
       this.chartdata(this.selectValue1);
     }
   }
-
+  onSubmit(mailInput: any) {
+    debugger
+    this.mailInputs = mailInput;
+    this.service.apimail(this.mailInputs).subscribe(data => {
+      this.message = data;
+    });
+  }
   download() {
     debugger
     //this.hideData = true;
-    var data = document.getElementById('pdfGenerator');
-    debugger
+    //var data = document.getElementById('pdfGenerator');
     // html2canvas(data).then(canvas => {
-      // Few necessary setting options
-      // var imgWidth = 208;
-      // var pageHeight = 295;
-      // var imgHeight = canvas.height * imgWidth / canvas.width;
-      // var heightLeft = imgHeight;
+    // Few necessary setting options
+    // var imgWidth = 208;
+    // var pageHeight = 295;
+    // var imgHeight = canvas.height * imgWidth / canvas.width;
+    // var heightLeft = imgHeight;
 
-      // const contentDataURL = canvas.toDataURL('image/png')
-      // let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
-      // var position = 0;
-      // pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
-      // pdf.save('new-file.pdf');
-      const input = document.getElementById('pdfGenerator');//Total Content pdfGenerator
+    // const contentDataURL = canvas.toDataURL('image/png')
+    // let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+    // var position = 0;
+    // pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+    // pdf.save('new-file.pdf');
+    const input = document.getElementById('pdfGenerator');//Total Content pdfGenerator
+    let formattedDt = formatDate(new Date(), 'yyyy-MM-dd hh mm ss', 'en_US')//yyyy-MM-dd hh:mm:ssZZZZZ
+    var filename = "DGTRAK MIS REPORT"+formattedDt+".pdf";
 
+    var HTML_Width = input.clientWidth;
+    var HTML_Height = input.clientHeight;
+    var top_left_margin = 15;
+    var PDF_Width = HTML_Width + (top_left_margin * 2);
+    var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+    var canvas_image_width = HTML_Width;
+    var canvas_image_height = HTML_Height;
+    var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
 
-      debugger
-      var HTML_Width = input.clientWidth;
-      var HTML_Height = input.clientHeight;
-      var top_left_margin = 15;
-      var PDF_Width = HTML_Width+(top_left_margin*2);
-      var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
-      var canvas_image_width = HTML_Width;
-      var canvas_image_height = HTML_Height;
-      var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+    html2canvas(input as any).then((canvas) => {
+      canvas.getContext('2d');
 
-      html2canvas(input as any).then((canvas) => {
-        canvas.getContext('2d');
-
-        console.log(canvas.height + "  " + canvas.width);
-
-
-        var imgData = canvas.toDataURL("image/jpeg", 1.0);
-        var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-        pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+      console.log(canvas.height + "  " + canvas.width);
 
 
-        for (var i = 1; i <= totalPDFPages; i++) {
-          pdf.addPage();
-          pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
-        }
-        pdf.save("HTML-Document.pdf");
-      // this.hideData = false;
+      var imgData = canvas.toDataURL("image/jpeg", 1.0);
+      var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+      pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+
+
+      for (var i = 1; i <= totalPDFPages; i++) {
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+      }
+      pdf.save(filename);
     });
+    var send = { "MailIds": "kanakaiahrapelli@gmail.com,ranjithbudida@gmail.com", "Message": "Summary Reports" ,"Filename":filename};
+    this.onSubmit(send);
   };
   chartdata(selectValue1: any) {
     function onlyUnique(value, index, self) {
