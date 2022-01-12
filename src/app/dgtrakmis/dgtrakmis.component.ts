@@ -5,7 +5,6 @@ import { DgtrackserviceService } from '../dgtrackservice.service';
 import * as apexChart from '../js/apexchart.js';
 import { NgModule } from '@angular/core';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-// import * as jspdf from 'jspdf';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { formatDate } from '@angular/common';
@@ -28,8 +27,11 @@ export class DGTRAKMISComponent implements OnInit {
   private totalReporting = 0; private totalNotReporting = 0; private totalDomain = 0; private totalSubDomain = 0; private Regions = 0;
   constructor(private service: DgtrackserviceService) { }
   message: any;
+  ishideData = false;
+  //formattedDt = formatDate(new Date(), 'yyyy-MM-dd hh mm', 'en_US')//yyyy-MM-dd hh:mm:ssZZZZZ
+  
   inputs = { "uid": "idea", "pwd": "bytes" };
-  mailInputs: any;
+  //mailInputs: any;
   selectValue1 = 3;
   ngOnInit() {
 
@@ -110,33 +112,12 @@ export class DGTRAKMISComponent implements OnInit {
       this.chartdata(this.selectValue1);
     }
   }
-  onSubmit(mailInput: any) {
-    debugger
-    this.mailInputs = mailInput;
-    this.service.apimail(this.mailInputs).subscribe(data => {
-      this.message = data;
-    });
-  }
   download() {
     debugger
-    //this.hideData = true;
-    //var data = document.getElementById('pdfGenerator');
-    // html2canvas(data).then(canvas => {
-    // Few necessary setting options
-    // var imgWidth = 208;
-    // var pageHeight = 295;
-    // var imgHeight = canvas.height * imgWidth / canvas.width;
-    // var heightLeft = imgHeight;
-
-    // const contentDataURL = canvas.toDataURL('image/png')
-    // let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
-    // var position = 0;
-    // pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
-    // pdf.save('new-file.pdf');
+    this.ishideData = true;
     const input = document.getElementById('pdfGenerator');//Total Content pdfGenerator
-    let formattedDt = formatDate(new Date(), 'yyyy-MM-dd hh mm ss', 'en_US')//yyyy-MM-dd hh:mm:ssZZZZZ
-    var filename = "DGTRAK MIS REPORT"+formattedDt+".pdf";
-
+    var epochNow = (new Date).getTime();
+    var filename = "DGTRAK MIS REPORT"+ epochNow+".pdf";
     var HTML_Width = input.clientWidth;
     var HTML_Height = input.clientHeight;
     var top_left_margin = 15;
@@ -145,26 +126,31 @@ export class DGTRAKMISComponent implements OnInit {
     var canvas_image_width = HTML_Width;
     var canvas_image_height = HTML_Height;
     var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-
     html2canvas(input as any).then((canvas) => {
-      canvas.getContext('2d');
-
+      //canvas.getContext('2d');
       console.log(canvas.height + "  " + canvas.width);
-
-
       var imgData = canvas.toDataURL("image/jpeg", 1.0);
       var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-      pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
-
-
+      pdf.addImage(imgData, 'JPG', top_left_margin + 15, top_left_margin + 15, canvas_image_width, canvas_image_height);
+      // var pageCount = pdf.internal.getNumberOfPages(); //Total Page Number
+      // pdf.setFontSize(10);
+      // pdf.text('Copyright © Ideabytes®', 500, PDF_Height - 60, { baseline: 'bottom' });
+      // pdf.setFontSize(10);
+	    // pdf.text('Checked By', 250, PDF_Height - 60, { baseline: 'bottom' });
+      // pdf.text('Reviewed By', 50, PDF_Height - 60, { baseline: 'bottom' });
+      // pdf.text('Page ' + 1 + ' of ' + String(pageCount) , PDF_Width - 180, PDF_Height - 60);
       for (var i = 1; i <= totalPDFPages; i++) {
         pdf.addPage();
-        pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+        pdf.addImage(imgData, 'JPG', top_left_margin + 15, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
       }
       pdf.save(filename);
+      var send = { "MailIds": "kanakaiahrapelli@gmail.com", "Message": "Summary Reports" ,"Filename":filename}; //,ranjithbudida@gmail.com,bharathnathala@gmail.com
+      this.service.apimail(send).subscribe(data => {
+        this.message = data;
+        alert(this.message);
+        this.ishideData = false;
+      });
     });
-    var send = { "MailIds": "kanakaiahrapelli@gmail.com,ranjithbudida@gmail.com", "Message": "Summary Reports" ,"Filename":filename};
-    this.onSubmit(send);
   };
   chartdata(selectValue1: any) {
     function onlyUnique(value, index, self) {
