@@ -261,5 +261,8 @@ export class DGTRAKMISComponent implements OnInit {
       var chart = new apexChart(document.querySelector(name), chartOptions);
       chart.render();
     }
+    setTimeout (() => {
+      this.download()
+    }, 5000);
   }
 }
