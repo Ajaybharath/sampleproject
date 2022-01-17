@@ -18,7 +18,7 @@ export class DGTRAKMISComponent implements OnInit {
   DateTime: any = []; Locations: any = []; Details: any = [];
   FilteredDetails: any = []; reporting: any = []; domain: any = [];
   subDomain: any = []; tempReporting: any = []; searchText: any;
-  hideData = false;
+  //hideData = false;
   selectValue: any; topval: any;
   @ViewChild('map') gmap: any;
   mapContainer: google.maps.Map;
@@ -114,7 +114,7 @@ export class DGTRAKMISComponent implements OnInit {
   }
   download() {
     debugger
-    this.ishideData = true;
+    //this.ishideData = true;
     const input = document.getElementById('pdfGenerator');//Total Content pdfGenerator
     var epochNow = (new Date).getTime();
     var filename = "DGTRAK MIS REPORT"+ epochNow+".pdf";
@@ -148,7 +148,7 @@ export class DGTRAKMISComponent implements OnInit {
       this.service.apimail(send).subscribe(data => {
         this.message = data;
         alert(this.message);
-        this.ishideData = false;
+        //this.ishideData = false;
       });
     });
   };
