@@ -112,46 +112,46 @@ export class DGTRAKMISComponent implements OnInit {
       this.chartdata(this.selectValue1);
     }
   }
-  download() {
-    debugger
-    //this.ishideData = true;
-    const input = document.getElementById('pdfGenerator');//Total Content pdfGenerator
-    var epochNow = (new Date).getTime();
-    var filename = "DGTRAK MIS REPORT"+ epochNow+".pdf";
-    var HTML_Width = input.clientWidth;
-    var HTML_Height = input.clientHeight;
-    var top_left_margin = 15;
-    var PDF_Width = HTML_Width + (top_left_margin * 2);
-    var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
-    var canvas_image_width = HTML_Width;
-    var canvas_image_height = HTML_Height;
-    var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-    html2canvas(input as any).then((canvas) => {
-      //canvas.getContext('2d');
-      console.log(canvas.height + "  " + canvas.width);
-      var imgData = canvas.toDataURL("image/jpeg", 1.0);
-      var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-      pdf.addImage(imgData, 'JPG', top_left_margin + 15, top_left_margin + 15, canvas_image_width, canvas_image_height);
-      // var pageCount = pdf.internal.getNumberOfPages(); //Total Page Number
-      // pdf.setFontSize(10);
-      // pdf.text('Copyright © Ideabytes®', 500, PDF_Height - 60, { baseline: 'bottom' });
-      // pdf.setFontSize(10);
-	    // pdf.text('Checked By', 250, PDF_Height - 60, { baseline: 'bottom' });
-      // pdf.text('Reviewed By', 50, PDF_Height - 60, { baseline: 'bottom' });
-      // pdf.text('Page ' + 1 + ' of ' + String(pageCount) , PDF_Width - 180, PDF_Height - 60);
-      for (var i = 1; i <= totalPDFPages; i++) {
-        pdf.addPage();
-        pdf.addImage(imgData, 'JPG', top_left_margin + 15, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
-      }
-      pdf.save(filename);
-      var send = { "MailIds": "kanakaiahrapelli@gmail.com", "Message": "Summary Reports" ,"Filename":filename}; //,ranjithbudida@gmail.com,bharathnathala@gmail.com
-      this.service.apimail(send).subscribe(data => {
-        this.message = data;
-        alert(this.message);
-        //this.ishideData = false;
-      });
-    });
-  };
+  // download() {
+  //   debugger
+  //   //this.ishideData = true;
+  //   const input = document.getElementById('pdfGenerator');//Total Content pdfGenerator
+  //   var epochNow = (new Date).getTime();
+  //   var filename = "DGTRAK MIS REPORT"+ epochNow+".pdf";
+  //   var HTML_Width = input.clientWidth;
+  //   var HTML_Height = input.clientHeight;
+  //   var top_left_margin = 15;
+  //   var PDF_Width = HTML_Width + (top_left_margin * 2);
+  //   var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+  //   var canvas_image_width = HTML_Width;
+  //   var canvas_image_height = HTML_Height;
+  //   var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+  //   html2canvas(input as any).then((canvas) => {
+  //     //canvas.getContext('2d');
+  //     console.log(canvas.height + "  " + canvas.width);
+  //     var imgData = canvas.toDataURL("image/jpeg", 1.0);
+  //     var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+  //     pdf.addImage(imgData, 'JPG', top_left_margin + 15, top_left_margin + 15, canvas_image_width, canvas_image_height);
+  //     // var pageCount = pdf.internal.getNumberOfPages(); //Total Page Number
+  //     // pdf.setFontSize(10);
+  //     // pdf.text('Copyright © Ideabytes®', 500, PDF_Height - 60, { baseline: 'bottom' });
+  //     // pdf.setFontSize(10);
+	//     // pdf.text('Checked By', 250, PDF_Height - 60, { baseline: 'bottom' });
+  //     // pdf.text('Reviewed By', 50, PDF_Height - 60, { baseline: 'bottom' });
+  //     // pdf.text('Page ' + 1 + ' of ' + String(pageCount) , PDF_Width - 180, PDF_Height - 60);
+  //     for (var i = 1; i <= totalPDFPages; i++) {
+  //       pdf.addPage();
+  //       pdf.addImage(imgData, 'JPG', top_left_margin + 15, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+  //     }
+  //     pdf.save(filename);
+  //     var send = { "MailIds": "kanakaiahrapelli@gmail.com", "Message": "Summary Reports" ,"Filename":filename}; //,ranjithbudida@gmail.com,bharathnathala@gmail.com
+  //     this.service.apimail(send).subscribe(data => {
+  //       this.message = data;
+  //       alert(this.message);
+  //       //this.ishideData = false;
+  //     });
+  //   });
+  // };
   chartdata(selectValue1: any) {
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
@@ -261,8 +261,8 @@ export class DGTRAKMISComponent implements OnInit {
       var chart = new apexChart(document.querySelector(name), chartOptions);
       chart.render();
     }
-    setTimeout (() => {
-      this.download()
-    }, 5000);
+    // setTimeout (() => {
+    //   this.download()
+    // }, 5000);
   }
 }

@@ -7,6 +7,8 @@ import {HttpClientModule} from '@angular/common/http';
 import { MapsComponent } from './maps/maps.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome'; 
 import { FormsModule } from '@angular/forms';
+import { SummaryReportsComponent } from './summary-reports/summary-reports.component';
+import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -14,12 +16,14 @@ import { FormsModule } from '@angular/forms';
     AppComponent,
     DGTRAKMISComponent,
     MapsComponent,
+    SummaryReportsComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AngularFontAwesomeModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [DgtrackserviceService],
   bootstrap: [AppComponent]

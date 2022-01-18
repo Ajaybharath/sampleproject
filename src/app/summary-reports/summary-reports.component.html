@@ -1,0 +1,84 @@
+<div id="pdfGenerator" (onload)="download()">
+  <!-- <h1></h1>  style=" text-align: center;color: white; background-color:#696969;font-size: 30px;"-->
+  <div class="row"  style=" text-align: center;color: white; background-color:#696969;font-size: 30px;margin-left: 28px;width: 93.5%;">
+    <div class="col-md-6">
+      <p>
+      DG Trak MIS Report</p>
+    </div>
+    
+  </div>
+  <div class="row" style="margin-left:1px">
+    <div class="col-md-6">
+      <div class="table1" id="table11">
+        <table>
+          <tr>
+            <td style="background-color:	rgb(100, 181, 246);" class="size">Total Devices<br />
+              <div class="size1">{{totalDevice}}</div>
+            </td>&nbsp;
+            <td style="background-color:	rgb(129, 199, 132);" class="size">Reporting<br />
+              <div class="size1">{{totalReporting}}</div>
+            </td>&nbsp;
+            <td style="background-color:	rgb(97, 97, 97);" class="size">Not Reporting<br />
+              <div class="size1">{{totalNotReporting}}</div>
+            </td>&nbsp;
+            <td style="background-color:	rgb(206, 147, 216);" class="size">Domain<br />
+              <div class="size1">{{totalDomain}}</div>
+            </td>&nbsp;
+            <td style="background-color:	rgb(240, 98, 146);" class="size">Sub Domain<br />
+              <div class="size1">{{totalSubDomain}}</div>
+            </td>&nbsp;
+            <td style="background-color:	rgb(76, 175, 80);" class="size">Regions/Loc.<br />
+              <div class="size1">{{Regions}}</div>
+            </td>&nbsp;
+            <td class="reportAt">Report At:<br /><br />
+              <div style="font-size: 20px;">{{DateTime.reportAt}}</div>
+            </td>&nbsp;
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <div class="row" style="width: 94%; margin-left: 27px;">
+    <div class="col-md-6">
+      <div>
+        <table>
+          <thead>
+            <tr style="font-size: 15px; font-family: Arial; font-weight: lighter;  background-color: #775DD0;color: #fff; text-align: center;">
+              <th style="width: 34px;"></th>
+              <th style="width:100px">C_CID</th>
+              <th style="width: 256px; text-align: center;">Domain</th>
+              <th style="width: 154px;">Sub Domain</th>
+              <th style="width:154px">Total Device</th>
+              <th style="width:100px">Reporting</th>
+              <th style="width:100px">N.Reporting</th>
+              <th style="width:100px">Reporting%</th>
+              <th style="width:100px">Good</th>
+              <th style="width:100px">warning</th>
+              <th style="width:100px">Critical</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of FilteredDetails;let i = index"
+              [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}" style="text-align: center;" >
+              <td style="width:30px">{{i+1}}.</td>
+              <td style="width:100px">{{user.C_CID}}</td>
+              <td style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;width: 155px;">
+                {{user.domain}}
+              </td>
+              <td style="width:154px"><a href="{{user.portal}}" target="_blank"
+                  rel="noopener noreferrer">{{user.subDomain}}</a></td>
+              <td style="width:154px">{{user.totalDevice}}</td>
+              <td style="width:100px">{{user.reporting}}</td>
+              <td style="width:100px">{{user.notReporting}}</td>
+              <td style="width:100px">{{reporting[i]}}</td>
+              <td style="width:100px">{{user.Good}}</td>
+              <td style="width:100px">{{user.Warning}}</td>
+              <td style="width:100px">{{user.Critical}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
