@@ -18,8 +18,8 @@ export class SummaryReportsComponent implements OnInit {
   // @ViewChild('map') gmap: any;
   // mapContainer: google.maps.Map;
   // marker: google.maps.Marker;
-  private totalDevice = 0;
-  private totalReporting = 0; private totalNotReporting = 0; private totalDomain = 0; private totalSubDomain = 0; private Regions = 0;
+  public totalDevice = 0;
+  public totalReporting = 0; public totalNotReporting = 0; public totalDomain = 0; public totalSubDomain = 0; public Regions = 0;
   constructor(private service: DgtrackserviceService) { }
   message: any;
   ishideData = false;

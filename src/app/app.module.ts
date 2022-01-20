@@ -9,6 +9,8 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { FormsModule } from '@angular/forms';
 import { SummaryReportsComponent } from './summary-reports/summary-reports.component';
 import { AppRoutingModule } from './app-routing.module';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+
 
 
 @NgModule({
@@ -17,6 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
     DGTRAKMISComponent,
     MapsComponent,
     SummaryReportsComponent,
+    PagenotfoundComponent,
   ],
   imports: [
     BrowserModule,
