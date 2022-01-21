@@ -36,6 +36,7 @@ export class DgtrackserviceService {
     return this._http.post(url,body,{'headers':headers}); 
   }
   apimail(mailInputs:any){
+    //https://adminiot.iotsolution.net/summarydetails/API/Client/SendMail
     let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/SendMail';
 
     const headers = {'Content-Type':'application/json'};  

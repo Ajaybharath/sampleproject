@@ -124,6 +124,8 @@ export class SummaryReportsComponent implements OnInit {
     //this.ishideData = true;
     const input = document.getElementById('pdfGenerator');//Total Content pdfGenerator
     var epochNow = (new Date).getTime();
+    //C:\Users\soporte-papo\Documents\certificado.pdf
+    //D:\Downloads\
     var filename = "DGTRAK MIS REPORT"+ epochNow+".pdf";
     var HTML_Width = input.clientWidth;
     var HTML_Height = input.clientHeight;
@@ -150,7 +152,9 @@ export class SummaryReportsComponent implements OnInit {
         pdf.addPage();
         pdf.addImage(imgData, 'JPG', top_left_margin + 15, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
       }
+      //pdf.saveAs("/c/temp/temp.pdf");
       pdf.save(filename);
+      //pdf.output("dataurl","D:\test.pdf");
       // var send = { "MailIds": "kanakaiahrapelli@gmail.com", "Message": "Summary Reports" ,"Filename":filename}; //,ranjithbudida@gmail.com,bharathnathala@gmail.com
       var send = { "Message": "Summary Reports" ,"Filename":filename};    
         this.service.apimail(send).subscribe(data => {
@@ -159,6 +163,7 @@ export class SummaryReportsComponent implements OnInit {
         //this.ishideData = false;
       });
     });
+    
   }
   // chartdata(selectValue1: any) {
   //   function onlyUnique(value, index, self) {
