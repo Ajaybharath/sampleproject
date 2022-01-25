@@ -83,6 +83,7 @@
     </div>
   </div>
 </div>-->
+<app-loading *ngIf="isLoading"></app-loading>
 <div id="Total Content">
     <h1>DG Trak MIS Report</h1>
     <div class="table1" id="table1">
@@ -113,8 +114,9 @@
       </table>
     </div>
     <br/>
-    <input type="text" name="searchText" (keyup)="Search()" [(ngModel)]="searchText" placeholder="search here..."
-      class="search">
+    <input type="button" value="mailConfig" (click)="mailConfig()" class="mailConfig">
+    <app-mailconfig-model #modal></app-mailconfig-model>
+    <input type="text" name="searchText" (keyup)="Search()" [(ngModel)]="searchText" placeholder="search here..." class="search">
     <br /><br />
     <div id="table2">
       <div class="child-div1"

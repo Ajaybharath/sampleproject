@@ -1,3 +1,6 @@
+
+<app-loading *ngIf="isLoading"></app-loading>
+
 <div id="pdfGenerator" (onload)="download()">
   <!-- <h1></h1>  style=" text-align: center;color: white; background-color:#696969;font-size: 30px;"-->
   <div class="row"  style=" text-align: center;color: white; background-color:#696969;font-size: 30px;margin-left: 28px;width: 93.5%;">
@@ -5,7 +8,6 @@
       <p>
       DG Trak MIS Report</p>
     </div>
-    
   </div>
   <div class="row" style="margin-left:1px">
     <div class="col-md-6">

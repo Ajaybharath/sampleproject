@@ -8,7 +8,7 @@ import { DgtrackserviceService } from '../dgtrackservice.service';
   templateUrl: './summary-reports.component.html',
   styleUrls: ['./summary-reports.component.css']
 })
-export class SummaryReportsComponent implements OnInit {
+export class SummaryReportsComponent  implements OnInit {
 
   DateTime: any = []; Locations: any = []; Details: any = [];
   FilteredDetails: any = []; reporting: any = []; domain: any = [];
@@ -28,11 +28,18 @@ export class SummaryReportsComponent implements OnInit {
   inputs = { "uid": "idea", "pwd": "bytes" };
   //mailInputs: any;
   selectValue1 = 3;
-  ngOnInit() {
+  isLoading = false;
 
+  ngOnInit() {
+    this.isLoading = true;
     this.service.apicall(this.inputs).subscribe(data => {
+      if (data) {
+        this.isLoading = false;
+
+      }
       this.Details = data
       this.FilteredDetails = this.Details;
+
       for (var i = 0; i < this.Details.length; i++) {
         this.totalDevice += parseInt(this.Details[i].totalDevice);
         this.totalReporting += parseInt(this.Details[i].reporting);
@@ -47,6 +54,7 @@ export class SummaryReportsComponent implements OnInit {
           this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
         }
       }
+      
       function onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
       }
@@ -59,16 +67,24 @@ export class SummaryReportsComponent implements OnInit {
       }, 5000);
     }
     );
-
+    function hideloader() {
+      debugger
+  
+      // Setting display of spinner
+      // element to none
+      document.getElementById('loading')
+          .style.display = 'none';
+    }
     this.service.datapost().subscribe(data => {
       this.DateTime = data;
       console.log('27 > ' + this.DateTime.reportAt);
     });
+    
     console.log('30 > ' + this.DateTime);
       this.service.apicallLocation(this.inputs).subscribe(data => {
       this.Locations = data
-      debugger
       this.Regions = this.Locations.length;
+      
   //     var locName = [], locArray = [], locLon = [];
   //     var lat1 = "17.4295865";// this._commanService.getDefaultLat();
   //     var lon1 = "78.3709647";// this._commanService.getDefaultLng();

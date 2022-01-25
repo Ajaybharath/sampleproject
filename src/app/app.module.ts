@@ -10,6 +10,10 @@ import { FormsModule } from '@angular/forms';
 import { SummaryReportsComponent } from './summary-reports/summary-reports.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+import { LoadingComponent } from './shared/loading/loading.component';
+import { MailconfigModelComponent } from './Modals/mailconfig-model/mailconfig-model.component';
+  
+  
 
 
 
@@ -20,6 +24,8 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
     MapsComponent,
     SummaryReportsComponent,
     PagenotfoundComponent,
+    LoadingComponent,
+    MailconfigModelComponent,
   ],
   imports: [
     BrowserModule,

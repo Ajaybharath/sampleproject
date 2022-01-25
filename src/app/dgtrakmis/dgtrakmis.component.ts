@@ -8,6 +8,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { formatDate } from '@angular/common';
+import { MailconfigModelComponent } from '../Modals/mailconfig-model/mailconfig-model.component';
 
 @Component({
   selector: 'app-dgtrakmis',
@@ -21,6 +22,7 @@ export class DGTRAKMISComponent implements OnInit {
   //hideData = false;
   selectValue: any; topval: any;
   @ViewChild('map') gmap: any;
+  @ViewChild('modal') Modals: MailconfigModelComponent
   mapContainer: google.maps.Map;
   marker: google.maps.Marker;
   public totalDevice = 0;
@@ -28,15 +30,19 @@ export class DGTRAKMISComponent implements OnInit {
   constructor(private service: DgtrackserviceService) { }
   message: any;
   ishideData = false;
+  isLoading = false;
   //formattedDt = formatDate(new Date(), 'yyyy-MM-dd hh mm', 'en_US')//yyyy-MM-dd hh:mm:ssZZZZZ
   
   inputs = { "uid": "idea", "pwd": "bytes" };
   //mailInputs: any;
   selectValue1 = 3;
   ngOnInit() {
-
+    this.isLoading = true;
     this.service.apicall(this.inputs).subscribe(data => {
       this.Details = data
+      if (data) {
+        this.isLoading = false;
+      }
       this.FilteredDetails = this.Details;
       for (var i = 0; i < this.Details.length; i++) {
         this.totalDevice += parseInt(this.Details[i].totalDevice);
@@ -92,6 +98,9 @@ export class DGTRAKMISComponent implements OnInit {
   }
   Search() {
     this.FilteredDetails = this.Details.filter(value => value.domain.toLowerCase().includes(this.searchText.toLowerCase()) || value.subDomain.toLowerCase().includes(this.searchText.toLowerCase()) || value.C_CID.includes(this.searchText.toLowerCase()));
+  }
+  mailConfig() {
+    this.Modals.open();
   }
   select() {
     var value = this.selectValue;
