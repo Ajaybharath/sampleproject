@@ -46,4 +46,14 @@ export class DgtrackserviceService {
     console.log(body);
     return this._http.post(url,body,{'headers':headers}); 
   }
+  apimailconfig(mailConfigInputs){
+    let url = 'https://localhost:44308/API/Client/MailConfig';
+
+    const headers = {'Content-Type':'application/json'};  
+
+    const body=JSON.stringify(mailConfigInputs);
+
+    console.log(body);
+    return this._http.post(url,body,{'headers':headers});
+  }
 }

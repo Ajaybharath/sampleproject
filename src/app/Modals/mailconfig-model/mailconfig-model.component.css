@@ -10,11 +10,37 @@
     overflow: auto;
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   }
-  
+  .submit{
+    width: 80px;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color:white; 
+    height: 30px;
+  }
+  .close{
+    margin-left: 24px;
+    border-radius: 5px;
+    width: 80px; 
+    height: 30px;
+    color:white;
+    background-color: #FF4500;
+  }
+  .mailids{
+    border-radius: 5px;
+    width: 190px;
+    height: 25px;
+  }
+  .time{
+    border-radius: 5px; 
+    width: 190px;
+    height: 25px;
+  }
   .content {
-    background-color: #fefefe;
+    background-color: #ffff;
     margin: auto;
+    border-radius: 15px;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+    border: 1px solid rgb(216, 215, 215);
+    width: 25%;
+    height:50%;
   }

@@ -114,7 +114,8 @@
       </table>
     </div>
     <br/>
-    <input type="button" value="mailConfig" (click)="mailConfig()" class="mailConfig">
+    <button type="button" value="mailConfig" (click)="mailConfig()" class="mailConfig" title="Mail Configuration"> <img src="assets/images/download.png" height ="25" width="25" /></button>
+    <!-- <input type="button" value="mailConfig" (click)="mailConfig()" class="mailConfig"> -->
     <app-mailconfig-model #modal></app-mailconfig-model>
     <input type="text" name="searchText" (keyup)="Search()" [(ngModel)]="searchText" placeholder="search here..." class="search">
     <br /><br />
