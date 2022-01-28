@@ -114,11 +114,14 @@
       </table>
     </div>
     <br/>
-    <button type="button" value="mailConfig" (click)="mailConfig()" class="mailConfig" title="Mail Configuration"> <img src="assets/images/download.png" height ="25" width="25" /></button>
-    <!-- <input type="button" value="mailConfig" (click)="mailConfig()" class="mailConfig"> -->
+    <div class="button">
+      <input type="image"  src="../../assets/mailconfig.png" alt=""  (click)="mailConfig()" class="mailConfig" title="Mail Configuration"/>&nbsp;&nbsp;
+      <!-- <img src="../../assets/mailconfig.png" alt=""  /></button> -->
+      <!-- <input type="button" style="width: 100px;height: 25px;" value="mailConfig" (click)="mailConfig()" class="search"> -->
+      <input type="text" name="searchText" (keyup)="Search()" [(ngModel)]="searchText" placeholder="search here..." class="search">    
+    </div>
     <app-mailconfig-model #modal></app-mailconfig-model>
-    <input type="text" name="searchText" (keyup)="Search()" [(ngModel)]="searchText" placeholder="search here..." class="search">
-    <br /><br />
+    <br />
     <div id="table2">
       <div class="child-div1"
         style="box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;">

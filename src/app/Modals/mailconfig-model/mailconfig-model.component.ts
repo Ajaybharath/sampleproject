@@ -31,22 +31,35 @@ export class MailconfigModelComponent implements OnInit {
   // }
   constructor(private fb: FormBuilder, private service: DgtrackserviceService) { }
   ngOnInit() {
-    this.mailConfigForm =this.fb.group({
-      MultipleMail: ['',Validators.pattern(this.emailPattern)],
-      Time: new FormControl()
-      //Time: ['',Validators.required]
-    });
+    // this.mailConfigForm =this.fb.group({
+    //   MultipleMail: ['', Validators.required],
+    //   Time: ['',Validators.required]
+    //   //Time: ['',Validators.required]
+    // });
   }
   submit(){
     debugger
-    var mailid = this.mailConfigForm.value.MultipleMail;
-    var time = this.mailConfigForm.value.Time;
-    var send = { "Mails": mailid ,"Time":time};    
-        this.service.apimailconfig(send).subscribe(data => {
-        this.message = data;
-        alert(this.message);
-        //this.ishideData = false;
+    var mailid = this.MultipleMail;
+    var time = this.Time;
+    if(mailid == undefined || mailid == ""){
+      alert("Mailids is Required")
+    }
+    else if(!mailid.match(this.emailPattern)){
+      alert("Mail ids should be in this format i.e;exampleemail@gmail.com with comma separated")
+    }
+    else if(time == undefined || time == ""){
+      alert("Time is Required")
+    }
+    else{
+      var send = { "Mails": mailid ,"Time":time};    
+      this.service.apimailconfig(send).subscribe(data => {
+      this.message = data;
+      alert(this.message);
+      this.MultipleMail = "";
+      this.Time = "";
+      //this.ishideData = false;
       });
+    }  
   }
-
+//get f(){return this.mailConfigForm.controls;}
 }

@@ -7,7 +7,7 @@
     <button (click)="close()">Close</button>
   </div>
 </div> -->
-<form [formGroup]="mailConfigForm" #myModal class="container" style="z-index: 1000;">
+<!-- <form [formGroup]="mailConfigForm" #myModal class="container" style="z-index: 1000;" (click)="submit()">
   <div class="content">
     <h2 style="text-align: center;">Mail Configuration</h2>
     <br/> 
@@ -18,26 +18,23 @@
       
       <label matLabel>Time</label><br/>
       <input type="time" name="Time"  formControlName="Time" class="time"><br/><br/>
-      <input class="submit" type="button" value="Submit" [disabled]="!mailConfigForm.valid" (click)="submit()">&nbsp;&nbsp;
+      <input class="submit" type="button" value="Submit" [disabled]="!mailConfigForm.valid" >&nbsp;&nbsp;
       <button (click)="close()" class="close">Close</button>  
     </div>
   </div>
-</form>
-<!-- <input type="text" id="name" name="name" class="form-control"
-      required minlength="4" appForbiddenName="bob"
-      [(ngModel)]="hero.name" #name="ngModel">
-
-<div *ngIf="name.invalid && (name.dirty || name.touched)"
-    class="alert">
-
-  <div *ngIf="name.errors?.['required']">
-    Name is required.
+</form> -->
+<div #myModal class="container" style="z-index: 1000;">
+  <div class="content">
+    <h2 style="text-align: center;">Mail Configuration</h2>
+    <br/> 
+    <div style="padding-left: 20%;">
+      <label>Mail Id's</label><br/>
+      <input type="text" class="mailids"  id="MultipleMail" name="MultipleMail" pattern={{emailPattern}} [(ngModel)]="MultipleMail" placeholder="customer@gmail.com">
+      <br/><br/>
+      <label matLabel>Time</label><br/>
+      <input type="time" name="Time"  [(ngModel)]="Time" class="time"><br/><br/>
+      <input class="submit" type="button" value="Submit" (click)="submit()"/>&nbsp;&nbsp;
+      <button (click)="close()" class="close">Close</button>  
+    </div>
   </div>
-  <div *ngIf="name.errors?.['minlength']">
-    Name must be at least 4 characters long.
-  </div>
-  <div *ngIf="name.errors?.['forbiddenName']">
-    Name cannot be Bob.
-  </div>
-
-</div> -->
+</div>

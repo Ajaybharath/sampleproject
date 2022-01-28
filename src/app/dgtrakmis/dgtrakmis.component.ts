@@ -37,30 +37,30 @@ export class DGTRAKMISComponent implements OnInit {
   //mailInputs: any;
   selectValue1 = 3;
   ngOnInit() {
-    // this.isLoading = true;
-    // this.service.apicall(this.inputs).subscribe(data => {
-    //   this.Details = data
-    //   if (data) {
-    //     this.isLoading = false;
-    //   }
-    //   this.FilteredDetails = this.Details;
-    //   for (var i = 0; i < this.Details.length; i++) {
-    //     this.totalDevice += parseInt(this.Details[i].totalDevice);
-    //     this.totalReporting += parseInt(this.Details[i].reporting);
-    //     this.totalNotReporting += parseInt(this.Details[i].notReporting);
-    //     this.subDomain.push(this.Details[i].subDomain);
-    //     this.domain.push(this.Details[i].domain);
-    //     this.totalSubDomain = parseInt(this.Details.length);
-    //     if (parseInt(this.Details[i].reporting) == 0 || parseInt(this.Details[i].totalDevice) == 0) {
-    //       this.reporting.push(0);
-    //     }
-    //     else {
-    //       this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
-    //     }
-    //   }
-    //   this.chartdata(this.selectValue1);
-    // }
-    // );
+    this.isLoading = true;
+    this.service.apicall(this.inputs).subscribe(data => {
+      this.Details = data
+      if (data) {
+        this.isLoading = false;
+      }
+      this.FilteredDetails = this.Details;
+      for (var i = 0; i < this.Details.length; i++) {
+        this.totalDevice += parseInt(this.Details[i].totalDevice);
+        this.totalReporting += parseInt(this.Details[i].reporting);
+        this.totalNotReporting += parseInt(this.Details[i].notReporting);
+        this.subDomain.push(this.Details[i].subDomain);
+        this.domain.push(this.Details[i].domain);
+        this.totalSubDomain = parseInt(this.Details.length);
+        if (parseInt(this.Details[i].reporting) == 0 || parseInt(this.Details[i].totalDevice) == 0) {
+          this.reporting.push(0);
+        }
+        else {
+          this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
+        }
+      }
+      this.chartdata(this.selectValue1);
+    }
+    );
 
     this.service.datapost().subscribe(data => {
       this.DateTime = data;

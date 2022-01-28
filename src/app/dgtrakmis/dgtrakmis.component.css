@@ -66,12 +66,20 @@
       font-size: 30px;
 }
 .search{
-      margin-left: 55%;
       border-radius: 5px;
       border-style:solid;
       width: 175px;
       height: 25px;
 }
+.button{
+    margin-left: 57%;
+}
+.mailConfig{
+    border: solid rgb(184, 182, 182) 1px ;
+    border-radius: 5px;
+    height: 28px;
+    vertical-align: middle
+} 
 .chartSelect{
     margin-left: 45%;
     border-radius: 5px;
