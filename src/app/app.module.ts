@@ -13,9 +13,6 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { LoadingComponent } from './shared/loading/loading.component';
 import { MailconfigModelComponent } from './Modals/mailconfig-model/mailconfig-model.component';
   
-  
-
-
 
 @NgModule({
   declarations: [

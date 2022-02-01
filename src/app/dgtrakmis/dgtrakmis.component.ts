@@ -9,6 +9,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { formatDate } from '@angular/common';
 import { MailconfigModelComponent } from '../Modals/mailconfig-model/mailconfig-model.component';
+import { data } from 'jquery';
 
 @Component({
   selector: 'app-dgtrakmis',
@@ -19,6 +20,8 @@ export class DGTRAKMISComponent implements OnInit {
   DateTime: any = []; Locations: any = []; Details: any = [];
   FilteredDetails: any = []; reporting: any = []; domain: any = [];
   subDomain: any = []; tempReporting: any = []; searchText: any;
+  Devices:any = [];
+  cpuload:any;
   //hideData = false;
   selectValue: any; topval: any;
   @ViewChild('map') gmap: any;
@@ -51,6 +54,7 @@ export class DGTRAKMISComponent implements OnInit {
         this.subDomain.push(this.Details[i].subDomain);
         this.domain.push(this.Details[i].domain);
         this.totalSubDomain = parseInt(this.Details.length);
+        this.Devices.push(this.Details[i].reporting + "/" + this.Details[i].totalDevice);
         if (parseInt(this.Details[i].reporting) == 0 || parseInt(this.Details[i].totalDevice) == 0) {
           this.reporting.push(0);
         }
@@ -61,7 +65,9 @@ export class DGTRAKMISComponent implements OnInit {
       this.chartdata(this.selectValue1);
     }
     );
-
+    this.service.apicpuloadgetMethod().subscribe(data =>{
+      this.cpuload = data;
+    });
     this.service.datapost().subscribe(data => {
       this.DateTime = data;
       console.log('27 > ' + this.DateTime.reportAt);
@@ -167,8 +173,20 @@ export class DGTRAKMISComponent implements OnInit {
     }
     var unique = this.domain.filter(onlyUnique);
     this.totalDomain = unique.length;
+    console.log(this.cpuload);
     for (var ic = 0; ic < unique.length; ic++) {
-
+      
+      for(var cp = 0; cp < this.cpuload.length; cp++){
+        debugger
+        if(unique[ic] == this.cpuload[cp].DomainName){
+          var legend = "Domain:" + this.cpuload[cp].DomainName +"   "+"CPU:"+this.cpuload[cp].cpu_used +"%"+"   "+"RAM:"+ this.cpuload[cp].memoryused+"%";
+          break;
+        }
+        else{
+           legend = "Domain:" + unique[ic]; 
+        }
+      }
+      
       var subDomainval1 = [], Reportingval = [], goodState = [], warningState = [], criticalState = [], TotalDevices = [], ReportingDevices = [];
       for (var id = 0; id < this.Details.length; id++) {
         if (this.Details[id].domain == unique[ic]) {
@@ -254,7 +272,8 @@ export class DGTRAKMISComponent implements OnInit {
           categories: top3subDomain,
         },
         title: {
-          text: unique[ic],
+          //text: unique[ic],
+          text:legend,
           fontFamily: 'Times New Roman',
           align: "left"
         },
@@ -266,7 +285,7 @@ export class DGTRAKMISComponent implements OnInit {
         },
       };
       var name = '#chart' + (ic + 1);
-      document.querySelector(name).innerHTML = "";
+      document.querySelector(name).innerHTML = "none";
       var chart = new apexChart(document.querySelector(name), chartOptions);
       chart.render();
     }

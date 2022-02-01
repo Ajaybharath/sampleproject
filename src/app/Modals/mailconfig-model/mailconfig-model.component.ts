@@ -15,7 +15,8 @@ export class MailconfigModelComponent implements OnInit {
   heroForm:FormGroup;
   mailConfigForm:FormGroup;  
   message:any;
-  emailPattern = /^\w+([-+.']\w+)*@gmail.com(, ?\w+([-+.']\w+)*@gmail.com)*$/;
+  emailPattern = /^(\s?[^\s,]+@[^\s,]+\.[^\s,]+\s?,)*(\s?[^\s,]+@[^\s,]+\.[^\s,]+)$/;
+  ///^\w+([-+.']\w+)*@gmail.com(, ?\w+([-+.']\w+)*@gmail.com)*$/;
 
   open() {
     this.modal.nativeElement.style.display = 'block';
@@ -23,6 +24,8 @@ export class MailconfigModelComponent implements OnInit {
 
   close() {
     this.modal.nativeElement.style.display = 'none';
+    this.MultipleMail = "";
+    this.Time = "";  
   }
   // submit(){
   //   debugger
@@ -41,11 +44,14 @@ export class MailconfigModelComponent implements OnInit {
     debugger
     var mailid = this.MultipleMail;
     var time = this.Time;
-    if(mailid == undefined || mailid == ""){
+    if(mailid == "" && time == "" || mailid == undefined && time == undefined){
+      alert("Please Enter Fields");
+    }
+    else if(mailid == undefined || mailid == ""){
       alert("Mailids is Required")
     }
     else if(!mailid.match(this.emailPattern)){
-      alert("Mail ids should be in this format i.e;exampleemail@gmail.com with comma separated")
+      alert("Invalid Mailid's")
     }
     else if(time == undefined || time == ""){
       alert("Time is Required")

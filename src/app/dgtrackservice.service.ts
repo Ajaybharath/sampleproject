@@ -56,4 +56,8 @@ export class DgtrackserviceService {
     console.log(body);
     return this._http.post(url,body,{'headers':headers});
   }
+  apicpuloadgetMethod(){
+    let url = 'https://localhost:44308/API/Client/memory';
+    return this._http.get(url);
+  }
 }
