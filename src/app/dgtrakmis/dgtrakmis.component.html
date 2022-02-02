@@ -199,23 +199,68 @@
         <option>Bottom Five subDomain</option>
       </select>
     </div>
-    <!-- <div class="parent-chart" id="parent-chart">
-      <div class="parent-chart1" *ngFor="let data of cpuload; let j index ">
-        <div id="chart+(j+1)" class="child-chart1"></div>
-        <div id="chart2" class="child-chart1"></div>
-      </div>
+    <!-- <div>
+      <app-charts [divid]="chart5"></app-charts>
+      <app-charts [divid]="chart1"></app-charts>
+      <app-charts [divid]="chart2"></app-charts>
+      <app-charts [divid]="chart3"></app-charts>
     </div> -->
     <div class="parent-chart" id="parent-chart">
         <div class="parent-chart1">
-          <div id="chart5" class="child-chart1"></div>
-          <div id="chart2" class="child-chart1"></div>
+          <div class="child-chart1">
+            <div style="text-align: center;">
+              <label>Domain:<span>{{this.servername[2]}}</span></label>
+              <br/><br/>
+              <label>CPU:<span>{{this.cpu[2]}}</span></label>&nbsp;&nbsp;
+              <label style="padding-left: 50px;">RAM:<span>{{this.ram[2]}}</span></label>
+            </div>
+            <br/>
+            <div id="chart5"></div>  
+          </div>
+          <div class="child-chart1">
+            <div style="text-align: center;">
+              <label>Domain:<span>subzeroiot.com</span></label>
+              <br/><br/>
+              <label>CPU:<span>None</span></label>&nbsp;&nbsp;
+              <label style="padding-left: 50px;">RAM:<span>None</span></label>
+            </div>
+            <br/>
+            <div id="chart2"></div>
+          </div>
         </div>
         <div class="parent-chart2">
-          <div id="chart3" class="child-chart1"></div>
-          <div id="chart4" class="child-chart1"></div>
+          <div class="child-chart1">
+            <div style="text-align: center;">
+              <label>Domain:<span>{{this.servername[3]}}</span></label>
+              <br/><br/>
+              <label>CPU:<span>{{this.cpu[3]}}</span></label>&nbsp;&nbsp;
+              <label style="padding-left: 50px;">RAM:<span>{{this.ram[3]}}</span></label>
+            </div>
+            <br/>
+            <div id="chart3"></div>
+          </div>
+          <div class="child-chart1">
+            <div style="text-align: center;">
+              <label>Domain:<span>{{this.servername[0]}}</span></label>
+              <br/><br/>
+              <label>CPU:<span>{{this.cpu[0]}}</span></label>&nbsp;&nbsp;
+              <label style="padding-left: 50px;">RAM:<span>{{this.ram[0]}}</span></label>
+            </div>
+            <br/>
+            <div id="chart4"></div> 
+          </div>
         </div>
         <div class="parent-chart3">
-          <div id="chart1" class="child-chart1"></div>
+          <div class="child-chart1">
+            <div style="text-align: center;">
+              <label>Domain:<span>{{this.servername[1]}}</span></label>
+              <br/><br/>
+              <label>CPU:<span>{{this.cpu[1]}}</span></label>&nbsp;&nbsp;
+              <label style="padding-left: 50px;">RAM:<span>{{this.ram[1]}}</span></label>
+            </div>
+            <br/>
+            <div id="chart1"></div>
+          </div>
           <div id="chart6" class="child-chart1"></div>
         </div>  
         <div class="parent-chart4">

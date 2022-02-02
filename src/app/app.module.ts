@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { LoadingComponent } from './shared/loading/loading.component';
 import { MailconfigModelComponent } from './Modals/mailconfig-model/mailconfig-model.component';
+import { ChartsComponent } from './charts/charts.component';
   
 
 @NgModule({
@@ -23,6 +24,7 @@ import { MailconfigModelComponent } from './Modals/mailconfig-model/mailconfig-m
     PagenotfoundComponent,
     LoadingComponent,
     MailconfigModelComponent,
+    ChartsComponent,
   ],
   imports: [
     BrowserModule,

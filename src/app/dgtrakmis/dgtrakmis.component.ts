@@ -17,6 +17,10 @@ import { data } from 'jquery';
   styleUrls: ['./dgtrakmis.component.css']
 })
 export class DGTRAKMISComponent implements OnInit {
+  ram:any=[];cpu:any=[];servername:any=[];
+  //ram1:any;ram2:any;ram3:any;ram4:any;ram5:any;
+  //cpu1:any;cpu2:any;cpu3:any;cpu4:any;cpu5:any;
+  servername1:any;servername2:any;servername3:any;servername4:any;servername5:any;
   DateTime: any = []; Locations: any = []; Details: any = [];
   FilteredDetails: any = []; reporting: any = []; domain: any = [];
   subDomain: any = []; tempReporting: any = []; searchText: any;
@@ -66,7 +70,18 @@ export class DGTRAKMISComponent implements OnInit {
     }
     );
     this.service.apicpuloadgetMethod().subscribe(data =>{
+      debugger
       this.cpuload = data;
+      for(var cp = 0; cp < this.cpuload.length; cp++){
+        this.servername.push(this.cpuload[cp].DomainName);
+        if(this.cpuload[cp].cpu_used ==null){
+          this.cpu.push("None");
+        }
+        else{
+          this.cpu.push(this.cpuload[cp].cpu_used);
+        }
+        this.ram.push(this.cpuload[cp].memoryused);
+      }
     });
     this.service.datapost().subscribe(data => {
       this.DateTime = data;
@@ -176,17 +191,31 @@ export class DGTRAKMISComponent implements OnInit {
     console.log(this.cpuload);
     for (var ic = 0; ic < unique.length; ic++) {
       
-      for(var cp = 0; cp < this.cpuload.length; cp++){
-        debugger
-        if(unique[ic] == this.cpuload[cp].DomainName){
-          var legend = "Domain:" + this.cpuload[cp].DomainName +"   "+"CPU:"+this.cpuload[cp].cpu_used +"%"+"   "+"RAM:"+ this.cpuload[cp].memoryused+"%";
-          break;
-        }
-        else{
-           legend = "Domain:" + unique[ic]; 
-        }
-      }
-      
+      // for(var cp = 0; cp < this.cpuload.length; cp++){
+      //   debugger
+      //   if(unique[ic] == this.cpuload[cp].DomainName){
+      //     //var legend = "Domain:" + this.cpuload[cp].DomainName +"   "+"CPU:"+this.cpuload[cp].cpu_used +"%"+"   "+"RAM:"+ this.cpuload[cp].memoryused+"%";
+      //     // this.ram1 = this.cpuload[cp].memoryused;
+      //     // this.cpu1 = this.cpuload[cp].cpu_used;
+      //     this.ram.push(this.cpuload[cp].DomainName);
+      //     if(this.cpuload[cp].cpu_used == null){
+      //       this.cpu.push(0);
+      //     }
+      //     else{
+      //       this.cpu.push(this.cpuload[cp].cpu_used);
+      //     }
+      //     this.servername.push(this.cpuload[cp].memoryused);
+      //     break;
+      //   }
+      //   else{
+      //     this.ram.push("subzeroiot.com");
+      //     this.cpu.push("None");
+      //     this.servername.push("None");
+      //      //legend = "Domain:" + unique[ic]; 
+      //   }
+      // }
+      // console.log(this.servername);
+      // //console.log(this.cpu);
       var subDomainval1 = [], Reportingval = [], goodState = [], warningState = [], criticalState = [], TotalDevices = [], ReportingDevices = [];
       for (var id = 0; id < this.Details.length; id++) {
         if (this.Details[id].domain == unique[ic]) {
@@ -272,8 +301,8 @@ export class DGTRAKMISComponent implements OnInit {
           categories: top3subDomain,
         },
         title: {
-          //text: unique[ic],
-          text:legend,
+          text: unique[ic],
+          //text:legend,
           fontFamily: 'Times New Roman',
           align: "left"
         },
@@ -285,7 +314,7 @@ export class DGTRAKMISComponent implements OnInit {
         },
       };
       var name = '#chart' + (ic + 1);
-      document.querySelector(name).innerHTML = "none";
+      document.querySelector(name).innerHTML = "";
       var chart = new apexChart(document.querySelector(name), chartOptions);
       chart.render();
     }
