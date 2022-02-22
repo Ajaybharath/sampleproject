@@ -25,8 +25,8 @@ export class DgtrackserviceService {
   }
   apicall(inputs:any){
 
-    //let url='http://adminiot.iotsolution.net/summaryAPI2/API/Client/Details';
-    let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/ClientData';
+    //let url='http://adminiot.iotsolution.net/summarydetails/API/Client/ClientData';
+    let url = 'http://adminiot.iotsolution.net/summarydetails/API/Client/ClientData';
 
     const headers = {'Content-Type':'application/json'};  
 
@@ -36,7 +36,7 @@ export class DgtrackserviceService {
     return this._http.post(url,body,{'headers':headers}); 
   }
   apimail(mailInputs:any){
-    //https://adminiot.iotsolution.net/summarydetails/API/Client/SendMail
+    //https://adminiot.iotsolution.net/summarydetails/API/Client/SendMail 
     let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/SendMail';
 
     const headers = {'Content-Type':'application/json'};  
