@@ -149,6 +149,7 @@
               <th style="width: 154px;">Sub Domain</th>
               <!-- <th style="width:154px">Total Device</th>
                 <th style="width:100px">Reporting</th> -->
+<<<<<<< HEAD
               <th style="width:150px">Devices</th>
               <th style="width:100px">Reporting%</th>
               <th style="width:100px">N.Reporting</th>
@@ -157,6 +158,36 @@
               <th style="width:100px">Critical</th>
               <!-- <th style="width:100px">More</th>
                 <th style="width:100px">More2</th> -->
+=======
+                <!-- <th style="width:150px">Devices</th> -->
+                <th style="width:100px">Reporting</th>
+                <th style="width:100px">N.Reporting</th>
+                <th style="width:100px">Good</th>
+                <th style="width:100px">warning</th>
+                <th style="width:100px">Critical</th>
+                <!-- <th style="width:100px">More</th>
+                <th style="width:100px">More2</th> -->
+              </tr>
+            </thead>
+            <tr *ngFor="let user of FilteredDetails;let i = index"
+              [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
+              <td style="width:30px">{{i+1}}.</td>
+              <td style="width:100px">{{user.C_CID}}</td>
+              <td style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;width: 155px;">{{user.domain}}
+              </td>
+              <td style="width:154px"><a href="{{user.portal}}" target="_blank"
+                  rel="noopener noreferrer">{{user.subDomain}}</a></td>
+              <!-- <td style="width:154px">{{user.totalDevice}}</td>
+              <td style="width:100px">{{user.reporting}}</td> -->
+              <td style="width:150px">{{user.ReportingTot}}</td>
+              <!-- <td style="width:100px">{{user.ReportingPercent}}</td> -->
+              <td style="width:100px">{{user.notReporting}}</td>
+              <td style="width:100px">{{user.Good}}</td>
+              <td style="width:100px">{{user.Warning}}</td>
+              <td style="width:100px">{{user.Critical}}</td>
+              <!-- <td style="width: 100px;">{{user.Devices}}</td>
+              <td style="width: 100px;">{{user.ReportingPercent}}</td> -->
+>>>>>>> 636173ce57ec9e08c71caabb911afd432b2e9a79
             </tr>
           </thead>
           <tr *ngFor="let user of FilteredDetails;let i = index"
