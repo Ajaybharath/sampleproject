@@ -10,6 +10,7 @@ import html2canvas from 'html2canvas';
 import { formatDate } from '@angular/common';
 import { MailconfigModelComponent } from '../Modals/mailconfig-model/mailconfig-model.component';
 import { data } from 'jquery';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dgtrakmis',
@@ -34,22 +35,22 @@ export class DGTRAKMISComponent implements OnInit {
   marker: google.maps.Marker;
   public totalDevice = 0;
   public totalReporting = 0; public totalNotReporting = 0; public totalDomain = 0; public totalSubDomain = 0; public Regions = 0;
-  constructor(private service: DgtrackserviceService) { }
+  constructor(private service: DgtrackserviceService,private Router:Router) { }
   message: any;
   ishideData = false;
-  isLoading = false;
+ // isLoading = false;
   //formattedDt = formatDate(new Date(), 'yyyy-MM-dd hh mm', 'en_US')//yyyy-MM-dd hh:mm:ssZZZZZ
   
   inputs = { "uid": "idea", "pwd": "bytes" };
   //mailInputs: any;
   selectValue1 = 3;
   ngOnInit() {
-    this.isLoading = true;
+    //this.isLoading = true;
     this.service.apicall(this.inputs).subscribe(data => {
       this.Details = data
-      if (data) {
-        this.isLoading = false;
-      }
+      // if (data) {
+      //   this.isLoading = false;
+      // }
       this.FilteredDetails = this.Details;
       for (var i = 0; i < this.Details.length; i++) {
         this.totalDevice += parseInt(this.Details[i].totalDevice);
@@ -141,6 +142,9 @@ export class DGTRAKMISComponent implements OnInit {
       this.selectValue1 = -3;
       this.chartdata(this.selectValue1);
     }
+  }
+  Logout(){
+    this.Router.navigate(['./']);
   }
   // download() {
   //   debugger

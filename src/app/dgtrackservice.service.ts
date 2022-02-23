@@ -6,58 +6,61 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DgtrackserviceService {
-  
-  constructor(private _http:HttpClient) { }
-  datapost(){
+
+  constructor(private _http: HttpClient) { }
+  datapost() {
     var obj: any = [];
-     return this._http.post('https://adminiot.iotsolution.net/summarydetails/API/Client/getDateTime', obj)
-    //return this._http.post('http://adminiot.iotsolution.net/summaryAPI2/API/Client/getDateTime', obj);
+    // return this._http.post('https://adminiot.iotsolution.net/summarydetails/API/Client/getDateTime', obj)
+    // return this._http.post('https://localhost:44308/API/Client/getDateTime', obj)
+    return this._http.post('https://adminiot.iotsolution.net/summaryAPI2/API/Client/getDateTime', obj);
   }
-  apicallLocation(inputs:any){
-    let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/regions';
+  apicallLocation(inputs: any) {
+    let url = 'https://adminiot.iotsolution.net/summaryAPI2/API/Client/regions';
+    // let url = 'https://localhost:44308/API/Client/regions';
 
-    const headers = {'Content-Type':'application/json'};  
+    const headers = { 'Content-Type': 'application/json' };
 
-    const body=JSON.stringify(inputs);
+    const body = JSON.stringify(inputs);
 
     console.log(body);
-    return this._http.post(url,body,{'headers':headers}); 
+    return this._http.post(url, body, { 'headers': headers });
   }
-  apicall(inputs:any){
+  apicall(inputs: any) {
 
-    //let url='http://adminiot.iotsolution.net/summaryAPI2/API/Client/Details';
-    let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/ClientData';
+    let url='https://adminiot.iotsolution.net/summaryAPI2/API/Client/ClientData';
+    // let url = 'https://localhost:44308/API/Client/ClientData';
 
-    const headers = {'Content-Type':'application/json'};  
+    const headers = { 'Content-Type': 'application/json' };
 
-    const body=JSON.stringify(inputs);
+    const body = JSON.stringify(inputs);
 
     console.log(body);
-    return this._http.post(url,body,{'headers':headers}); 
+    return this._http.post(url, body, { 'headers': headers });
   }
-  apimail(mailInputs:any){
+  apimail(mailInputs: any) {
     //https://adminiot.iotsolution.net/summarydetails/API/Client/SendMail
-    let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/SendMail';
+    let url = 'https://adminiot.iotsolution.net/summaryAPI2/API/Client/SendMail';
 
-    const headers = {'Content-Type':'application/json'};  
+    const headers = { 'Content-Type': 'application/json' };
 
-    const body=JSON.stringify(mailInputs);
-
-    console.log(body);
-    return this._http.post(url,body,{'headers':headers}); 
-  }
-  apimailconfig(mailConfigInputs){
-    let url = 'https://localhost:44308/API/Client/MailConfig';
-
-    const headers = {'Content-Type':'application/json'};  
-
-    const body=JSON.stringify(mailConfigInputs);
+    const body = JSON.stringify(mailInputs);
 
     console.log(body);
-    return this._http.post(url,body,{'headers':headers});
+    return this._http.post(url, body, { 'headers': headers });
   }
-  apicpuloadgetMethod(){
-    let url = 'https://localhost:44308/API/Client/memory';
+  apimailconfig(mailConfigInputs) {
+    //let url = 'https://localhost:44308/API/Client/MailConfig';
+    let url =  'https://adminiot.iotsolution.net/summaryAPI2/API/Client/MailConfig';
+
+    const headers = { 'Content-Type': 'application/json' };
+
+    const body = JSON.stringify(mailConfigInputs);
+
+    console.log(body);
+    return this._http.post(url, body, { 'headers': headers });
+  }
+  apicpuloadgetMethod() {
+    let url =  'https://adminiot.iotsolution.net/summaryAPI2/API/Client/memory';
     return this._http.get(url);
   }
 }

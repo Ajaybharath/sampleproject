@@ -83,194 +83,210 @@
     </div>
   </div>
 </div>-->
-<app-loading *ngIf="isLoading"></app-loading>
+<!-- <app-loading *ngIf="isLoading"></app-loading> -->
 <div id="Total Content">
-    <h1>DG Trak MIS Report</h1>
-    <div class="table1" id="table1">
-      <table>
-        <tr>
-          <td style="background-color:	rgb(100, 181, 246);" class="size">Total Devices<br />
-            <div class="size1">{{totalDevice}}</div>
-          </td>&nbsp;
-          <td style="background-color:	rgb(129, 199, 132);" class="size">Reporting<br />
-            <div class="size1">{{totalReporting}}</div>
-          </td>&nbsp;
-          <td style="background-color:	rgb(97, 97, 97);" class="size">Not Reporting<br />
-            <div class="size1">{{totalNotReporting}}</div>
-          </td>&nbsp;
-          <td style="background-color:	rgb(206, 147, 216);" class="size">Domain<br />
-            <div class="size1">{{totalDomain}}</div>
-          </td>&nbsp;
-          <td style="background-color:	rgb(240, 98, 146);" class="size">Sub Domain<br />
-            <div class="size1">{{totalSubDomain}}</div>
-          </td>&nbsp;
-          <td style="background-color:	rgb(76, 175, 80);" class="size">Regions/Loc.<br />
-            <div class="size1">{{Regions}}</div>
-          </td>&nbsp;
-          <td class="reportAt">Report At:<br /><br />
-            <div style="font-size: 20px;">{{DateTime.reportAt}}</div>
-          </td>&nbsp;
-        </tr>
-      </table>
-    </div>
-    <br/>
-    <div class="button">
-      <input type="image"  src="../../assets/mailconfig.png" alt=""  (click)="mailConfig()" class="mailConfig" title="Mail Configuration"/>&nbsp;&nbsp;
-      <!-- <img src="../../assets/mailconfig.png" alt=""  /></button> -->
-      <!-- <input type="button" style="width: 100px;height: 25px;" value="mailConfig" (click)="mailConfig()" class="search"> -->
-      <input type="text" name="searchText" (keyup)="Search()" [(ngModel)]="searchText" placeholder="search here..." class="search">    
-    </div>
-    <app-mailconfig-model #modal></app-mailconfig-model>
-    <br />
-    <div id="table2">
-      <div class="child-div1"
-        style="box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;">
-        <div style="overflow-y: scroll; height:350px; width: 100%; ">
-          <table>
-            <thead>
-              <tr>
-                <th style="width: 34px;">Sl.No</th>
-                <th style="width:100px">C_CID</th>
-                <th style="width: 256px; text-align: center;">Domain</th>
-                <th style="width: 154px;">Sub Domain</th>
-                <!-- <th style="width:154px">Total Device</th>
-                <th style="width:100px">Reporting</th> -->
-                <th style="width:100px">Devices</th>
-                <th style="width:100px">Reporting%</th>
-                <th style="width:100px">N.Reporting</th>
-                <th style="width:100px">Good</th>
-                <th style="width:100px">warning</th>
-                <th style="width:100px">Critical</th>
-                <th style="width:100px">More</th>
-              </tr>
-            </thead>
-            <tr *ngFor="let user of FilteredDetails;let i = index"
-              [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
-              <td style="width:30px">{{i+1}}.</td>
-              <td style="width:100px">{{user.C_CID}}</td>
-              <td style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;width: 155px;">{{user.domain}}
-              </td>
-              <td style="width:154px"><a href="{{user.portal}}" target="_blank"
-                  rel="noopener noreferrer">{{user.subDomain}}</a></td>
-              <!-- <td style="width:154px">{{user.totalDevice}}</td>
-              <td style="width:100px">{{user.reporting}}</td> -->
-              <td style="width:100px">{{Devices[i]}}</td>
-              <td style="width:100px">{{reporting[i]}}</td>
-              <td style="width:100px">{{user.notReporting}}</td>
-              <td style="width:100px">{{user.Good}}</td>
-              <td style="width:100px">{{user.Warning}}</td>
-              <td style="width:100px">{{user.Critical}}</td>
-              <td style="width: 100px;"></td>
-            </tr>
-          </table>
-        </div>
+  <h1>DG Trak MIS Report <span (click)="Logout()"><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></span></h1> 
+  <div class="table1" id="table1">
+    <table>
+      <tr>
+        <td style="background-color:	rgb(100, 181, 246);" class="size">Total Devices<br />
+          <div class="size1">{{totalDevice}}</div>
+        </td>&nbsp;
+        <td style="background-color:	rgb(129, 199, 132);" class="size">Reporting<br />
+          <div class="size1">{{totalReporting}}</div>
+        </td>&nbsp;
+        <td style="background-color:	rgb(97, 97, 97);" class="size">Not Reporting<br />
+          <div class="size1">{{totalNotReporting}}</div>
+        </td>&nbsp;
+        <td style="background-color:	rgb(206, 147, 216);" class="size">Domain<br />
+          <div class="size1">{{totalDomain}}</div>
+        </td>&nbsp;
+        <td style="background-color:	rgb(240, 98, 146);" class="size">Sub Domain<br />
+          <div class="size1">{{totalSubDomain}}</div>
+        </td>&nbsp;
+        <td style="background-color:	rgb(76, 175, 80);" class="size">Regions/Loc.<br />
+          <div class="size1">{{Regions}}</div>
+        </td>&nbsp;
+        <td class="reportAt">Report At:<br /><br />
+          <div style="font-size: 20px;">{{DateTime.reportAt}}</div>
+        </td>&nbsp;
+      </tr>
+    </table>
+  </div>
+  <br />
+  <!-- <div class="button"> -->
+  <div class="row" style="padding-left:1%;">
+    <div class="col-md-2" style="width: 12%; text-align: center;height: 26px;">
+      <div style="background-color: #5aa3e4;
+      color: white;
+      height: 26px;
+      line-height: 2;
+      border-radius: 5px;cursor: pointer;" (click)="mailConfig()">
+        <i class="fa fa-envelope-o" title="Mail Configuration"></i> Mail Config.
       </div>
-      <div #map class="child-div2" style="width: 20%; height: 350px;padding-left: 20px;"></div>
     </div>
-    <br /><br />
-    <div style="margin-left: 40%; font-family: 'Times New Roman'; font-size: 15px;">
-      <table>
-        <tr>
-          <td>
-            <div style="height: 10px;width: 10px; background-color: rgb(0, 143, 251);"></div>
-          </td>
-          <td>Total</td>&nbsp;<td>
-            <div style="height: 10px;width: 10px; background-color: rgb(0, 227, 150);"></div>
-          </td>
-          <td>Reporting</td>
-          <td>
-            <div style="height: 10px;width: 10px; background-color: rgb(254, 176, 25);"></div>
-          </td>
-          <td>Good</td>&nbsp;<td>
-            <div style="height: 10px;width: 10px; background-color: rgb(255, 22, 84);"></div>
-          </td>
-          <td>Warning</td>&nbsp;<td>
-            <div style="height: 10px;width: 10px; background-color: #775DD0;"></div>
-          </td>
-          <td>Critical</td>
-        </tr>
-      </table>
+    <div class="col-md-3">
+      <input type="text" name="searchText" (keyup)="Search()" [(ngModel)]="searchText" placeholder="search here..."
+        class="search">
     </div>
-    <div>
-      <select [(ngModel)]="selectValue" (change)="select()" class="chartSelect">
-        <option>Top Three subDomain</option>
-        <option>Top Five subDomain</option>
-        <option>Bottom Three subDomain</option>
-        <option>Bottom Five subDomain</option>
-      </select>
+  </div>
+  <!-- <input type="image"  src="../../assets/mailconfig.png" alt=""  (click)="mailConfig()" class="mailConfig" title="Mail Configuration"/>&nbsp;&nbsp; -->
+  <!-- <img src="../../assets/mailconfig.png" alt=""  /></button> -->
+  <!-- <input type="button" style="width: 100px;height: 25px;" value="mailConfig" (click)="mailConfig()" class="search"> -->
+  <!-- </div> -->
+  <app-mailconfig-model #modal></app-mailconfig-model>
+  <br />
+  <div id="table2" style="padding-left: 1%;">
+    <div class="child-div1"
+      style="box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;">
+      <div style="overflow-y: scroll; height:350px; width: 100%; ">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 34px;">Sl.No</th>
+              <th style="width:100px">C_CID</th>
+              <th style="width: 256px; text-align: center;">Domain</th>
+              <th style="width: 154px;">Sub Domain</th>
+              <!-- <th style="width:154px">Total Device</th>
+                <th style="width:100px">Reporting</th> -->
+              <th style="width:150px">Devices</th>
+              <th style="width:100px">Reporting%</th>
+              <th style="width:100px">N.Reporting</th>
+              <th style="width:100px">Good</th>
+              <th style="width:100px">warning</th>
+              <th style="width:100px">Critical</th>
+              <!-- <th style="width:100px">More</th>
+                <th style="width:100px">More2</th> -->
+            </tr>
+          </thead>
+          <tr *ngFor="let user of FilteredDetails;let i = index"
+            [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
+            <td style="width:30px">{{i+1}}.</td>
+            <td style="width:100px">{{user.C_CID}}</td>
+            <td style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;width: 155px;">{{user.domain}}
+            </td>
+            <td style="width:154px"><a href="{{user.portal}}" target="_blank"
+                rel="noopener noreferrer">{{user.subDomain}}</a></td>
+            <!-- <td style="width:154px">{{user.totalDevice}}</td>
+              <td style="width:100px">{{user.reporting}}</td> -->
+            <td style="width:150px">{{user.Devices}}</td>
+            <td style="width:100px">{{user.ReportingPercent}}</td>
+            <td style="width:100px">{{user.notReporting}}</td>
+            <td style="width:100px">{{user.Good}}</td>
+            <td style="width:100px">{{user.Warning}}</td>
+            <td style="width:100px">{{user.Critical}}</td>
+            <!-- <td style="width: 100px;">{{user.Devices}}</td>
+              <td style="width: 100px;">{{user.ReportingPercent}}</td> -->
+          </tr>
+        </table>
+      </div>
     </div>
-    <!-- <div>
+    <div #map class="child-div2" style="width: 20%; height: 350px;padding-left: 20px;"></div>
+  </div>
+  <br /><br />
+  <div style="margin-left: 40%; font-family: 'Times New Roman'; font-size: 15px;">
+    <table>
+      <tr>
+        <td>
+          <div style="height: 10px;width: 10px; background-color: rgb(0, 143, 251);"></div>
+        </td>
+        <td>Total</td>&nbsp;<td>
+          <div style="height: 10px;width: 10px; background-color: rgb(0, 227, 150);"></div>
+        </td>
+        <td>Reporting</td>
+        <td>
+          <div style="height: 10px;width: 10px; background-color: rgb(254, 176, 25);"></div>
+        </td>
+        <td>Good</td>&nbsp;<td>
+          <div style="height: 10px;width: 10px; background-color: rgb(255, 22, 84);"></div>
+        </td>
+        <td>Warning</td>&nbsp;<td>
+          <div style="height: 10px;width: 10px; background-color: #775DD0;"></div>
+        </td>
+        <td>Critical</td>
+      </tr>
+    </table>
+  </div>
+  <div>
+    <select [(ngModel)]="selectValue" (change)="select()" class="chartSelect">
+      <option>Top Three subDomain</option>
+      <option>Top Five subDomain</option>
+      <option>Bottom Three subDomain</option>
+      <option>Bottom Five subDomain</option>
+    </select>
+  </div>
+  <!-- <div>
       <app-charts [divid]="chart5"></app-charts>
       <app-charts [divid]="chart1"></app-charts>
       <app-charts [divid]="chart2"></app-charts>
       <app-charts [divid]="chart3"></app-charts>
     </div> -->
-    <div class="parent-chart" id="parent-chart">
-        <div class="parent-chart1">
-          <div class="child-chart1">
-            <div style="text-align: center;">
-              <label>Domain:<span>{{this.servername[2]}}</span></label>
-              <br/><br/>
-              <label>CPU:<span>{{this.cpu[2]}}</span></label>&nbsp;&nbsp;
-              <label style="padding-left: 50px;">RAM:<span>{{this.ram[2]}}</span></label>
-            </div>
-            <br/>
-            <div id="chart5"></div>  
-          </div>
-          <div class="child-chart1">
-            <div style="text-align: center;">
-              <label>Domain:<span>subzeroiot.com</span></label>
-              <br/><br/>
-              <label>CPU:<span>None</span></label>&nbsp;&nbsp;
-              <label style="padding-left: 50px;">RAM:<span>None</span></label>
-            </div>
-            <br/>
-            <div id="chart2"></div>
-          </div>
+  <div class="parent-chart" id="parent-chart">
+    <div class="parent-chart1">
+      <div class="child-chart1">
+        <div style="text-align: center;">
+          <label>Domain:<span>{{this.servername[2]}}</span></label>
+          <br /><br />
+          <label>CPU:<span>{{this.cpu[2]}}</span></label>&nbsp;&nbsp;
+          <label style="padding-left: 50px;">RAM:<span>{{this.ram[2]}}</span></label>
         </div>
-        <div class="parent-chart2">
-          <div class="child-chart1">
-            <div style="text-align: center;">
-              <label>Domain:<span>{{this.servername[3]}}</span></label>
-              <br/><br/>
-              <label>CPU:<span>{{this.cpu[3]}}</span></label>&nbsp;&nbsp;
-              <label style="padding-left: 50px;">RAM:<span>{{this.ram[3]}}</span></label>
-            </div>
-            <br/>
-            <div id="chart3"></div>
-          </div>
-          <div class="child-chart1">
-            <div style="text-align: center;">
-              <label>Domain:<span>{{this.servername[0]}}</span></label>
-              <br/><br/>
-              <label>CPU:<span>{{this.cpu[0]}}</span></label>&nbsp;&nbsp;
-              <label style="padding-left: 50px;">RAM:<span>{{this.ram[0]}}</span></label>
-            </div>
-            <br/>
-            <div id="chart4"></div> 
-          </div>
+        <br />
+        <div id="chart5"></div>
+      </div>
+      <div class="child-chart1">
+        <div style="text-align: center;">
+          <label>Domain:<span>subzeroiot.com</span></label>
+          <br /><br />
+          <label>CPU:<span>None</span></label>&nbsp;&nbsp;
+          <label style="padding-left: 50px;">RAM:<span>None</span></label>
         </div>
-        <div class="parent-chart3">
-          <div class="child-chart1">
-            <div style="text-align: center;">
-              <label>Domain:<span>{{this.servername[1]}}</span></label>
-              <br/><br/>
-              <label>CPU:<span>{{this.cpu[1]}}</span></label>&nbsp;&nbsp;
-              <label style="padding-left: 50px;">RAM:<span>{{this.ram[1]}}</span></label>
-            </div>
-            <br/>
-            <div id="chart1"></div>
-          </div>
-          <div id="chart6" class="child-chart1"></div>
-        </div>  
-        <div class="parent-chart4">
-          <div id="chart7" class="child-chart1"></div>
-          <div id="chart8" class="child-chart1"></div>
-        </div>
-        <div class="parent-chart5">
-          <div id="chart9" class="child-chart1"></div>
-          <div id="chart10" class="child-chart1"></div>
-        </div>
+        <br />
+        <div id="chart2"></div>
+      </div>
     </div>
+    <div class="parent-chart2">
+      <div class="child-chart1">
+        <div style="text-align: center;">
+          <label>Domain:<span>{{this.servername[3]}}</span></label>
+          <br /><br />
+          <label>CPU:<span>{{this.cpu[3]}}</span></label>&nbsp;&nbsp;
+          <label style="padding-left: 50px;">RAM:<span>{{this.ram[3]}}</span></label>
+        </div>
+        <br />
+        <div id="chart3"></div>
+      </div>
+      <div class="child-chart1">
+        <div style="text-align: center;">
+          <label>Domain:<span>{{this.servername[0]}}</span></label>
+          <br /><br />
+          <label>CPU:<span>{{this.cpu[0]}}</span></label>&nbsp;&nbsp;
+          <label style="padding-left: 50px;">RAM:<span>{{this.ram[0]}}</span></label>
+        </div>
+        <br />
+        <div id="chart4"></div>
+      </div>
+    </div>
+    <div class="parent-chart3">
+      <div class="child-chart1">
+        <div style="text-align: center;">
+          <label>Domain:<span>{{this.servername[1]}}</span></label>
+          <br /><br />
+          <label>CPU:<span>{{this.cpu[1]}}</span></label>&nbsp;&nbsp;
+          <label style="padding-left: 50px;">RAM:<span>{{this.ram[1]}}</span></label>
+        </div>
+        <br />
+        <div id="chart1"></div>
+      </div>
+      <div id="chart6" class="child-chart1"></div>
+    </div>
+    <div class="parent-chart4">
+      <div id="chart7" class="child-chart1"></div>
+      <div id="chart8" class="child-chart1"></div>
+    </div>
+    <div class="parent-chart5">
+      <div id="chart9" class="child-chart1"></div>
+      <div id="chart10" class="child-chart1"></div>
+    </div>
+  </div>
 </div>
 <!-- <div><button (click)="download()" style="margin-left: 598px">Download</button></div> -->

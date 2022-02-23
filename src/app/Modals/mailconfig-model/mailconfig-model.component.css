@@ -18,12 +18,13 @@
     height: 30px;
   }
   .close{
-    margin-left: 24px;
+    /* margin-left: 24px; */
     border-radius: 5px;
     width: 80px; 
     height: 30px;
     color:white;
     background-color: #FF4500;
+    font-weight: normal;
   }
   .mailids{
     border-radius: 5px;
@@ -42,5 +43,5 @@
     padding: 20px;
     border: 1px solid rgb(216, 215, 215);
     width: 25%;
-    height:50%;
+    /* height:50%; */
   }
