@@ -10,7 +10,7 @@ import html2canvas from 'html2canvas';
 import { formatDate } from '@angular/common';
 import { MailconfigModelComponent } from '../Modals/mailconfig-model/mailconfig-model.component';
 import { data } from 'jquery';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-dgtrakmis',
   templateUrl: './dgtrakmis.component.html',
@@ -34,7 +34,7 @@ export class DGTRAKMISComponent implements OnInit {
   marker: google.maps.Marker;
   public totalDevice = 0;
   public totalReporting = 0; public totalNotReporting = 0; public totalDomain = 0; public totalSubDomain = 0; public Regions = 0;
-  constructor(private service: DgtrackserviceService) { }
+  constructor(private service: DgtrackserviceService,private Router:Router) { }
   message: any;
   ishideData = false;
   isLoading = false;
@@ -182,6 +182,9 @@ export class DGTRAKMISComponent implements OnInit {
   //     });
   //   });
   // };
+  Logout(){
+    this.Router.navigate(['./']);
+  }
   chartdata(selectValue1: any) {
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;

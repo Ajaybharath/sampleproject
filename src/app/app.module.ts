@@ -13,6 +13,7 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { LoadingComponent } from './shared/loading/loading.component';
 import { MailconfigModelComponent } from './Modals/mailconfig-model/mailconfig-model.component';
 import { ChartsComponent } from './charts/charts.component';
+import { LoginPageComponent } from './login-page/login-page.component';
   
 
 @NgModule({
@@ -25,6 +26,7 @@ import { ChartsComponent } from './charts/charts.component';
     LoadingComponent,
     MailconfigModelComponent,
     ChartsComponent,
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule,
