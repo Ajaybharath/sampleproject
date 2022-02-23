@@ -1,0 +1,16 @@
+<div class = "login">
+  <div style="margin-left:5%;margin-top:10%">
+    <div>
+      <label class="labeltext">User ID</label><br/>
+      <input type="text" [(ngModel)]="username"  class="container">
+    </div>
+    <div>
+      <label class="labeltext">Password</label><br/>
+      <input type="password" [(ngModel)]="password" class="container">
+    </div>
+    <br/>
+    <input type="button" value="Login" (click)="login()" style="background-color: #02C27F; color:white;font-size: larger;" class="container">
+  
+  </div>
+</div>
+<app-loading *ngIf="isLoading"></app-loading>
