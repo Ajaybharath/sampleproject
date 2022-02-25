@@ -6,8 +6,9 @@
     width: 400px;
     margin-left: 35%;
     margin-top: 11%;
-    border-style: solid;
+    border-style: solid; 
     border-color: cornflowerblue;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 .container{
     width: 350px; 
@@ -18,4 +19,7 @@
     font-size: 15px;
     font-family: Arial;
     font-weight: lighter;
+}
+.body{
+    background-color: lightgray;
 }

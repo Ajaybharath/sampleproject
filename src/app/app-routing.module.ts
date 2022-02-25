@@ -7,11 +7,11 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 
 const routes: Routes = [
-  { path: '', component: LoginPageComponent },
+  // { path: '', component: LoginPageComponent },
   { path: 'DgTrakmis', component: DGTRAKMISComponent },
   { path: 'SummaryReports', component: SummaryReportsComponent },
-  {path:'**',pathMatch:'full',component:PagenotfoundComponent}
-  // { path: '', pathMatch:'full',component: LoginPageComponent }
+  // {path:'**',pathMatch:'full',component:PagenotfoundComponent}
+  { path: '', pathMatch:'full',component: LoginPageComponent }
 ];
 
 @NgModule({

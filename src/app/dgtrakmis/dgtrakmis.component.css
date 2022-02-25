@@ -30,6 +30,7 @@
     width: 50%;
     float: left;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    background-color: white;
 }
 .thsize{
     width: 120px;
@@ -86,6 +87,11 @@
     border-style:solid;
     width: 175px;
     height: 25px;
+}
+#B-logout:hover{
+    color: rgb(15, 14, 14);
+    background-color: white;
+    cursor: pointer;
 }
 h1{
     color:white;

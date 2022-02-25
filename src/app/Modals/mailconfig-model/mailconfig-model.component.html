@@ -30,20 +30,18 @@
     <br />
     <div class="row" style="padding-left: 10%;
     margin-bottom: 15%;">
-      <label>Mail Id's</label><br />
+      <label style="font-family: helvetica; font-size: 15;font-weight: lighter;">Mail Id's</label><br />
       <input type="text" class="mailids" id="MultipleMail" name="MultipleMail" pattern={{emailPattern}}
         [(ngModel)]="MultipleMail" placeholder="customer@gmail.com"><i class="fa fa-info-circle" aria-hidden="true"
         title="Use Comma for Multiple Email ids"></i>
       <br /><br />
-      <label matLabel>Time</label><br />
+      <label matLabel style="font-family: helvetica; font-size: 15;font-weight: lighter;">Time</label><br />
       <input type="time" name="Time" [(ngModel)]="Time" class="time">
     </div>
     <div class="row" style="padding-left:2%">
       <div class="col-md-4"><input class="submit" type="button" value="Submit" (click)="submit()" /></div>
       <div class="col-md-2"></div>
       <div class="col-md-4"><input type="button" (click)="close()" class="close" value="Close" /></div>
-
-
     </div>
   </div>
 </div>

@@ -26,7 +26,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
     LoadingComponent,
     MailconfigModelComponent,
     ChartsComponent,
-    LoginPageComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
