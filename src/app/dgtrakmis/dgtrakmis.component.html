@@ -110,8 +110,11 @@
         <td style="background-color:	rgb(76, 175, 80);" class="size">Regions/Loc.<br />
           <div class="size1">{{Regions}}</div>
         </td>&nbsp;
-        <td class="reportAt">Report At:<br /><br />
-          <div style="font-size: 20px;">{{DateTime.reportAt}}</div>
+        <td style="background-color: #daf1de; color: black;" class="size">SMS Credits<br />
+          <div class="size1" [ngStyle]="{'color': (smscredits>1000) ? '#32CD32' : (smscredits<1000 && smscredits>499) ? '#FFA500' : (smscredits<500) ? '#FF0000 ':'white'}" >{{smscredits}}</div>
+        </td>&nbsp;
+        <td style="background-color:	rgb(95, 143, 247);" class="reportAt">
+          <div style="font-size: 15px;">@{{DateTime.reportAt}}</div>
         </td>&nbsp;
       </tr>
     </table>
@@ -146,38 +149,39 @@
         <table>
           <thead>
             <tr>
-              <th style="width: 34px;">Sl.No</th>
-              <th style="width:100px">C_CID</th>
-              <th style="width: 256px; text-align: center;">Domain</th>
-              <th style="width: 154px;">Sub Domain</th>
+              <th style="width: 34px;text-align: center;">Sl.No</th>
+              <th style="width:100px;text-align: center;">C_CID</th>
+              <th style="width: 200px; text-align: center;">Domain</th>
+              <th style="width: 154px;text-align: center;">Sub Domain</th>
               <!-- <th style="width:154px">Total Device</th>
                 <th style="width:100px">Reporting</th> -->
-              <th style="width:150px">Devices</th>
-              <th style="width:100px">Reporting%</th>
-              <th style="width:100px">N.Reporting</th>
-              <th style="width:100px">Good</th>
-              <th style="width:100px">warning</th>
-              <th style="width:100px">Critical</th>
+              <!-- <th style="width:150px">Devices</th> -->
+              <th style="width:150px;text-align: center;">Reporting</th>
+              <th style="width:100px;text-align: center;">N.Reporting</th>
+              <th style="width:100px;text-align: center;">Good</th>
+              <th style="width:100px;text-align: center;">warning</th>
+              <th style="width:100px;text-align: center;">Critical</th>
               <!-- <th style="width:100px">More</th>
                 <th style="width:100px">More2</th> -->
             </tr>
           </thead>
           <tr *ngFor="let user of FilteredDetails;let i = index"
             [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
-            <td style="width:30px">{{i+1}}.</td>
-            <td style="width:100px">{{user.C_CID}}</td>
-            <td style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;width: 155px;">{{user.domain}}
+            <td style="width:34px;text-align: center;">{{i+1}}.</td>
+            <td style="width:100px;text-align: center;">{{user.C_CID}}</td>
+            <td style="overflow: hidden; text-align: center;text-overflow: ellipsis;white-space: nowrap;width: 200px;">{{user.domain}}
             </td>
-            <td style="width:154px"><a href="{{user.portal}}" target="_blank"
+            <td style="width:154px;text-align: center;"><a href="{{user.portal}}" target="_blank"
                 rel="noopener noreferrer">{{user.subDomain}}</a></td>
             <!-- <td style="width:154px">{{user.totalDevice}}</td>
               <td style="width:100px">{{user.reporting}}</td> -->
-            <td style="width:150px">{{user.Devices}}</td>
-            <td style="width:100px">{{user.ReportingPercent}}</td>
-            <td style="width:100px">{{user.notReporting}}</td>
-            <td style="width:100px">{{user.Good}}</td>
-            <td style="width:100px">{{user.Warning}}</td>
-            <td style="width:100px">{{user.Critical}}</td>
+            <!-- <td style="width:150px">{{user.Devices}}</td> -->
+            <!-- <td style="width:100px">{{user.ReportingPercent}}</td> -->
+            <td style="width:150px;text-align: center;">{{user.ReportingTot}}</td>
+            <td style="width:100px;text-align: center;">{{user.notReporting}}</td>
+            <td style="width:100px;text-align: center;">{{user.Good}}</td>
+            <td style="width:100px;text-align: center;">{{user.Warning}}</td>
+            <td style="width:100px;text-align: center;">{{user.Critical}}</td>
             <!-- <td style="width: 100px;">{{user.Devices}}</td>
               <td style="width: 100px;">{{user.ReportingPercent}}</td> -->
           </tr>
@@ -243,7 +247,7 @@
           <label>CPU:<span>None</span></label>&nbsp;&nbsp;
           <label style="padding-left: 50px;">RAM:<span>None</span></label>
         </div>
-        <br />
+        <br/>
         <div id="chart2"></div>
       </div>
     </div>

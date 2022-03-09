@@ -24,7 +24,7 @@ export class DGTRAKMISComponent implements OnInit {
   DateTime: any = []; Locations: any = []; Details: any = [];
   FilteredDetails: any = []; reporting: any = []; domain: any = [];
   subDomain: any = []; tempReporting: any = []; searchText: any;
-  Devices:any = [];
+  Devices:any = [];smscredits:any;
   cpuload:any;
   //hideData = false;
   selectValue: any; topval: any;
@@ -69,6 +69,10 @@ export class DGTRAKMISComponent implements OnInit {
       this.chartdata(this.selectValue1);
     }
     );
+    this.service.api91msgtokens().subscribe(data => {
+      debugger
+      this.smscredits = data;
+    });
     this.service.apicpuloadgetMethod().subscribe(data =>{
       debugger
       this.cpuload = data;

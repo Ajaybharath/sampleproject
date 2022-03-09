@@ -12,10 +12,10 @@ export class DgtrackserviceService {
     var obj: any = [];
     // return this._http.post('https://adminiot.iotsolution.net/summarydetails/API/Client/getDateTime', obj)
     // return this._http.post('https://localhost:44308/API/Client/getDateTime', obj)
-    return this._http.post('https://adminiot.iotsolution.net/summaryAPI2/API/Client/getDateTime', obj);
+    return this._http.post('https://adminiot.iotsolution.net/summarydetails/API/Client/getDateTime', obj);
   }
   apicallLocation(inputs: any) {
-    let url = 'https://adminiot.iotsolution.net/summaryAPI2/API/Client/regions';
+    let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/regions';
     // let url = 'https://localhost:44308/API/Client/regions';
 
     const headers = { 'Content-Type': 'application/json' };
@@ -27,7 +27,7 @@ export class DgtrackserviceService {
   }
   apicall(inputs: any) {
 
-    let url='https://adminiot.iotsolution.net/summaryAPI2/API/Client/ClientData';
+    let url='https://adminiot.iotsolution.net/summarydetails/API/Client/ClientData';
     // let url = 'https://localhost:44308/API/Client/ClientData';
 
     const headers = { 'Content-Type': 'application/json' };
@@ -39,7 +39,7 @@ export class DgtrackserviceService {
   }
   apimail(mailInputs: any) {
     //https://adminiot.iotsolution.net/summarydetails/API/Client/SendMail
-    let url = 'https://adminiot.iotsolution.net/summaryAPI2/API/Client/SendMail';
+    let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/SendMail';
 
     const headers = { 'Content-Type': 'application/json' };
 
@@ -50,7 +50,7 @@ export class DgtrackserviceService {
   }
   apimailconfig(mailConfigInputs) {
     //let url = 'https://localhost:44308/API/Client/MailConfig';
-    let url =  'https://adminiot.iotsolution.net/summaryAPI2/API/Client/MailConfig';
+    let url =  'https://adminiot.iotsolution.net/summarydetails/API/Client/MailConfig';
 
     const headers = { 'Content-Type': 'application/json' };
 
@@ -59,8 +59,17 @@ export class DgtrackserviceService {
     console.log(body);
     return this._http.post(url, body, { 'headers': headers });
   }
+  apiaccess(){
+    var obj: any = [];
+    let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/Access';
+    return this._http.post(url, obj);
+  }
   apicpuloadgetMethod() {
-    let url =  'https://adminiot.iotsolution.net/summaryAPI2/API/Client/memory';
+    let url =  'https://adminiot.iotsolution.net/summarydetails/API/Client/memory';
+    return this._http.get(url);
+  }
+  api91msgtokens(){
+    let url =  'https://localhost:44308/API/Client/SMSTOKEN';
     return this._http.get(url);
   }
 }

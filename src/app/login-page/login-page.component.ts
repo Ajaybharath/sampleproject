@@ -10,7 +10,7 @@ import { DgtrackserviceService } from 'src/app/dgtrackservice.service';
 export class LoginPageComponent implements OnInit {
 
   constructor(private Router:Router,private service: DgtrackserviceService) { }
-  username: any; password: any;Massage:any
+  username: any; password: any;Massage:any;accesskey:any;
   isLoading = false;
   inputs = { "uid": "idea", "pwd": "bytes" };
   ngOnInit() {
@@ -22,9 +22,13 @@ export class LoginPageComponent implements OnInit {
       }
     });
   }
-
+  
   login(){
-      if(this.username == "superadmin@iotsolution.net" && this.password == "IoT@dmin#49"){
+     debugger
+     this.service.apiaccess().subscribe(data => {
+      this.accesskey = data;
+      //console.log(this.accesskey);
+      if(this.username == "superadmin@iotsolution.net" && this.accesskey == this.password){
         this.Router.navigate(['./DgTrakmis']);
       }
       else if(this.username == "" && this.password == "" || this.username == undefined && this.password == undefined){
@@ -39,5 +43,6 @@ export class LoginPageComponent implements OnInit {
       else{
         alert("Invalid Credentials");
       }
+    }); 
   }
 }
