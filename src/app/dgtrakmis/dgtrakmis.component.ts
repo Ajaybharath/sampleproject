@@ -70,23 +70,21 @@ export class DGTRAKMISComponent implements OnInit {
     }
     );
     this.service.api91msgtokens().subscribe(data => {
-      debugger
       this.smscredits = data;
     });
-    this.service.apicpuloadgetMethod().subscribe(data =>{
-      debugger
-      this.cpuload = data;
-      for(var cp = 0; cp < this.cpuload.length; cp++){
-        this.servername.push(this.cpuload[cp].DomainName);
-        if(this.cpuload[cp].cpu_used ==null){
-          this.cpu.push("None");
-        }
-        else{
-          this.cpu.push(this.cpuload[cp].cpu_used);
-        }
-        this.ram.push(this.cpuload[cp].memoryused);
-      }
-    });
+    // this.service.apicpuloadgetMethod().subscribe(data =>{
+    //   this.cpuload = data;
+    //   for(var cp = 0; cp < this.cpuload.length; cp++){
+    //     this.servername.push(this.cpuload[cp].DomainName);
+    //     if(this.cpuload[cp].cpu_used ==null){
+    //       this.cpu.push("None");
+    //     }
+    //     else{
+    //       this.cpu.push(this.cpuload[cp].cpu_used);
+    //     }
+    //     this.ram.push(this.cpuload[cp].memoryused);
+    //   }
+    // });
     this.service.datapost().subscribe(data => {
       this.DateTime = data;
       console.log('27 > ' + this.DateTime.reportAt);
@@ -195,7 +193,7 @@ export class DGTRAKMISComponent implements OnInit {
     }
     var unique = this.domain.filter(onlyUnique);
     this.totalDomain = unique.length;
-    console.log(this.cpuload);
+    //console.log(this.cpuload);
     for (var ic = 0; ic < unique.length; ic++) {
       
       // for(var cp = 0; cp < this.cpuload.length; cp++){

@@ -110,8 +110,8 @@
         <td style="background-color:	rgb(76, 175, 80);" class="size">Regions/Loc.<br />
           <div class="size1">{{Regions}}</div>
         </td>&nbsp;
-        <td style="background-color: #daf1de; color: black;" class="size">SMS Credits<br />
-          <div class="size1" [ngStyle]="{'color': (smscredits>1000) ? '#32CD32' : (smscredits<1000 && smscredits>499) ? '#FFA500' : (smscredits<500) ? '#FF0000 ':'white'}" >{{smscredits}}</div>
+        <td style="background-color: #daf1de; color: black; border:1px black" class="size">SMS Credits<br />
+          <div class="size1" [ngStyle]="{'color': (smscredits>1000) ? '#4caf50' : (smscredits<1000 && smscredits>499) ? '#ffc107' : (smscredits<500) ? '#ff9800':'black'}" >{{smscredits}}</div>
         </td>&nbsp;
         <td style="background-color:	rgb(95, 143, 247);" class="reportAt">
           <div style="font-size: 15px;">@{{DateTime.reportAt}}</div>
@@ -231,57 +231,57 @@
   <div class="parent-chart" id="parent-chart"> 
     <div class="parent-chart1">
       <div class="child-chart1">
-        <div style="text-align: center;">
+        <!-- <div style="text-align: center;">
           <label>Domain:<span>{{this.servername[2]}}</span></label>
           <br /><br />
           <label>CPU:<span>{{this.cpu[2]}}</span></label>&nbsp;&nbsp;
           <label style="padding-left: 50px;">RAM:<span>{{this.ram[2]}}</span></label>
         </div>
-        <br />
+        <br /> -->
         <div id="chart5"></div>
       </div>
       <div class="child-chart1">
-        <div style="text-align: center;">
+        <!-- <div style="text-align: center;">
           <label>Domain:<span>subzeroiot.com</span></label>
           <br /><br />
           <label>CPU:<span>None</span></label>&nbsp;&nbsp;
           <label style="padding-left: 50px;">RAM:<span>None</span></label>
         </div>
-        <br/>
+        <br/> -->
         <div id="chart2"></div>
       </div>
     </div>
     <div class="parent-chart2">
       <div class="child-chart1">
-        <div style="text-align: center;">
+        <!-- <div style="text-align: center;">
           <label>Domain:<span>{{this.servername[3]}}</span></label>
           <br /><br />
           <label>CPU:<span>{{this.cpu[3]}}</span></label>&nbsp;&nbsp;
           <label style="padding-left: 50px;">RAM:<span>{{this.ram[3]}}</span></label>
         </div>
-        <br />
+        <br /> -->
         <div id="chart3"></div>
       </div>
       <div class="child-chart1">
-        <div style="text-align: center;">
+        <!-- <div style="text-align: center;">
           <label>Domain:<span>{{this.servername[0]}}</span></label>
           <br /><br />
           <label>CPU:<span>{{this.cpu[0]}}</span></label>&nbsp;&nbsp;
           <label style="padding-left: 50px;">RAM:<span>{{this.ram[0]}}</span></label>
         </div>
-        <br />
+        <br /> -->
         <div id="chart4"></div>
       </div>
     </div>
     <div class="parent-chart3">
       <div class="child-chart1">
-        <div style="text-align: center;">
+        <!-- <div style="text-align: center;">
           <label>Domain:<span>{{this.servername[1]}}</span></label>
           <br /><br />
           <label>CPU:<span>{{this.cpu[1]}}</span></label>&nbsp;&nbsp;
           <label style="padding-left: 50px;">RAM:<span>{{this.ram[1]}}</span></label>
         </div>
-        <br />
+        <br /> -->
         <div id="chart1"></div>
       </div>
       <div id="chart6" class="child-chart1"></div>

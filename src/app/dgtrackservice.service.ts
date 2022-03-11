@@ -26,9 +26,8 @@ export class DgtrackserviceService {
     return this._http.post(url, body, { 'headers': headers });
   }
   apicall(inputs: any) {
-
     let url='https://adminiot.iotsolution.net/summarydetails/API/Client/ClientData';
-    // let url = 'https://localhost:44308/API/Client/ClientData';
+     //let url = 'https://localhost:44308/API/Client/ClientData';
 
     const headers = { 'Content-Type': 'application/json' };
 
@@ -69,7 +68,8 @@ export class DgtrackserviceService {
     return this._http.get(url);
   }
   api91msgtokens(){
-    let url =  'https://localhost:44308/API/Client/SMSTOKEN';
+    let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/SMSTOKEN';
+    //let url =  'https://localhost:44308/API/Client/SMSTOKEN';
     return this._http.get(url);
   }
 }
