@@ -111,7 +111,7 @@
           <div class="size1">{{Regions}}</div>
         </td>&nbsp;
         <td style="background-color: #daf1de; color: black; border:1px black" class="size">SMS Credits<br />
-          <div class="size1" [ngStyle]="{'color': (smscredits>1000) ? '#4caf50' : (smscredits<1000 && smscredits>499) ? '#ffc107' : (smscredits<500) ? '#ff9800':'black'}" >{{smscredits}}</div>
+          <div class="size1" [ngStyle]="{'color': (smscredits>5000) ? '#4caf50' : (smscredits<5000 && smscredits>999) ? '#EF820D' : (smscredits<1000) ? '#ed0231':'black'}" >{{smscredits}}</div>
         </td>&nbsp;
         <td style="background-color:	rgb(95, 143, 247);" class="reportAt">
           <div style="font-size: 15px;">@{{DateTime.reportAt}}</div>
@@ -214,6 +214,7 @@
       </tr>
     </table>
   </div>
+  <br/>
   <div>
     <select [(ngModel)]="selectValue" (change)="select()" class="chartSelect">
       <option>Top Three subDomain</option>
@@ -222,6 +223,7 @@
       <option>Bottom Five subDomain</option>
     </select>
   </div>
+  <br/>
   <!-- <div>
       <app-charts [divid]="chart5"></app-charts>
       <app-charts [divid]="chart1"></app-charts>
@@ -238,6 +240,12 @@
           <label style="padding-left: 50px;">RAM:<span>{{this.ram[2]}}</span></label>
         </div>
         <br /> -->
+        <div style="text-align: center;">
+          <label>Domain:<span>{{this.domainname[1]}}</span></label>
+          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span  [ngStyle]="{'color': (this.severity[1] == 'low') ? '#4caf50' : (this.severity[1] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[1]}}</span></label>&nbsp;&nbsp;
+          <!-- <label style="padding-left: 50px;">Severity:<span>{{this.severity[1]}}</span></label> -->
+        </div>
+        <br />
         <div id="chart5"></div>
       </div>
       <div class="child-chart1">
@@ -248,6 +256,11 @@
           <label style="padding-left: 50px;">RAM:<span>None</span></label>
         </div>
         <br/> -->
+        <div style="text-align: center;">
+          <label>Domain:<span>{{this.domainname[4]}}</span></label>
+          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span  [ngStyle]="{'color': (this.severity[4] == 'low') ? '#4caf50' : (this.severity[4] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[4]}}</span></label>&nbsp;&nbsp;
+        </div>
+        <br />
         <div id="chart2"></div>
       </div>
     </div>
@@ -260,6 +273,12 @@
           <label style="padding-left: 50px;">RAM:<span>{{this.ram[3]}}</span></label>
         </div>
         <br /> -->
+        <div style="text-align: center;">
+          <label>Domain:<span>{{this.domainname[3]}}</span></label>
+          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span  [ngStyle]="{'color': (this.severity[3] == 'low') ? '#4caf50' : (this.severity[3] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[3]}}</span></label>&nbsp;&nbsp;
+          <!-- <label style="padding-left: 160px;">Severity:<span>{{this.severity[3]}}</span></label> -->
+        </div>
+        <br />
         <div id="chart3"></div>
       </div>
       <div class="child-chart1">
@@ -270,6 +289,12 @@
           <label style="padding-left: 50px;">RAM:<span>{{this.ram[0]}}</span></label>
         </div>
         <br /> -->
+        <div style="text-align: center;">
+          <label>Domain:<span>{{this.domainname[0]}}</span></label>
+          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span  [ngStyle]="{'color': (this.severity[0] == 'low') ? '#4caf50' : (this.severity[0] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[0]}}</span></label>&nbsp;&nbsp;
+          <!-- <label style="padding-left: 50px;">Severity:<span>{{this.severity[0]}}</span></label> -->
+        </div>
+        <br />
         <div id="chart4"></div>
       </div>
     </div>
@@ -282,6 +307,12 @@
           <label style="padding-left: 50px;">RAM:<span>{{this.ram[1]}}</span></label>
         </div>
         <br /> -->
+        <div style="text-align: center;">
+          <label>Domain:<span>{{this.domainname[2]}}</span></label>
+          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span [ngStyle]="{'color': (this.severity[2] == 'low') ? '#4caf50' : (this.severity[2] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[2]}}</span></label>&nbsp;&nbsp;
+          <!-- <label style="padding-left: 50px;">Severity:<span>{{this.severity[2]}}</span></label> -->
+        </div>
+        <br />
         <div id="chart1"></div>
       </div>
       <div id="chart6" class="child-chart1"></div>

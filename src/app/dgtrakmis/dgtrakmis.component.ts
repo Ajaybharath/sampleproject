@@ -18,8 +18,8 @@ import { Router } from '@angular/router';
 })
 export class DGTRAKMISComponent implements OnInit {
   ram:any=[];cpu:any=[];servername:any=[];
-  //ram1:any;ram2:any;ram3:any;ram4:any;ram5:any;
-  //cpu1:any;cpu2:any;cpu3:any;cpu4:any;cpu5:any;
+  SSLCertificateData:any;
+  domainname:any=[];severity:any=[];ExpiryDate:any=[];
   servername1:any;servername2:any;servername3:any;servername4:any;servername5:any;
   DateTime: any = []; Locations: any = []; Details: any = [];
   FilteredDetails: any = []; reporting: any = []; domain: any = [];
@@ -69,7 +69,17 @@ export class DGTRAKMISComponent implements OnInit {
       this.chartdata(this.selectValue1);
     }
     );
+    this.service.apiSSLCertificateDetails().subscribe(data => {
+      debugger 
+      this.SSLCertificateData = data;
+      for(var sd = 0; sd < this.SSLCertificateData.length; sd++){
+       this.domainname.push(this.SSLCertificateData[sd].domain);
+       this.ExpiryDate.push(this.SSLCertificateData[sd].expTime);
+       this.severity.push(this.SSLCertificateData[sd].severity);
+      }
+    });
     this.service.api91msgtokens().subscribe(data => {
+      debugger
       this.smscredits = data;
     });
     // this.service.apicpuloadgetMethod().subscribe(data =>{
@@ -306,7 +316,7 @@ export class DGTRAKMISComponent implements OnInit {
           categories: top3subDomain,
         },
         title: {
-          text: unique[ic],
+          //text: unique[ic],
           //text:legend,
           fontFamily: 'Times New Roman',
           align: "left"

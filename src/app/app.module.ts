@@ -14,6 +14,7 @@ import { LoadingComponent } from './shared/loading/loading.component';
 import { MailconfigModelComponent } from './Modals/mailconfig-model/mailconfig-model.component';
 import { ChartsComponent } from './charts/charts.component';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { LoginAccessGuard } from './login-access.guard';
   
 
 @NgModule({
@@ -36,7 +37,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [DgtrackserviceService],
+  providers: [DgtrackserviceService,LoginAccessGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

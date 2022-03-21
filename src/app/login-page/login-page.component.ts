@@ -11,6 +11,7 @@ export class LoginPageComponent implements OnInit {
 
   constructor(private Router:Router,private service: DgtrackserviceService) { }
   username: any; password: any;Massage:any;accesskey:any;
+  log : any; UserId :any;
   isLoading = false;
   inputs = { "uid": "idea", "pwd": "bytes" };
   ngOnInit() {
@@ -22,13 +23,20 @@ export class LoginPageComponent implements OnInit {
       }
     });
   }
-  
+  fieldTextType: boolean;
+  toggleFieldTextType(){
+    this.fieldTextType = !this.fieldTextType;
+  }
   login(){
      debugger
      this.service.apiaccess().subscribe(data => {
-      this.accesskey = data;
-      //console.log(this.accesskey);
-      if(this.username == "superadmin@iotsolution.net" && this.accesskey == this.password){
+      debugger
+      this.log = data;
+      this.accesskey = this.log.Password;
+      this.UserId = this.log.UserId;
+      console.log(this.accesskey);
+      console.log(this.UserId);
+      if(this.username.toLowerCase() == this.UserId.toLowerCase() && this.accesskey == this.password){//support@ideabytesiot.com
         this.Router.navigate(['./DgTrakmis']);
       }
       else if(this.username == "" && this.password == "" || this.username == undefined && this.password == undefined){
@@ -44,5 +52,6 @@ export class LoginPageComponent implements OnInit {
         alert("Invalid Credentials");
       }
     }); 
+
   }
 }

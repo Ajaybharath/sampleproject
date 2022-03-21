@@ -5,10 +5,25 @@
         <label class="labeltext">User ID</label><br/>
         <input type="text" [(ngModel)]="username"  class="container">
       </div>
-      <div>
-        <label class="labeltext">Password</label><br/>
-        <input type="password" [(ngModel)]="password" class="container">
-      </div>
+        <div>
+          <label class="labeltext">Password</label><br/>
+          <input [type] = "fieldTextType ? 'text' : 'password' "class="container" [(ngModel)]="password" />
+          <!-- <input type="password" [(ngModel)]="password" class="container"> -->
+        </div>
+        <div style="vertical-align:auto;">
+          <input type="checkbox" (click)="toggleFieldTextType()" style="width: 20px; height: 20px;"/> &nbsp; &nbsp;
+          <label class="labeltext">Show Password</label>
+          <!-- <span >
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-eye-slash': !fieldTextType,
+                'fa-eye': fieldTextType
+              }"
+              (click)="toggleFieldTextType()"
+            ></i>
+          </span> -->
+        </div>
       <br/>
       <input type="button" value="Login" (click)="login()" style="background-color: #02C27F; color:white;font-size: larger;" class="container">
     </div>

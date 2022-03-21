@@ -60,6 +60,7 @@ export class DgtrackserviceService {
   }
   apiaccess(){
     var obj: any = [];
+    //let url = 'https://localhost:44308/API/Client/Access'
     let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/Access';
     return this._http.post(url, obj);
   }
@@ -70,6 +71,10 @@ export class DgtrackserviceService {
   api91msgtokens(){
     let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/SMSTOKEN';
     //let url =  'https://localhost:44308/API/Client/SMSTOKEN';
+    return this._http.get(url);
+  }
+  apiSSLCertificateDetails(){
+    let url = 'https://adminiot.iotsolution.net/summarydetails/API/Client/SSLExpDate';
     return this._http.get(url);
   }
 }
