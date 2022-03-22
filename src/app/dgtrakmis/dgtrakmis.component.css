@@ -89,8 +89,8 @@
     height: 25px;
 }
 #B-logout:hover{
-    color: rgb(15, 14, 14);
-    background-color: white;
+    color: #696969;
+    background-color: rgb(253, 252, 252);
     cursor: pointer;
 }
 h1{

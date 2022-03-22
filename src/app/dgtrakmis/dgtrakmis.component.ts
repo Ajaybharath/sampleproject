@@ -195,6 +195,7 @@ export class DGTRAKMISComponent implements OnInit {
   //   });
   // };
   Logout(){
+    localStorage.clear();
     this.Router.navigate(['./']);
   }
   chartdata(selectValue1: any) {

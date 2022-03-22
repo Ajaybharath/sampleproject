@@ -1,5 +1,5 @@
 import { ThrowStmt } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DgtrackserviceService } from 'src/app/dgtrackservice.service';
 @Component({
@@ -8,12 +8,12 @@ import { DgtrackserviceService } from 'src/app/dgtrackservice.service';
   styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent implements OnInit {
-
   constructor(private Router:Router,private service: DgtrackserviceService) { }
   username: any; password: any;Massage:any;accesskey:any;
   log : any; UserId :any;
   isLoading = false;
   inputs = { "uid": "idea", "pwd": "bytes" };
+  
   ngOnInit() {
     this.isLoading = true;
     this.service.apicall(this.inputs).subscribe(data => {
@@ -37,6 +37,8 @@ export class LoginPageComponent implements OnInit {
       console.log(this.accesskey);
       console.log(this.UserId);
       if(this.username.toLowerCase() == this.UserId.toLowerCase() && this.accesskey == this.password){//support@ideabytesiot.com
+        var login = "true";
+        localStorage.setItem('login', login)
         this.Router.navigate(['./DgTrakmis']);
       }
       else if(this.username == "" && this.password == "" || this.username == undefined && this.password == undefined){
