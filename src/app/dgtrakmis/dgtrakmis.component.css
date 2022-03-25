@@ -49,6 +49,10 @@
     text-orientation: sideways;
     text-indent: 20px;
 }  
+/* .size:hover{
+    transform: scale(1.1);
+    transition: transform .2s;
+} */
 .size{
     color:white;
     width:150px;

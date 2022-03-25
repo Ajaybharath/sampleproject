@@ -23,6 +23,39 @@ export class LoginPageComponent implements OnInit {
       }
     });
   }
+//fileUpload
+// shortLink: string = "";
+// loading: boolean = false; // Flag variable
+// file: File = null;
+// data : any;
+// // On file Select
+// onChange(event) {
+//   this.file = event.target.files[0];
+// }
+
+// // OnClick of button Upload
+// onUpload() {
+//   debugger
+//   this.loading = !this.loading;
+//   console.log(this.file);
+//   this.service.apifileupload(this.file).subscribe(data => {
+//     this.data = data;
+//     console.log(data);
+//   }
+//       // (event: any) => {
+//       //     if (typeof (event) === 'object') {
+
+//       //         // Short link via api response
+//       //         this.shortLink = event.link;
+
+//       //         this.loading = false; // Flag variable 
+//       //     }
+//       // }
+//   );
+// }
+
+
+
   fieldTextType: boolean;
   toggleFieldTextType(){
     this.fieldTextType = !this.fieldTextType;

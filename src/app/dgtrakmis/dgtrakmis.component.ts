@@ -45,6 +45,7 @@ export class DGTRAKMISComponent implements OnInit {
   selectValue1 = 3;
   ngOnInit() {
     this.isLoading = true;
+    
     this.service.apicall(this.inputs).subscribe(data => {
       this.Details = data
       if (data) {
@@ -197,6 +198,7 @@ export class DGTRAKMISComponent implements OnInit {
   Logout(){
     localStorage.clear();
     this.Router.navigate(['./']);
+    
   }
   chartdata(selectValue1: any) {
     function onlyUnique(value, index, self) {
