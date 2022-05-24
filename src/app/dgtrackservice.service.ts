@@ -65,7 +65,7 @@ export class DgtrackserviceService {
     return this._http.post(url, obj);
   }
   apicpuloadgetMethod() {
-    let url =  'https://adminiot.iotsolution.net/summarydetails/API/Client/memory';
+    let url =  'https://localhost:44308/API/Client/memory';//https://adminiot.iotsolution.net/summarydetails/API/Client/memory
     return this._http.get(url);
   }
   api91msgtokens(){

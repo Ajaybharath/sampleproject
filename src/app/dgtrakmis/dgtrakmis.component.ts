@@ -11,6 +11,7 @@ import { formatDate } from '@angular/common';
 import { MailconfigModelComponent } from '../Modals/mailconfig-model/mailconfig-model.component';
 import { data } from 'jquery';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-dgtrakmis',
   templateUrl: './dgtrakmis.component.html',
@@ -34,19 +35,23 @@ export class DGTRAKMISComponent implements OnInit {
   marker: google.maps.Marker;
   public totalDevice = 0;
   public totalReporting = 0; public totalNotReporting = 0; public totalDomain = 0; public totalSubDomain = 0; public Regions = 0;
-  constructor(private service: DgtrackserviceService,private Router:Router) { }
+  constructor(private service: DgtrackserviceService,
+  private Router:Router
+  ) { }
   message: any;
   ishideData = false;
   isLoading = false;
-  //formattedDt = formatDate(new Date(), 'yyyy-MM-dd hh mm', 'en_US')//yyyy-MM-dd hh:mm:ssZZZZZ
+  //formattedDt = formatDate(new Date(), 'yyyy-MM-dd hh mm', 'en_US')//yyyy-MM-dd hh:mm:ssZZZZZ,private location:Location
   
   inputs = { "uid": "idea", "pwd": "bytes" };
   //mailInputs: any;
   selectValue1 = 3;
   ngOnInit() {
+    //this.location.back();
     this.isLoading = true;
-    
     this.service.apicall(this.inputs).subscribe(data => {
+      
+    
       this.Details = data
       if (data) {
         this.isLoading = false;
@@ -71,21 +76,30 @@ export class DGTRAKMISComponent implements OnInit {
     }
     );
     this.service.apiSSLCertificateDetails().subscribe(data => {
-      debugger 
+      //debugger 
       this.SSLCertificateData = data;
       for(var sd = 0; sd < this.SSLCertificateData.length; sd++){
        this.domainname.push(this.SSLCertificateData[sd].domain);
        this.ExpiryDate.push(this.SSLCertificateData[sd].expTime);
        this.severity.push(this.SSLCertificateData[sd].severity);
       }
+      
     });
     this.service.api91msgtokens().subscribe(data => {
-      debugger
+      if(data == "" || data == undefined || data == null){
+        this.smscredits = "N.A"
+      }
       this.smscredits = data;
     });
+    this.service.apicpuloadgetMethod().subscribe(data => {
+      this.cpuload = data;
+      console.log(data);
+    });
     // this.service.apicpuloadgetMethod().subscribe(data =>{
+      
     //   this.cpuload = data;
     //   for(var cp = 0; cp < this.cpuload.length; cp++){
+        
     //     this.servername.push(this.cpuload[cp].DomainName);
     //     if(this.cpuload[cp].cpu_used ==null){
     //       this.cpu.push("None");
@@ -95,9 +109,13 @@ export class DGTRAKMISComponent implements OnInit {
     //     }
     //     this.ram.push(this.cpuload[cp].memoryused);
     //   }
+    //   console.log(this.cpuload);
     // });
     this.service.datapost().subscribe(data => {
+      debugger
+      
       this.DateTime = data;
+
       console.log('27 > ' + this.DateTime.reportAt);
     });
     console.log('30 > ' + this.DateTime);
@@ -107,6 +125,7 @@ export class DGTRAKMISComponent implements OnInit {
       var lat1 = "17.4295865";// this._commanService.getDefaultLat();
       var lon1 = "78.3709647";// this._commanService.getDefaultLng();
       var centerLatLng = new google.maps.LatLng(Number(lat1), Number(lon1));
+      //debugger
       this.mapContainer = new google.maps.Map(this.gmap.nativeElement,
         {
           center: centerLatLng,
@@ -129,6 +148,7 @@ export class DGTRAKMISComponent implements OnInit {
         this.marker = new google.maps.Marker({ icon: image, position: { lat: Number(this.Locations[loi].location.split(',')[0]), lng: Number(this.Locations[loi].location.split(',')[1]) }, map: this.mapContainer, title: titleLoc });
       }
     });
+    
   }
   Search() {
     this.FilteredDetails = this.Details.filter(value => value.domain.toLowerCase().includes(this.searchText.toLowerCase()) || value.subDomain.toLowerCase().includes(this.searchText.toLowerCase()) || value.C_CID.includes(this.searchText.toLowerCase()));
@@ -206,7 +226,7 @@ export class DGTRAKMISComponent implements OnInit {
     }
     var unique = this.domain.filter(onlyUnique);
     this.totalDomain = unique.length;
-    //console.log(this.cpuload);
+    
     for (var ic = 0; ic < unique.length; ic++) {
       
       // for(var cp = 0; cp < this.cpuload.length; cp++){
