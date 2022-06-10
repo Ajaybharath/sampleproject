@@ -15,6 +15,11 @@ import { MailconfigModelComponent } from './Modals/mailconfig-model/mailconfig-m
 import { ChartsComponent } from './charts/charts.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { LoginAccessGuard } from './login-access.guard';
+import { BackButtonDisableModule} from 'angular-disable-browser-back-button';
+
+
+
+
   
 
 @NgModule({
@@ -35,7 +40,12 @@ import { LoginAccessGuard } from './login-access.guard';
     AngularFontAwesomeModule,
     FormsModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BackButtonDisableModule.forRoot({
+
+      preserveScrollPosition: true
+
+    })
   ],
   providers: [DgtrackserviceService,LoginAccessGuard],
   bootstrap: [AppComponent]

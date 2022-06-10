@@ -85,7 +85,7 @@
 </div>-->
 <app-loading *ngIf="isLoading"></app-loading>
 <div id="Total Content" style="background-color: #fff;">
-  <header><h1 class="col-md-11">DG Trak MIS Report</h1><h1 class="col-md-1"><span (click)="Logout()" id="B-logout"><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></span></h1></header>
+  <header><h1 class="col-md-11">DG Trak MIS Report</h1><h1 style="height: 33px" class="col-md-1"><span (click)="Logout()" id="B-logout" ><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></span></h1></header>
   <br/><br/>
   <!-- <div style="background-color: #696969; width:50%; height:40px"><h1>DG Trak MIS Report</h1><h1 (click)="Logout()"><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></h1></div> -->
   <!-- <h1>DG Trak MIS Report <span (click)="Logout()"><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></span></h1>  -->
@@ -114,7 +114,7 @@
           <div class="size1" [ngStyle]="{'color': (smscredits>5000) ? '#4caf50' : (smscredits<5000 && smscredits>999) ? '#EF820D' : (smscredits<1000) ? '#ed0231':'black'}" >{{smscredits}}</div>
         </td>&nbsp;
         <td style="background-color:	rgb(95, 143, 247);" class="reportAt">
-          <div style="font-size: 15px;">@{{DateTime.reportAt}}</div>
+          <div style="font-size: 15px;">@{{DateTime}}</div>
         </td>&nbsp;
       </tr>
     </table>

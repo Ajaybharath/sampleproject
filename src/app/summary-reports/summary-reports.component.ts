@@ -31,86 +31,86 @@ export class SummaryReportsComponent  implements OnInit {
   isLoading = false;
 
   ngOnInit() {
-    this.isLoading = true;
-    this.service.apicall(this.inputs).subscribe(data => {
-      if (data) {
-        this.isLoading = false;
+  //   this.isLoading = true;
+  //   this.service.apicall(this.inputs).subscribe(data => {
+  //     if (data) {
+  //       this.isLoading = false;
 
-      }
-      this.Details = data
-      this.FilteredDetails = this.Details;
-
-      for (var i = 0; i < this.Details.length; i++) {
-        this.totalDevice += parseInt(this.Details[i].totalDevice);
-        this.totalReporting += parseInt(this.Details[i].reporting);
-        this.totalNotReporting += parseInt(this.Details[i].notReporting);
-        this.subDomain.push(this.Details[i].subDomain);
-        this.domain.push(this.Details[i].domain);
-        this.totalSubDomain = parseInt(this.Details.length);
-        if (parseInt(this.Details[i].reporting) == 0 || parseInt(this.Details[i].totalDevice) == 0) {
-          this.reporting.push(0);
-        }
-        else {
-          this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
-        }
-      }
-      
-      function onlyUnique(value, index, self) {
-        return self.indexOf(value) === index;
-      }
-      var unique = this.domain.filter(onlyUnique);
-      this.totalDomain = unique.length;
-  
-      //this.chartdata(this.selectValue1);
-      setTimeout (() => {
-        this.download()
-      }, 5000);
-    }
-    );
-    function hideloader() {
-      debugger
-  
-      // Setting display of spinner
-      // element to none
-      document.getElementById('loading')
-          .style.display = 'none';
-    }
-    this.service.datapost().subscribe(data => {
-      this.DateTime = data;
-      console.log('27 > ' + this.DateTime.reportAt);
-    });
-    
-    console.log('30 > ' + this.DateTime);
-      this.service.apicallLocation(this.inputs).subscribe(data => {
-      this.Locations = data
-      this.Regions = this.Locations.length;
-      
-  //     var locName = [], locArray = [], locLon = [];
-  //     var lat1 = "17.4295865";// this._commanService.getDefaultLat();
-  //     var lon1 = "78.3709647";// this._commanService.getDefaultLng();
-  //     var centerLatLng = new google.maps.LatLng(Number(lat1), Number(lon1));
-  //     this.mapContainer = new google.maps.Map(this.gmap.nativeElement,
-  //       {
-  //         center: centerLatLng,
-  //         zoom: 1,
-  //         mapTypeId: google.maps.MapTypeId.ROADMAP,
-  //         gestureHandling: 'greedy',
-  //         mapTypeControl: false,
-  //         streetViewControl: false,
-  //       }
-  //     );
-  //     var image = {
-  //       url: "https://cdn-0.emojis.wiki/emoji-pics/microsoft/blue-circle-microsoft.png",
-  //       scaledSize: new google.maps.Size(10, 10),
-  //       origin: new google.maps.Point(0, 0),
-  //       anchor: new google.maps.Point(0, 10),
-  //     };
-  //     this.Regions = this.Locations.length;
-  //     for (var loi = 0; loi < this.Locations.length; loi++) {
-  //       const titleLoc = this.Locations[loi].name;
-  //       this.marker = new google.maps.Marker({ icon: image, position: { lat: Number(this.Locations[loi].location.split(',')[0]), lng: Number(this.Locations[loi].location.split(',')[1]) }, map: this.mapContainer, title: titleLoc });
   //     }
-    });
+  //     this.Details = data
+  //     this.FilteredDetails = this.Details;
+
+  //     for (var i = 0; i < this.Details.length; i++) {
+  //       this.totalDevice += parseInt(this.Details[i].totalDevice);
+  //       this.totalReporting += parseInt(this.Details[i].reporting);
+  //       this.totalNotReporting += parseInt(this.Details[i].notReporting);
+  //       this.subDomain.push(this.Details[i].subDomain);
+  //       this.domain.push(this.Details[i].domain);
+  //       this.totalSubDomain = parseInt(this.Details.length);
+  //       if (parseInt(this.Details[i].reporting) == 0 || parseInt(this.Details[i].totalDevice) == 0) {
+  //         this.reporting.push(0);
+  //       }
+  //       else {
+  //         this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
+  //       }
+  //     }
+      
+  //     function onlyUnique(value, index, self) {
+  //       return self.indexOf(value) === index;
+  //     }
+  //     var unique = this.domain.filter(onlyUnique);
+  //     this.totalDomain = unique.length;
+  
+  //     //this.chartdata(this.selectValue1);
+  //     setTimeout (() => {
+  //       this.download()
+  //     }, 5000);
+  //   }
+  //   );
+  //   function hideloader() {
+  //     debugger
+  
+  //     // Setting display of spinner
+  //     // element to none
+  //     document.getElementById('loading')
+  //         .style.display = 'none';
+  //   }
+  //   this.service.datapost().subscribe(data => {
+  //     this.DateTime = data;
+  //     console.log('27 > ' + this.DateTime.reportAt);
+  //   });
+    
+  //   console.log('30 > ' + this.DateTime);
+  //     this.service.apicallLocation(this.inputs).subscribe(data => {
+  //     this.Locations = data
+  //     this.Regions = this.Locations.length;
+      
+  // //     var locName = [], locArray = [], locLon = [];
+  // //     var lat1 = "17.4295865";// this._commanService.getDefaultLat();
+  // //     var lon1 = "78.3709647";// this._commanService.getDefaultLng();
+  // //     var centerLatLng = new google.maps.LatLng(Number(lat1), Number(lon1));
+  // //     this.mapContainer = new google.maps.Map(this.gmap.nativeElement,
+  // //       {
+  // //         center: centerLatLng,
+  // //         zoom: 1,
+  // //         mapTypeId: google.maps.MapTypeId.ROADMAP,
+  // //         gestureHandling: 'greedy',
+  // //         mapTypeControl: false,
+  // //         streetViewControl: false,
+  // //       }
+  // //     );
+  // //     var image = {
+  // //       url: "https://cdn-0.emojis.wiki/emoji-pics/microsoft/blue-circle-microsoft.png",
+  // //       scaledSize: new google.maps.Size(10, 10),
+  // //       origin: new google.maps.Point(0, 0),
+  // //       anchor: new google.maps.Point(0, 10),
+  // //     };
+  // //     this.Regions = this.Locations.length;
+  // //     for (var loi = 0; loi < this.Locations.length; loi++) {
+  // //       const titleLoc = this.Locations[loi].name;
+  // //       this.marker = new google.maps.Marker({ icon: image, position: { lat: Number(this.Locations[loi].location.split(',')[0]), lng: Number(this.Locations[loi].location.split(',')[1]) }, map: this.mapContainer, title: titleLoc });
+  // //     }
+  //   });
   }
   // Search() {
   //   this.FilteredDetails = this.Details.filter(value => value.domain.toLowerCase().includes(this.searchText.toLowerCase()) || value.subDomain.toLowerCase().includes(this.searchText.toLowerCase()) || value.C_CID.includes(this.searchText.toLowerCase()));
@@ -173,11 +173,11 @@ export class SummaryReportsComponent  implements OnInit {
       //pdf.output("dataurl","D:\test.pdf");
       // var send = { "MailIds": "kanakaiahrapelli@gmail.com", "Message": "Summary Reports" ,"Filename":filename}; //,ranjithbudida@gmail.com,bharathnathala@gmail.com
       var send = { "Message": "Summary Reports" ,"Filename":filename};    
-        this.service.apimail(send).subscribe(data => {
-        this.message = data;
-        alert(this.message);
-        //this.ishideData = false;
-      });
+      //   this.service.apimail(send).subscribe(data => {
+      //   this.message = data;
+      //   alert(this.message);
+      //   //this.ishideData = false;
+      // });
     });
     
   }

@@ -23,22 +23,14 @@
         <div>
           <label class="labeltext">Password</label><br/>
           <input [type] = "fieldTextType ? 'text' : 'password' "class="container" [(ngModel)]="password" />
-          <!-- <input type="password" [(ngModel)]="password" class="container"> -->
-          <!-- <span >
-            <i
-              class="fa"
-              [ngClass]="{
-                'fa-eye-slash': !fieldTextType,
-                'fa-eye': fieldTextType
-              }"
-              (click)="toggleFieldTextType()"
-            ></i>
-          </span> -->
+          <!-- <input class="form-control"[type]="fieldTextType ? 'text' : 'password'"name="password" placeholder="password"[(ngModel)]='password' required> -->
+
+          <span style="margin-left:-25PX"><i class="fa" [ngClass]="{ 'fa-eye-slash': !fieldTextType, 'fa-eye': fieldTextType }" (click)="toggleFieldTextType()"></i></span>
         </div>
-        <div style="vertical-align:auto;">
+        <!-- <div style="vertical-align:auto;">
           <input type="checkbox" (click)="toggleFieldTextType()" style="width: 20px; height: 20px;"/> &nbsp; &nbsp;
           <label class="labeltext">Show Password</label>  
-        </div>
+        </div> -->
       <br/>
       <input type="button" value="Login" (click)="login()" style="background-color: #02C27F; color:white;font-size: larger;" class="container">
       <br/><br/>

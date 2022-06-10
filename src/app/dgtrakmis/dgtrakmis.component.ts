@@ -1,32 +1,26 @@
-import { debugOutputAstAsTypeScript, ThrowStmt } from '@angular/compiler';
-import { mapToExpression } from '@angular/compiler/src/render3/view/util';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DgtrackserviceService } from '../dgtrackservice.service';
 import * as apexChart from '../js/apexchart.js';
-import { NgModule } from '@angular/core';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import { formatDate } from '@angular/common';
 import { MailconfigModelComponent } from '../Modals/mailconfig-model/mailconfig-model.component';
 import { data } from 'jquery';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 @Component({
   selector: 'app-dgtrakmis',
   templateUrl: './dgtrakmis.component.html',
   styleUrls: ['./dgtrakmis.component.css']
 })
 export class DGTRAKMISComponent implements OnInit {
-  ram:any=[];cpu:any=[];servername:any=[];
-  SSLCertificateData:any;
-  domainname:any=[];severity:any=[];ExpiryDate:any=[];
-  servername1:any;servername2:any;servername3:any;servername4:any;servername5:any;
+  ram: any = []; cpu: any = []; servername: any = [];
+  SSLCertificateData: any;
+  domainname: any = []; severity: any = []; ExpiryDate: any = [];
+  servername1: any; servername2: any; servername3: any; servername4: any; servername5: any;
   DateTime: any = []; Locations: any = []; Details: any = [];
   FilteredDetails: any = []; reporting: any = []; domain: any = [];
-  subDomain: any = []; tempReporting: any = []; searchText: any;
-  Devices:any = [];smscredits:any;
-  cpuload:any;
+  subDomain: any = []; tempReporting: any = []; searchText: any = "";
+  Devices: any = []; smscredits: any;
+  cpuload: any;
+  ResponseData: any;
   //hideData = false;
   selectValue: any; topval: any;
   @ViewChild('map') gmap: any;
@@ -36,119 +30,163 @@ export class DGTRAKMISComponent implements OnInit {
   public totalDevice = 0;
   public totalReporting = 0; public totalNotReporting = 0; public totalDomain = 0; public totalSubDomain = 0; public Regions = 0;
   constructor(private service: DgtrackserviceService,
-  private Router:Router
+    private Router: Router,
+    private _location: Location,
   ) { }
   message: any;
   ishideData = false;
   isLoading = false;
   //formattedDt = formatDate(new Date(), 'yyyy-MM-dd hh mm', 'en_US')//yyyy-MM-dd hh:mm:ssZZZZZ,private location:Location
-  
+
   inputs = { "uid": "idea", "pwd": "bytes" };
   //mailInputs: any;
   selectValue1 = 3;
   ngOnInit() {
-    //this.location.back();
+    this._location.back();
+    //cookies expiry
+    // var cookie = document.cookie.split(';');
+
+    // for (var i = 0; i < cookie.length; i++) {
+    //   debugger
+    //   var chip = cookie[i],
+    //     entry = chip.split("="),
+    //     name = entry[0];
+
+    //   document.cookie = name + '=;expires=' + new Date(0).toUTCString();
+    // }
+
+
+
+
     this.isLoading = true;
+
     this.service.apicall(this.inputs).subscribe(data => {
-      
-    
-      this.Details = data
+      debugger
+      this.ResponseData = data;
+      this.Details = this.ResponseData.CData;
+      this.SSLCertificateData = this.ResponseData.ssl;
+      this.DateTime = this.ResponseData.ReportTime;
+      this.Locations = this.ResponseData.Regions;
+      this.smscredits = this.ResponseData.SMSToken;
       if (data) {
         this.isLoading = false;
       }
-      this.FilteredDetails = this.Details;
-      for (var i = 0; i < this.Details.length; i++) {
-        this.totalDevice += parseInt(this.Details[i].totalDevice);
-        this.totalReporting += parseInt(this.Details[i].reporting);
-        this.totalNotReporting += parseInt(this.Details[i].notReporting);
-        this.subDomain.push(this.Details[i].subDomain);
-        this.domain.push(this.Details[i].domain);
-        this.totalSubDomain = parseInt(this.Details.length);
-        this.Devices.push(this.Details[i].reporting + "/" + this.Details[i].totalDevice);
-        if (parseInt(this.Details[i].reporting) == 0 || parseInt(this.Details[i].totalDevice) == 0) {
-          this.reporting.push(0);
-        }
-        else {
-          this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
-        }
-      }
+      this.sslCertificatDetails();
+      this.getTotalDetails();
       this.chartdata(this.selectValue1);
-    }
-    );
-    this.service.apiSSLCertificateDetails().subscribe(data => {
-      //debugger 
-      this.SSLCertificateData = data;
-      for(var sd = 0; sd < this.SSLCertificateData.length; sd++){
-       this.domainname.push(this.SSLCertificateData[sd].domain);
-       this.ExpiryDate.push(this.SSLCertificateData[sd].expTime);
-       this.severity.push(this.SSLCertificateData[sd].severity);
+      this.LocationData();
+    },
+      (error: any) => {
+        console.log(error.url);
+        this.isLoading = false;
+        // this.ngOnInit();
       }
-      
-    });
-    this.service.api91msgtokens().subscribe(data => {
-      if(data == "" || data == undefined || data == null){
-        this.smscredits = "N.A"
-      }
-      this.smscredits = data;
-    });
-    this.service.apicpuloadgetMethod().subscribe(data => {
-      this.cpuload = data;
-      console.log(data);
-    });
-    // this.service.apicpuloadgetMethod().subscribe(data =>{
-      
-    //   this.cpuload = data;
-    //   for(var cp = 0; cp < this.cpuload.length; cp++){
-        
-    //     this.servername.push(this.cpuload[cp].DomainName);
-    //     if(this.cpuload[cp].cpu_used ==null){
-    //       this.cpu.push("None");
-    //     }
-    //     else{
-    //       this.cpu.push(this.cpuload[cp].cpu_used);
-    //     }
-    //     this.ram.push(this.cpuload[cp].memoryused);
-    //   }
-    //   console.log(this.cpuload);
-    // });
-    this.service.datapost().subscribe(data => {
-      debugger
-      
-      this.DateTime = data;
 
-      console.log('27 > ' + this.DateTime.reportAt);
-    });
-    console.log('30 > ' + this.DateTime);
-    this.service.apicallLocation(this.inputs).subscribe(data => {
-      this.Locations = data
-      var locName = [], locArray = [], locLon = [];
-      var lat1 = "17.4295865";// this._commanService.getDefaultLat();
-      var lon1 = "78.3709647";// this._commanService.getDefaultLng();
-      var centerLatLng = new google.maps.LatLng(Number(lat1), Number(lon1));
-      //debugger
-      this.mapContainer = new google.maps.Map(this.gmap.nativeElement,
-        {
-          center: centerLatLng,
-          zoom: 1,
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          gestureHandling: 'greedy',
-          mapTypeControl: false,
-          streetViewControl: false,
-        }
-      );
-      var image = {
-        url: "https://cdn-0.emojis.wiki/emoji-pics/microsoft/blue-circle-microsoft.png",
-        scaledSize: new google.maps.Size(10, 10),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(0, 10),
-      };
-      this.Regions = this.Locations.length;
-      for (var loi = 0; loi < this.Locations.length; loi++) {
-        const titleLoc = this.Locations[loi].name;
-        this.marker = new google.maps.Marker({ icon: image, position: { lat: Number(this.Locations[loi].location.split(',')[0]), lng: Number(this.Locations[loi].location.split(',')[1]) }, map: this.mapContainer, title: titleLoc });
-      }
-    });
-    
+    );
+
+
+    // this.service.apiSSLCertificateDetails().subscribe(data => {
+    //   //debugger 
+    //   this.SSLCertificateData = data;
+    //   for (var sd = 0; sd < this.SSLCertificateData.length; sd++) {
+    //     this.domainname.push(this.SSLCertificateData[sd].domain);
+    //     this.ExpiryDate.push(this.SSLCertificateData[sd].expTime);
+    //     this.severity.push(this.SSLCertificateData[sd].severity);
+    //   }
+
+    // },
+    // (error:any)=>
+    // {
+    //   console.log(error.url);
+    //   //this.ngOnInit();
+    // }
+    // );
+
+    // this.service.api91msgtokens().subscribe(data => {
+    //   debugger
+    //   if (data == "" || data == undefined || data == null) {
+    //     this.smscredits = "N.A"
+    //   }
+    //   else{
+    //     this.smscredits = data;
+    //   }
+    // },
+    // (error:any)=>
+    // {
+    //   console.log(error.url);
+    //   //this.ngOnInit();
+    // }
+    // );
+    // // this.service.apicpuloadgetMethod().subscribe(data => {
+    // //   this.cpuload = data;
+    // //   console.log(data);
+    // // });
+    // // this.service.apicpuloadgetMethod().subscribe(data =>{
+
+    // //   this.cpuload = data;
+    // //   for(var cp = 0; cp < this.cpuload.length; cp++){
+
+    // //     this.servername.push(this.cpuload[cp].DomainName);
+    // //     if(this.cpuload[cp].cpu_used ==null){
+    // //       this.cpu.push("None");
+    // //     }
+    // //     else{
+    // //       this.cpu.push(this.cpuload[cp].cpu_used);
+    // //     }
+    // //     this.ram.push(this.cpuload[cp].memoryused);
+    // //   }
+    // //   console.log(this.cpuload);
+    // // });
+    // this.service.datapost().subscribe(data => {
+    //   debugger
+
+    //   this.DateTime = data;
+
+    //   //console.log('27 > ' + this.DateTime.reportAt);
+    // }, (error:any)=>
+    // {
+    //   console.log(error.url);
+    //   //this.ngOnInit();
+    // });
+    // //console.log('30 > ' + this.DateTime);
+
+    // this.service.apicallLocation(this.inputs).subscribe(data => {
+    //   debugger
+    //   this.Locations = data
+    //   var locName = [], locArray = [], locLon = [];
+    //   var lat1 = "17.4295865";// this._commanService.getDefaultLat();
+    //   var lon1 = "78.3709647";// this._commanService.getDefaultLng();
+    //   var centerLatLng = new google.maps.LatLng(Number(lat1), Number(lon1));
+    //   //debugger
+    //   this.mapContainer = new google.maps.Map(this.gmap.nativeElement,
+    //     {
+    //       center: centerLatLng,
+    //       zoom: 1,
+    //       mapTypeId: google.maps.MapTypeId.ROADMAP,
+    //       gestureHandling: 'greedy',
+    //       mapTypeControl: false,
+    //       streetViewControl: false,
+    //     }
+    //   );
+    //   var image = {
+    //     url: "https://cdn-0.emojis.wiki/emoji-pics/microsoft/blue-circle-microsoft.png",
+    //     scaledSize: new google.maps.Size(10, 10),
+    //     origin: new google.maps.Point(0, 0),
+    //     anchor: new google.maps.Point(0, 10),
+    //   };
+    //   this.Regions = this.Locations.length;
+    //   for (var loi = 0; loi < this.Locations.length; loi++) {
+    //     const titleLoc = this.Locations[loi].name;
+    //     this.marker = new google.maps.Marker({ icon: image, position: { lat: Number(this.Locations[loi].location.split(',')[0]), lng: Number(this.Locations[loi].location.split(',')[1]) }, map: this.mapContainer, title: titleLoc });
+    //   }
+    // },
+    // (error:any)=>
+    // {
+    //   console.log(error.url);
+    //   //this.ngOnInit();
+    // }
+    // );
+
   }
   Search() {
     this.FilteredDetails = this.Details.filter(value => value.domain.toLowerCase().includes(this.searchText.toLowerCase()) || value.subDomain.toLowerCase().includes(this.searchText.toLowerCase()) || value.C_CID.includes(this.searchText.toLowerCase()));
@@ -175,50 +213,38 @@ export class DGTRAKMISComponent implements OnInit {
       this.chartdata(this.selectValue1);
     }
   }
-  // download() {
-  //   debugger
-  //   //this.ishideData = true;
-  //   const input = document.getElementById('pdfGenerator');//Total Content pdfGenerator
-  //   var epochNow = (new Date).getTime();
-  //   var filename = "DGTRAK MIS REPORT"+ epochNow+".pdf";
-  //   var HTML_Width = input.clientWidth;
-  //   var HTML_Height = input.clientHeight;
-  //   var top_left_margin = 15;
-  //   var PDF_Width = HTML_Width + (top_left_margin * 2);
-  //   var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
-  //   var canvas_image_width = HTML_Width;
-  //   var canvas_image_height = HTML_Height;
-  //   var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-  //   html2canvas(input as any).then((canvas) => {
-  //     //canvas.getContext('2d');
-  //     console.log(canvas.height + "  " + canvas.width);
-  //     var imgData = canvas.toDataURL("image/jpeg", 1.0);
-  //     var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-  //     pdf.addImage(imgData, 'JPG', top_left_margin + 15, top_left_margin + 15, canvas_image_width, canvas_image_height);
-  //     // var pageCount = pdf.internal.getNumberOfPages(); //Total Page Number
-  //     // pdf.setFontSize(10);
-  //     // pdf.text('Copyright © Ideabytes®', 500, PDF_Height - 60, { baseline: 'bottom' });
-  //     // pdf.setFontSize(10);
-	//     // pdf.text('Checked By', 250, PDF_Height - 60, { baseline: 'bottom' });
-  //     // pdf.text('Reviewed By', 50, PDF_Height - 60, { baseline: 'bottom' });
-  //     // pdf.text('Page ' + 1 + ' of ' + String(pageCount) , PDF_Width - 180, PDF_Height - 60);
-  //     for (var i = 1; i <= totalPDFPages; i++) {
-  //       pdf.addPage();
-  //       pdf.addImage(imgData, 'JPG', top_left_margin + 15, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
-  //     }
-  //     pdf.save(filename);
-  //     var send = { "MailIds": "kanakaiahrapelli@gmail.com", "Message": "Summary Reports" ,"Filename":filename}; //,ranjithbudida@gmail.com,bharathnathala@gmail.com
-  //     this.service.apimail(send).subscribe(data => {
-  //       this.message = data;
-  //       alert(this.message);
-  //       //this.ishideData = false;
-  //     });
-  //   });
-  // };
-  Logout(){
-    localStorage.clear();
-    this.Router.navigate(['./']);
-    
+  getTotalDetails() {
+    debugger
+    this.FilteredDetails = this.Details;
+    for (var i = 0; i < this.Details.length; i++) {
+      this.totalDevice += parseInt(this.Details[i].totalDevice);
+      this.totalReporting += parseInt(this.Details[i].reporting);
+      this.totalNotReporting += parseInt(this.Details[i].notReporting);
+      this.subDomain.push(this.Details[i].subDomain);
+      this.domain.push(this.Details[i].domain);
+      this.totalSubDomain = parseInt(this.Details.length);
+      this.Devices.push(this.Details[i].reporting + "/" + this.Details[i].totalDevice);
+      if (parseInt(this.Details[i].reporting) == 0 || parseInt(this.Details[i].totalDevice) == 0) {
+        this.reporting.push(0);
+      }
+      else {
+        this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
+      }
+    }
+  }
+  Logout() {
+    debugger
+    if (localStorage.getItem("centralLogin") == "central") {
+      localStorage.clear();
+      window.location.href = 'https://adminiot.iotsolution.net/Central_Dashboard/Dashboard'
+      //this.Router.navigateByUrl("https://adminiot.iotsolution.net/ClientSummary/DgTrakmis");
+    }
+    else {
+      localStorage.clear();
+      this.Router.navigate(['./']);
+    }
+    //localStorage.clear();
+    //this.Router.navigate(['./']);
   }
   chartdata(selectValue1: any) {
     function onlyUnique(value, index, self) {
@@ -226,9 +252,9 @@ export class DGTRAKMISComponent implements OnInit {
     }
     var unique = this.domain.filter(onlyUnique);
     this.totalDomain = unique.length;
-    
+
     for (var ic = 0; ic < unique.length; ic++) {
-      
+
       // for(var cp = 0; cp < this.cpuload.length; cp++){
       //   debugger
       //   if(unique[ic] == this.cpuload[cp].DomainName){
@@ -360,4 +386,43 @@ export class DGTRAKMISComponent implements OnInit {
     //   this.download()
     // }, 5000);
   }
+  sslCertificatDetails() {
+    for (var sd = 0; sd < this.SSLCertificateData.length; sd++) {
+      this.domainname.push(this.SSLCertificateData[sd].domain);
+      this.ExpiryDate.push(this.SSLCertificateData[sd].expTime);
+      this.severity.push(this.SSLCertificateData[sd].severity);
+    }
+  }
+  LocationData() {
+    var locName = [], locArray = [], locLon = [];
+    var lat1 = "17.4295865";// this._commanService.getDefaultLat();
+    var lon1 = "78.3709647";// this._commanService.getDefaultLng();
+    var centerLatLng = new google.maps.LatLng(Number(lat1), Number(lon1));
+    //debugger
+    this.mapContainer = new google.maps.Map(this.gmap.nativeElement,
+      {
+        center: centerLatLng,
+        zoom: 1,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        gestureHandling: 'greedy',
+        mapTypeControl: false,
+        streetViewControl: false,
+      }
+    );
+    var image = {
+      url: "https://cdn-0.emojis.wiki/emoji-pics/microsoft/blue-circle-microsoft.png",
+      scaledSize: new google.maps.Size(10, 10),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(0, 10),
+    };
+    this.Regions = this.Locations.length;
+    for (var loi = 0; loi < this.Locations.length; loi++) {
+      const titleLoc = this.Locations[loi].name;
+      this.marker = new google.maps.Marker({ icon: image, position: { lat: Number(this.Locations[loi].location.split(',')[0]), lng: Number(this.Locations[loi].location.split(',')[1]) }, map: this.mapContainer, title: titleLoc });
+    }
+  }
+
+
 }
+
+
