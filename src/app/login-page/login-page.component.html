@@ -1,6 +1,10 @@
-<body style="background-color: lightgray;">
+<!-- <body style="background-color: lightgray;">
 
-  <!-- <div class="text-center">
+ 
+</body> -->
+<!-- <app-loading *ngIf="isLoading"></app-loading> -->
+
+ <!-- <div class="text-center">
     <input class="form-control" type="file" 
             (change)="onChange($event)">
   
@@ -10,32 +14,37 @@
     </button>
 </div> -->
 <!-- <label>{{this.data.Status}}{{this.data.Message}}</label> -->
-
-
-  <div class = "login">
-    <!-- <Label>SUMMARY PORTAL</Label><br/> -->
-    <!-- <h4>SUMMARY PORTAL</h4> -->
-    <div style="margin-left:5%;margin-top:15%">
-      <div>
-        <label class="labeltext">User ID</label><br/>
-        <input type="text" [(ngModel)]="username"  class="container">
-      </div>
-        <div>
-          <label class="labeltext">Password</label><br/>
-          <input [type] = "fieldTextType ? 'text' : 'password' "class="container" [(ngModel)]="password" />
+<!-- <div style="vertical-align:auto;">
+      <input type="checkbox" (click)="toggleFieldTextType()" style="width: 20px; height: 20px;"/> &nbsp; &nbsp;
+      <label class="labeltext">Show Password</label>  
+    </div> -->
           <!-- <input class="form-control"[type]="fieldTextType ? 'text' : 'password'"name="password" placeholder="password"[(ngModel)]='password' required> -->
 
-          <span style="margin-left:-25PX"><i class="fa" [ngClass]="{ 'fa-eye-slash': !fieldTextType, 'fa-eye': fieldTextType }" (click)="toggleFieldTextType()"></i></span>
+
+
+<div class = "login">
+  <div class="float-child1" style="background-image: url('https://adminiot.iotsolution.net/Ticket_Files/summaryImages/analytics.jpg');background-position: center; background-repeat: no-repeat;background-size:cover;position: relative;width: 60%;height: 100%;">
+
+  </div>
+  <div class="float-child2" style="background-color: white;;height:100%">
+    <div>
+      <div style="margin-left: 10%;margin-top: 25%;">
+        <input type="image" src="https://adminiot.dgtrak.online/FTP_Sensorcnt/domain/ib.png" class="logo" style="width: 50%;margin-left: 76px;" />
+        <br/><br/>
+        <div>
+          <label class="labeltext">User ID</label><br/>
+          <input type="text" [(ngModel)]="username"  class="container">
         </div>
-        <!-- <div style="vertical-align:auto;">
-          <input type="checkbox" (click)="toggleFieldTextType()" style="width: 20px; height: 20px;"/> &nbsp; &nbsp;
-          <label class="labeltext">Show Password</label>  
-        </div> -->
-      <br/>
-      <input type="button" value="Login" (click)="login()" style="background-color: #02C27F; color:white;font-size: larger;" class="container">
-      <br/><br/>
-      <input type="image" src="https://adminiot.dgtrak.online/FTP_Sensorcnt/domain/ib.png" class="logo" style="width: 50%;margin-left: 76px;" />
+          <div>
+            <label class="labeltext">Password</label><br/>
+            <input [type] = "fieldTextType ? 'text' : 'password' "class="container" [(ngModel)]="password" />
+      
+            <span style="margin-left:-25PX"><i class="fa" [ngClass]="{ 'fa-eye-slash': !fieldTextType, 'fa-eye': fieldTextType }" (click)="toggleFieldTextType()"></i></span>
+          </div>
+          
+        <br/>
+        <input type="button" value="Login" (click)="login()" style="background-color: #02C27F; color:white;font-size: larger;" class="container">
+      </div>
     </div>
   </div>
-</body>
-<!-- <app-loading *ngIf="isLoading"></app-loading> -->
+</div>

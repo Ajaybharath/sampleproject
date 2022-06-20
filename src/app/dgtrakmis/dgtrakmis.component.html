@@ -84,9 +84,16 @@
   </div>
 </div>-->
 <app-loading *ngIf="isLoading"></app-loading>
-<div id="Total Content" style="background-color: #fff;">
-  <header><h1 class="col-md-11">DG Trak MIS Report</h1><h1 style="height: 33px" class="col-md-1"><span (click)="Logout()" id="B-logout" ><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></span></h1></header>
-  <br/><br/>
+<div id="Total Content" style="background-color: #fff;background-image: none;">
+  <br/>
+  <div class="topnav">
+    <div class="col-md-4" style="padding-top:1px ;"><span><img src="https://ideabytesiot.com/icn/ideabytes-iot.png" style="border: 2px solid #696969;background-color: white; width: 50%;"/></span></div>
+    <div class="col-md-6" style="color:white;font-family:'Times New Roman';font-size:30px">Ideabytes IoT MIS Report</div>
+    <div class="col-md-2" style="margin-top:8px;"><h1 style="text-align:center;margin-top:0"><span (click)="Logout()" id="B-logout"><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></span></h1></div>
+    <!-- <h1 class="col-md-11">Ideabytes IoT MIS Report</h1> -->
+  </div>
+  <!-- <header><h1 class="col-md-11">Ideabytes IoT MIS Report</h1><h1 style="height: 33px" class="col-md-1"><span (click)="Logout()" id="B-logout" ><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></span></h1></header> -->
+  <br/>
   <!-- <div style="background-color: #696969; width:50%; height:40px"><h1>DG Trak MIS Report</h1><h1 (click)="Logout()"><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></h1></div> -->
   <!-- <h1>DG Trak MIS Report <span (click)="Logout()"><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></span></h1>  -->
   <div class="table1" id="table1">
@@ -246,7 +253,7 @@
           <!-- <label style="padding-left: 50px;">Severity:<span>{{this.severity[1]}}</span></label> -->
         </div>
         <br />
-        <div id="chart5"></div>
+        <div id="chart3"></div>
       </div>
       <div class="child-chart1">
         <!-- <div style="text-align: center;">
@@ -261,7 +268,7 @@
           <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span  [ngStyle]="{'color': (this.severity[4] == 'low') ? '#4caf50' : (this.severity[4] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[4]}}</span></label>&nbsp;&nbsp;
         </div>
         <br />
-        <div id="chart2"></div>
+        <div id="chart4"></div>
       </div>
     </div>
     <div class="parent-chart2">
@@ -279,7 +286,7 @@
           <!-- <label style="padding-left: 160px;">Severity:<span>{{this.severity[3]}}</span></label> -->
         </div>
         <br />
-        <div id="chart3"></div>
+        <div id="chart5"></div>
       </div>
       <div class="child-chart1">
         <!-- <div style="text-align: center;">
@@ -295,7 +302,7 @@
           <!-- <label style="padding-left: 50px;">Severity:<span>{{this.severity[0]}}</span></label> -->
         </div>
         <br />
-        <div id="chart4"></div>
+        <div id="chart1"></div>
       </div>
     </div>
     <div class="parent-chart3">
@@ -313,7 +320,7 @@
           <!-- <label style="padding-left: 50px;">Severity:<span>{{this.severity[2]}}</span></label> -->
         </div>
         <br />
-        <div id="chart1"></div>
+        <div id="chart2"></div>
       </div>
       <div id="chart6" class="child-chart1"></div>
     </div>

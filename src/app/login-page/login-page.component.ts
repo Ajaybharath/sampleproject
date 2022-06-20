@@ -51,6 +51,7 @@ export class LoginPageComponent implements OnInit {
   // onChange(event) {
   //   this.file = event.target.files[0];
   // }
+ 
 
   // // OnClick of button Upload
   // onUpload() {

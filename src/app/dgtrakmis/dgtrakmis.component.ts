@@ -42,6 +42,7 @@ export class DGTRAKMISComponent implements OnInit {
   //mailInputs: any;
   selectValue1 = 3;
   ngOnInit() {
+    debugger
     this._location.back();
     //cookies expiry
     // var cookie = document.cookie.split(';');
@@ -247,10 +248,11 @@ export class DGTRAKMISComponent implements OnInit {
     //this.Router.navigate(['./']);
   }
   chartdata(selectValue1: any) {
+    debugger
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
     }
-    var unique = this.domain.filter(onlyUnique);
+    var unique = this.domain.filter(onlyUnique).sort();
     this.totalDomain = unique.length;
 
     for (var ic = 0; ic < unique.length; ic++) {
