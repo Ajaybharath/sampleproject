@@ -19,7 +19,7 @@ export class DGTRAKMISComponent implements OnInit {
   FilteredDetails: any = []; reporting: any = []; domain: any = [];
   subDomain: any = []; tempReporting: any = []; searchText: any = "";
   Devices: any = []; smscredits: any;
-  cpuload: any;
+  cpuload: any; logkey: any;
   ResponseData: any;
   //hideData = false;
   selectValue: any; topval: any;
@@ -36,6 +36,7 @@ export class DGTRAKMISComponent implements OnInit {
   message: any;
   ishideData = false;
   isLoading = false;
+  hidelogout: boolean = false;
   //formattedDt = formatDate(new Date(), 'yyyy-MM-dd hh mm', 'en_US')//yyyy-MM-dd hh:mm:ssZZZZZ,private location:Location
 
   inputs = { "uid": "idea", "pwd": "bytes" };
@@ -43,6 +44,8 @@ export class DGTRAKMISComponent implements OnInit {
   selectValue1 = 3;
   ngOnInit() {
     debugger
+    this.hidelogout = Boolean(localStorage.getItem('login'));
+
     this._location.back();
     //cookies expiry
     // var cookie = document.cookie.split(';');
@@ -57,7 +60,7 @@ export class DGTRAKMISComponent implements OnInit {
     // }
 
 
-
+    this.windowsclose();
 
     this.isLoading = true;
 
@@ -190,12 +193,15 @@ export class DGTRAKMISComponent implements OnInit {
 
   }
   Search() {
+    this.windowsclose();
     this.FilteredDetails = this.Details.filter(value => value.domain.toLowerCase().includes(this.searchText.toLowerCase()) || value.subDomain.toLowerCase().includes(this.searchText.toLowerCase()) || value.C_CID.includes(this.searchText.toLowerCase()));
   }
   mailConfig() {
+    this.windowsclose();
     this.Modals.open();
   }
   select() {
+    this.windowsclose();
     var value = this.selectValue;
     if (value == "Top Five subDomain") {
       this.selectValue1 = 5;
@@ -214,6 +220,23 @@ export class DGTRAKMISComponent implements OnInit {
       this.chartdata(this.selectValue1);
     }
   }
+  windowsclose() {
+    debugger
+    var cs = [];
+    cs = document.cookie.split('; ');
+    //console.log(cs);
+    var key = cs.forEach(element => {
+      if (element.startsWith("logout=")) {
+        this.logkey = element.split("=")[1];
+      }
+    });
+    //console.log(this.logkey);
+    if (this.logkey == "im_going") {
+      localStorage.clear();
+      window.location.reload()
+    }
+  }
+
   getTotalDetails() {
     debugger
     this.FilteredDetails = this.Details;
@@ -389,6 +412,7 @@ export class DGTRAKMISComponent implements OnInit {
     // }, 5000);
   }
   sslCertificatDetails() {
+    //debugger
     for (var sd = 0; sd < this.SSLCertificateData.length; sd++) {
       this.domainname.push(this.SSLCertificateData[sd].domain);
       this.ExpiryDate.push(this.SSLCertificateData[sd].expTime);
