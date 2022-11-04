@@ -117,8 +117,8 @@
         <td style="background-color:	rgb(76, 175, 80);" class="size">Regions/Loc.<br />
           <div class="size1">{{Regions}}</div>
         </td>&nbsp;
-        <td style="background-color: #daf1de; color: black; border:1px black" class="size">SMS Credits<br />
-          <div class="size1" [ngStyle]="{'color': (smscredits>5000) ? '#4caf50' : (smscredits<5000 && smscredits>999) ? '#EF820D' : (smscredits<1000) ? '#ed0231':'black'}" >{{smscredits}}</div>
+        <td style="background-color: #daf1de; color: black; border:1px black" class="size">SMS Balance(₹)<br />
+          <div class="size1" [ngStyle]="{'color': (smscredits>750) ? '#4caf50' : (smscredits<750 && smscredits>499) ? '#EF820D' : (smscredits<500) ? '#ed0231':'black'}" >{{smscredits}}</div>
         </td>&nbsp;
         <td style="background-color:	rgb(95, 143, 247);" class="reportAt">
           <div style="font-size: 15px;">@{{DateTime}}</div>
