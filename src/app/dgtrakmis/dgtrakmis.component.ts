@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { DgtrackserviceService } from '../dgtrackservice.service';
 import * as apexChart from '../js/apexchart.js';
 import { MailconfigModelComponent } from '../Modals/mailconfig-model/mailconfig-model.component';
@@ -35,6 +35,7 @@ export class DGTRAKMISComponent implements OnInit {
   ) { }
   message: any;
   ishideData = false;
+  licenseTableDetails:any;
   isLoading = false;
   hidelogout: boolean = false;
   //formattedDt = formatDate(new Date(), 'yyyy-MM-dd hh mm', 'en_US')//yyyy-MM-dd hh:mm:ssZZZZZ,private location:Location
@@ -43,7 +44,6 @@ export class DGTRAKMISComponent implements OnInit {
   //mailInputs: any;
   selectValue1 = 3;
   ngOnInit() {
-    debugger
     this.hidelogout = Boolean(localStorage.getItem('login'));
 
     this._location.back();
@@ -51,7 +51,7 @@ export class DGTRAKMISComponent implements OnInit {
     // var cookie = document.cookie.split(';');
 
     // for (var i = 0; i < cookie.length; i++) {
-    //   debugger
+    //   
     //   var chip = cookie[i],
     //     entry = chip.split("="),
     //     name = entry[0];
@@ -65,7 +65,6 @@ export class DGTRAKMISComponent implements OnInit {
     this.isLoading = true;
 
     this.service.apicall(this.inputs).subscribe(data => {
-      debugger
       this.ResponseData = data;
       this.Details = this.ResponseData.CData;
       this.SSLCertificateData = this.ResponseData.ssl;
@@ -77,7 +76,6 @@ export class DGTRAKMISComponent implements OnInit {
       }
       this.sslCertificatDetails();
       this.getTotalDetails();
-      this.chartdata(this.selectValue1);
       this.LocationData();
     },
       (error: any) => {
@@ -90,7 +88,7 @@ export class DGTRAKMISComponent implements OnInit {
 
 
     // this.service.apiSSLCertificateDetails().subscribe(data => {
-    //   //debugger 
+    //   // 
     //   this.SSLCertificateData = data;
     //   for (var sd = 0; sd < this.SSLCertificateData.length; sd++) {
     //     this.domainname.push(this.SSLCertificateData[sd].domain);
@@ -107,7 +105,7 @@ export class DGTRAKMISComponent implements OnInit {
     // );
 
     // this.service.api91msgtokens().subscribe(data => {
-    //   debugger
+    //   
     //   if (data == "" || data == undefined || data == null) {
     //     this.smscredits = "N.A"
     //   }
@@ -142,7 +140,7 @@ export class DGTRAKMISComponent implements OnInit {
     // //   console.log(this.cpuload);
     // // });
     // this.service.datapost().subscribe(data => {
-    //   debugger
+    //   
 
     //   this.DateTime = data;
 
@@ -155,13 +153,13 @@ export class DGTRAKMISComponent implements OnInit {
     // //console.log('30 > ' + this.DateTime);
 
     // this.service.apicallLocation(this.inputs).subscribe(data => {
-    //   debugger
+    //   
     //   this.Locations = data
     //   var locName = [], locArray = [], locLon = [];
     //   var lat1 = "17.4295865";// this._commanService.getDefaultLat();
     //   var lon1 = "78.3709647";// this._commanService.getDefaultLng();
     //   var centerLatLng = new google.maps.LatLng(Number(lat1), Number(lon1));
-    //   //debugger
+    //   //
     //   this.mapContainer = new google.maps.Map(this.gmap.nativeElement,
     //     {
     //       center: centerLatLng,
@@ -192,9 +190,61 @@ export class DGTRAKMISComponent implements OnInit {
     // );
 
   }
+  //customerMobileNumber:any;
+  customerName:any;
+  customerEmailId:any;
+  customerId:any;
+  licenseTable:any;
+  fromDateTime:any;
+  today: Date = new Date();
+  currentYear: number = this.today.getFullYear();
+  currentMonth: number = this.today.getMonth();
+  currentDay: number = this.today.getDate();
+  currentTime: number = this.today.getHours();
+  currentMinute:number = this.today.getMinutes();
+  minDate: any;// =  new Date(this.currentYear, this.currentMonth, this.currentDay);
+  getClientId(clientId:any){
+    debugger
+    this.minDate = this.today.getFullYear() + "-0" +  (this.today.getMonth() + 1).toString() + "-" + this.today.getDate();
+    //this.minDate = "2023-03-21";
+    this.customerId = clientId;
+    this.licenseTable = this.licenseTableDetails.filter(value => value.clientId.toLowerCase().includes(this.customerId));
+  }
+  generateLicense(){
+    if(!this.customerEmailId){
+      alert('Please Enter Customer EmailId');
+    }
+    else if(!this.customerName){
+      alert('Please Enter Customer Name');
+    }
+    // else if(!this.customerMobileNumber){
+    //   alert('Please Enter Customer Mobile Number');
+    // }
+    else {
+      debugger
+      //ilter(value => value.clientId.toLowerCase().includes(this.customerId)to
+      var count = this.licenseTable.filter(value => value.customerName.toLowerCase().includes(this.customerName.toLowerCase())&&value.customerMailId.toLowerCase().includes(this.customerEmailId.toLowerCase())).length;//&&value.customerMobileNumber.toLowerCase().includes(this.customerMobileNumber.toLowerCase())
+      if(count == 1){
+        alert('Customer already Exist!!');
+      }
+      else {
+        var send = { "customerId": this.customerId ,"customerName":this.customerName, "customerMailId":this.customerEmailId};//, "customerMobileNumber":this.customerMobileNumber    
+        this.service.apiinsertLicense(send).subscribe(data => {
+          if(data == "updated"){
+            alert('License Generated Sucessfully!!');
+            this.customerEmailId = "";
+            //this.customerMobileNumber = "";
+            this.customerName = "";
+            this.getTotalDetails();
+          }
+        });
+      }
+    }
+  }
   Search() {
     this.windowsclose();
-    this.FilteredDetails = this.Details.filter(value => value.domain.toLowerCase().includes(this.searchText.toLowerCase()) || value.subDomain.toLowerCase().includes(this.searchText.toLowerCase()) || value.C_CID.includes(this.searchText.toLowerCase()));
+    //this.FilteredDetails = this.Details.filter(value => value.domain.toLowerCase().includes(this.searchText.toLowerCase()) || value.subDomain.toLowerCase().includes(this.searchText.toLowerCase()) || value.C_CID.includes(this.searchText.toLowerCase()));
+    this.FilteredDetails = this.TableDetails.filter(value => value.domain.toLowerCase().includes(this.searchText.toLowerCase()) || value.subDomain.toLowerCase().includes(this.searchText.toLowerCase()) || value.C_CID.includes(this.searchText.toLowerCase()));
   }
   mailConfig() {
     this.windowsclose();
@@ -221,7 +271,6 @@ export class DGTRAKMISComponent implements OnInit {
     }
   }
   windowsclose() {
-    debugger
     var cs = [];
     cs = document.cookie.split('; ');
     //console.log(cs);
@@ -236,28 +285,49 @@ export class DGTRAKMISComponent implements OnInit {
       window.location.reload()
     }
   }
-
+  TableDetails = [];
   getTotalDetails() {
-    debugger
-    this.FilteredDetails = this.Details;
-    for (var i = 0; i < this.Details.length; i++) {
-      this.totalDevice += parseInt(this.Details[i].totalDevice);
-      this.totalReporting += parseInt(this.Details[i].reporting);
-      this.totalNotReporting += parseInt(this.Details[i].notReporting);
-      this.subDomain.push(this.Details[i].subDomain);
-      this.domain.push(this.Details[i].domain);
-      this.totalSubDomain = parseInt(this.Details.length);
-      this.Devices.push(this.Details[i].reporting + "/" + this.Details[i].totalDevice);
-      if (parseInt(this.Details[i].reporting) == 0 || parseInt(this.Details[i].totalDevice) == 0) {
-        this.reporting.push(0);
+    this.service.apiGetLicenseTable().subscribe(data => {
+      this.licenseTableDetails = data;
+      var licenseCount: number = 0;
+      this.TableDetails = [];
+      this.Details.forEach(element => {
+
+        licenseCount = this.licenseTableDetails.filter(value => value.clientId.toLowerCase().includes(element.C_CID)).length;
+        let data = {"C_CID":element.C_CID,
+        "domain" : element.domain,
+        "portal": element.portal,
+        "subDomain" : element.subDomain,
+         "ReportingTot" : element.ReportingTot,
+        "notReporting" : element.notReporting,
+        "Good" : element.Good,
+        "Warning" : element.Warning,
+        "Critical" : element.Critical,
+        "License":licenseCount
+        }
+        this.TableDetails.push(data);
+      });
+      this.licenseTable = this.licenseTableDetails.filter(value => value.clientId.toLowerCase().includes(this.customerId)); 
+      this.FilteredDetails = this.TableDetails;
+      for (var i = 0; i < this.Details.length; i++) {
+        this.totalDevice += parseInt(this.Details[i].totalDevice);
+        this.totalReporting += parseInt(this.Details[i].reporting);
+        this.totalNotReporting += parseInt(this.Details[i].notReporting);
+        this.subDomain.push(this.Details[i].subDomain);
+        this.domain.push(this.Details[i].domain);
+        this.totalSubDomain = parseInt(this.Details.length);
+        this.Devices.push(this.Details[i].reporting + "/" + this.Details[i].totalDevice);
+        if (parseInt(this.Details[i].reporting) == 0 || parseInt(this.Details[i].totalDevice) == 0) {
+          this.reporting.push(0);
+        }
+        else {
+          this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
+        }
       }
-      else {
-        this.reporting.push(Math.round(parseInt(this.Details[i].reporting) / parseInt(this.Details[i].totalDevice) * 100));
-      }
-    }
+      this.chartdata(this.selectValue1);
+    });
   }
   Logout() {
-    debugger
     if (localStorage.getItem("centralLogin") == "central") {
       localStorage.clear();
       window.location.href = 'https://adminiot.iotsolution.net/Central_Dashboard/Dashboard'
@@ -271,7 +341,6 @@ export class DGTRAKMISComponent implements OnInit {
     //this.Router.navigate(['./']);
   }
   chartdata(selectValue1: any) {
-    debugger
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
     }
@@ -281,7 +350,7 @@ export class DGTRAKMISComponent implements OnInit {
     for (var ic = 0; ic < unique.length; ic++) {
 
       // for(var cp = 0; cp < this.cpuload.length; cp++){
-      //   debugger
+      //   
       //   if(unique[ic] == this.cpuload[cp].DomainName){
       //     //var legend = "Domain:" + this.cpuload[cp].DomainName +"   "+"CPU:"+this.cpuload[cp].cpu_used +"%"+"   "+"RAM:"+ this.cpuload[cp].memoryused+"%";
       //     // this.ram1 = this.cpuload[cp].memoryused;
@@ -347,7 +416,6 @@ export class DGTRAKMISComponent implements OnInit {
         top3warning.push(warningState[top3ReportingIndex[ri]]);
         top3critical.push(criticalState[top3ReportingIndex[ri]]);
       }
-      //debugger
       var chartOptions = {
         series: [{
           name: 'Total',
@@ -412,7 +480,7 @@ export class DGTRAKMISComponent implements OnInit {
     // }, 5000);
   }
   sslCertificatDetails() {
-    //debugger
+    //
     for (var sd = 0; sd < this.SSLCertificateData.length; sd++) {
       this.domainname.push(this.SSLCertificateData[sd].domain);
       this.ExpiryDate.push(this.SSLCertificateData[sd].expTime);
@@ -424,7 +492,7 @@ export class DGTRAKMISComponent implements OnInit {
     var lat1 = "17.4295865";// this._commanService.getDefaultLat();
     var lon1 = "78.3709647";// this._commanService.getDefaultLng();
     var centerLatLng = new google.maps.LatLng(Number(lat1), Number(lon1));
-    //debugger
+    //
     this.mapContainer = new google.maps.Map(this.gmap.nativeElement,
       {
         center: centerLatLng,

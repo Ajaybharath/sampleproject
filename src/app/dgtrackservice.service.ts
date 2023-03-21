@@ -7,10 +7,11 @@ import { Injectable } from '@angular/core';
 export class DgtrackserviceService {
 
   constructor(private _http: HttpClient) { }
-  
+ // url = 'https://adminiot.iotsolution.net/summarydetails/API/TotalClientData/';
+ url = 'https://localhost:44308/API/TotalClientData/';
   apicall(inputs: any) {
     debugger
-    let url='https://adminiot.iotsolution.net/summarydetails/API/TotalClientData/ClientData';
+    //let url='https://adminiot.iotsolution.net/summarydetails/API/TotalClientData/ClientData';
     //let url = 'https://localhost:44308/API/TotalClientData/ClientData';
 
     const headers = { 'Content-Type': 'application/json' };
@@ -18,7 +19,7 @@ export class DgtrackserviceService {
     const body = JSON.stringify(inputs);
 
     //console.log(body);
-    return this._http.post(url, body, { 'headers': headers });
+    return this._http.post(this.url + 'ClientData', body, { 'headers': headers });
   }
   // apimail(mailInputs: any) {
   //   //https://adminiot.iotsolution.net/summarydetails/API/Client/SendMail
@@ -34,21 +35,33 @@ export class DgtrackserviceService {
   apimailconfig(mailConfigInputs) {
     debugger
     //let url = 'https://localhost:44323/API/Client/MailConfig';
-    let url =  'https://adminiot.iotsolution.net/summarydetails/API/TotalClientData/MailConfig';
+    //let url =  'https://adminiot.iotsolution.net/summarydetails/API/TotalClientData/MailConfig';
 
     const headers = { 'Content-Type': 'application/json' };
 
     const body = JSON.stringify(mailConfigInputs);
 
     //console.log(body);
-    return this._http.post(url, body, { 'headers': headers });
+    return this._http.post(this.url + 'MailConfig', body, { 'headers': headers });
   }
   apiaccess(){
     debugger
     var obj: any = [];
     //let url = 'https://localhost:44323/API/Client/Access'
-    let url = 'https://adminiot.iotsolution.net/summarydetails/API/TotalClientData/Access';
-    return this._http.post(url, obj);
+    //let url = 'https://adminiot.iotsolution.net/summarydetails/API/TotalClientData/Access';
+    return this._http.post(this.url + 'Access', obj);
+  }
+  apiGetLicenseTable(){
+    
+    return this._http.get(this.url + 'GetLicenseTable');
+  }
+  apiinsertLicense(licenseDetails){
+    const headers = { 'Content-Type': 'application/json' };
+
+    const body = JSON.stringify(licenseDetails);
+
+    //console.log(body);
+    return this._http.post(this.url + 'InsertLicense', body, { 'headers': headers });
   }
   getacceskey() {
 

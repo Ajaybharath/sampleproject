@@ -85,15 +85,20 @@
 </div>-->
 <app-loading *ngIf="isLoading"></app-loading>
 <div id="Total Content" style="background-color: #fff;background-image: none;">
-  <br/>
+  <br />
   <div class="topnav">
-    <div class="col-md-4" style="padding-top:1px ;"><span><img src="https://ideabytesiot.com/icn/ideabytes-iot.png" style="border: 2px solid #696969;background-color: white; width: 50%;"/></span></div>
-    <div class="col-md-6" style="color:white;font-family:'Times New Roman';font-size:30px">Ideabytes IoT MIS Report</div>
-    <div class="col-md-2" style="margin-top:8px;"><h1 style="text-align:center;margin-top:0" [hidden]="hidelogout"><span (click)="Logout()" id="B-logout"><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></span></h1></div>
+    <div class="col-md-4" style="padding-top:1px ;"><span><img src="https://ideabytesiot.com/icn/ideabytes-iot.png"
+          style="border: 2px solid #696969;background-color: white; width: 50%;" /></span></div>
+    <div class="col-md-6" style="color:white;font-family:'Times New Roman';font-size:30px">Ideabytes IoT MIS Report
+    </div>
+    <div class="col-md-2" style="margin-top:8px;">
+      <h1 style="text-align:center;margin-top:0" [hidden]="hidelogout"><span (click)="Logout()" id="B-logout"><i
+            class="fa fa-sign-out" aria-hidden="true" title="Logout"></i></span></h1>
+    </div>
     <!-- <h1 class="col-md-11">Ideabytes IoT MIS Report</h1> -->
   </div>
   <!-- <header><h1 class="col-md-11">Ideabytes IoT MIS Report</h1><h1 style="height: 33px" class="col-md-1"><span (click)="Logout()" id="B-logout" ><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></span></h1></header> -->
-  <br/>
+  <br />
   <!-- <div style="background-color: #696969; width:50%; height:40px"><h1>DG Trak MIS Report</h1><h1 (click)="Logout()"><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></h1></div> -->
   <!-- <h1>DG Trak MIS Report <span (click)="Logout()"><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></span></h1>  -->
   <div class="table1" id="table1">
@@ -118,7 +123,9 @@
           <div class="size1">{{Regions}}</div>
         </td>&nbsp;
         <td style="background-color: #daf1de; color: black; border:1px black" class="size">SMS Balance(₹)<br />
-          <div class="size1" [ngStyle]="{'color': (smscredits>750) ? '#4caf50' : (smscredits<750 && smscredits>499) ? '#EF820D' : (smscredits<500) ? '#ed0231':'black'}" >{{smscredits}}</div>
+          <div class="size1"
+            [ngStyle]="{'color': (smscredits>750) ? '#4caf50' : (smscredits<750 && smscredits>499) ? '#EF820D' : (smscredits<500) ? '#ed0231':'black'}">
+            {{smscredits}}</div>
         </td>&nbsp;
         <td style="background-color:	rgb(95, 143, 247);" class="reportAt">
           <div style="font-size: 15px;">@{{DateTime}}</div>
@@ -168,6 +175,9 @@
               <th style="width:100px;text-align: center;">Good</th>
               <th style="width:100px;text-align: center;">warning</th>
               <th style="width:100px;text-align: center;">Critical</th>
+              <th style="width:100px;text-align: center;">License</th>
+              <!-- <th style="width:100px;text-align: center;">Active</th>
+              <th style="width:100px;text-align: center;">InActive</th> -->
               <!-- <th style="width:100px">More</th>
                 <th style="width:100px">More2</th> -->
             </tr>
@@ -176,7 +186,8 @@
             [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
             <td style="width:34px;text-align: center;">{{i+1}}.</td>
             <td style="width:100px;text-align: center;">{{user.C_CID}}</td>
-            <td style="overflow: hidden; text-align: center;text-overflow: ellipsis;white-space: nowrap;width: 200px;">{{user.domain}}
+            <td style="overflow: hidden; text-align: center;text-overflow: ellipsis;white-space: nowrap;width: 200px;">
+              {{user.domain}}
             </td>
             <td style="width:154px;text-align: center;"><a href="{{user.portal}}" target="_blank"
                 rel="noopener noreferrer">{{user.subDomain}}</a></td>
@@ -189,13 +200,20 @@
             <td style="width:100px;text-align: center;">{{user.Good}}</td>
             <td style="width:100px;text-align: center;">{{user.Warning}}</td>
             <td style="width:100px;text-align: center;">{{user.Critical}}</td>
+            <td style="width:100px;text-align: center;">
+              {{user.License}} <i class="fa fa-server" aria-hidden="true" data-bs-toggle="modal"
+                (click)="getClientId(user.C_CID)" data-bs-target="#exampleModal"></i>
+            </td>
+            <!-- -->
+            <!-- <td style="width:100px;text-align: center;"></td>
+            <td style="width:100px;text-align: center;"></td> -->
             <!-- <td style="width: 100px;">{{user.Devices}}</td>
               <td style="width: 100px;">{{user.ReportingPercent}}</td> -->
           </tr>
         </table>
       </div>
     </div>
-    <div #map class="child-div2" style="width: 20%; height: 350px;padding-left: 20px;"></div>
+    <div #map class="child-div2" style="width: 20%; height: 350px;padding-left: 10px;"></div>
   </div>
   <br /><br />
   <div style="margin-left: 40%; font-family: 'Times New Roman'; font-size: 15px;">
@@ -221,7 +239,7 @@
       </tr>
     </table>
   </div>
-  <br/>
+  <br />
   <div>
     <select [(ngModel)]="selectValue" (change)="select()" class="chartSelect">
       <option>Top Three subDomain</option>
@@ -230,14 +248,14 @@
       <option>Bottom Five subDomain</option>
     </select>
   </div>
-  <br/>
+  <br />
   <!-- <div>
       <app-charts [divid]="chart5"></app-charts>
       <app-charts [divid]="chart1"></app-charts>
       <app-charts [divid]="chart2"></app-charts>
       <app-charts [divid]="chart3"></app-charts>
     </div> -->
-  <div class="parent-chart" id="parent-chart"> 
+  <div class="parent-chart" id="parent-chart">
     <div class="parent-chart1">
       <div class="child-chart1">
         <!-- <div style="text-align: center;">
@@ -249,7 +267,8 @@
         <br /> -->
         <div style="text-align: center;">
           <label>Domain:<span>{{this.domainname[1]}}</span></label>
-          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span  [ngStyle]="{'color': (this.severity[1] == 'low') ? '#4caf50' : (this.severity[1] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[1]}}</span></label>&nbsp;&nbsp;
+          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span
+              [ngStyle]="{'color': (this.severity[1] == 'low') ? '#4caf50' : (this.severity[1] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[1]}}</span></label>&nbsp;&nbsp;
           <!-- <label style="padding-left: 50px;">Severity:<span>{{this.severity[1]}}</span></label> -->
         </div>
         <br />
@@ -265,7 +284,8 @@
         <br/> -->
         <div style="text-align: center;">
           <label>Domain:<span>{{this.domainname[4]}}</span></label>
-          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span  [ngStyle]="{'color': (this.severity[4] == 'low') ? '#4caf50' : (this.severity[4] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[4]}}</span></label>&nbsp;&nbsp;
+          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span
+              [ngStyle]="{'color': (this.severity[4] == 'low') ? '#4caf50' : (this.severity[4] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[4]}}</span></label>&nbsp;&nbsp;
         </div>
         <br />
         <div id="chart4"></div>
@@ -282,7 +302,8 @@
         <br /> -->
         <div style="text-align: center;">
           <label>Domain:<span>{{this.domainname[3]}}</span></label>
-          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span  [ngStyle]="{'color': (this.severity[3] == 'low') ? '#4caf50' : (this.severity[3] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[3]}}</span></label>&nbsp;&nbsp;
+          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span
+              [ngStyle]="{'color': (this.severity[3] == 'low') ? '#4caf50' : (this.severity[3] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[3]}}</span></label>&nbsp;&nbsp;
           <!-- <label style="padding-left: 160px;">Severity:<span>{{this.severity[3]}}</span></label> -->
         </div>
         <br />
@@ -298,7 +319,8 @@
         <br /> -->
         <div style="text-align: center;">
           <label>Domain:<span>{{this.domainname[2]}}</span></label>
-          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span  [ngStyle]="{'color': (this.severity[2] == 'low') ? '#4caf50' : (this.severity[2] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[2]}}</span></label>&nbsp;&nbsp;
+          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span
+              [ngStyle]="{'color': (this.severity[2] == 'low') ? '#4caf50' : (this.severity[2] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[2]}}</span></label>&nbsp;&nbsp;
           <!-- <label style="padding-left: 50px;">Severity:<span>{{this.severity[0]}}</span></label> -->
         </div>
         <br />
@@ -316,7 +338,8 @@
         <br /> -->
         <div style="text-align: center;">
           <label>Domain:<span>{{this.domainname[0]}}</span></label>
-          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span [ngStyle]="{'color': (this.severity[0] == 'low') ? '#4caf50' : (this.severity[0] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[0]}}</span></label>&nbsp;&nbsp;
+          <label style="padding-left: 160px;">SSLCert.ExpiryTime:<span
+              [ngStyle]="{'color': (this.severity[0] == 'low') ? '#4caf50' : (this.severity[0] == 'Medium') ? '#EF820D' : '#ed0231'}">{{this.ExpiryDate[0]}}</span></label>&nbsp;&nbsp;
           <!-- <label style="padding-left: 50px;">Severity:<span>{{this.severity[2]}}</span></label> -->
         </div>
         <br />
@@ -335,3 +358,79 @@
   </div>
 </div>
 <!-- <div><button (click)="download()" style="margin-left: 598px">Download</button></div> -->
+<!--<input type="datetime-local" id="birthdaytime" name="birthdaytime">-->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" style="height: 35rem;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" style="background-color: white;color: black;" id="exampleModalLabel">License
+          Management</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="row">
+            <div class="col">
+              <input type="text" class="form-control" id="customerNameControl" [(ngModel)]="customerName"
+                placeholder="Customer Name">
+            </div>
+            <div class="col">
+              <input type="email" class="form-control" id="emailControl" [(ngModel)]="customerEmailId"
+                placeholder="Customer MailId">
+            </div>
+            <div class="col">
+              <input type="date" class="form-control" id="dateControl" [(ngModel)]="fromDateTime" min={{minDate}}>
+            </div>
+            
+            <!-- <div class="col">
+              <input type="text" class="form-control" id="phoneNumberControl" [(ngModel)]="customerMobileNumber"
+                placeholder="Customer Contact No.">
+            </div> -->
+            <div class="col">
+              <button type="submit" class="btn btn-primary" (click)="generateLicense()">Generate License</button>
+            </div>
+          </div>
+          <br/><br/>
+          <div class="row licenseTable" style="overflow-y: scroll; Height:430px; width: 100%">
+            <table style="font-size:small">
+              <thead>
+                <tr>
+                  <th style="width: 34px;text-align: center;">Sl.No.</th>
+                  <th style="width:100px;text-align: center;">LicenseKey</th>
+                  <th style="width:100px;text-align: center;">Organization</th>
+                  <th style="width:100px;text-align: center;">Activated By</th>
+                  <th style="width:100px;text-align: center;">MacAddress</th>
+                  <th style="width:100px;text-align: center;">Start Date</th>
+                  <th style="width:100px;text-align: center;">End Date</th>
+                  <th style="width:100px;text-align: center;">Customer Name</th>
+                  <th style="width:100px;text-align: center;">Customer Mail</th>
+                  <!-- <th style="width:100px;text-align: center;">Customer Mobile</th> -->
+                </tr>
+              </thead>
+              <tbody style="font-size:x-small">
+                <tr *ngFor="let license of licenseTable;let i = index"
+                  [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
+                  <td style="width:34px;text-align: center; height: 20px;">{{i+1}}.</td>
+                  <td style="width:100px;text-align: center;height: 20px">{{license.LicenseKey}}</td>
+                  <td style="width:100px;text-align: center;height: 20px">{{license.Organization}}</td>
+                  <td style="width:100px;text-align: center;height: 20px">{{license.ActivatedPersonName}}</td>
+                  <td style="width:100px;text-align: center;height: 20px">{{license.MacAddress}}</td>
+                  <td style="width:100px;text-align: center;height: 20px">{{license.startDate}}</td>
+                  <td style="width:100px;text-align: center;height: 20px">{{license.endDate}}</td>
+                  <td style="width:100px;text-align: center;height: 20px">{{license.customerName}}</td>
+                  <td style="width:100px;text-align: center;height: 20px">{{license.customerMailId}}</td>
+                  <!-- <td style="width:100px;text-align: center;">{{license.customerMobileNumber}}</td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
