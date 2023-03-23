@@ -63,6 +63,14 @@ export class DgtrackserviceService {
     //console.log(body);
     return this._http.post(this.url + 'InsertLicense', body, { 'headers': headers });
   }
+  apiUpdateLicenseDate(licenseDetails){
+    const headers = { 'Content-Type': 'application/json' };
+
+    const body = JSON.stringify(licenseDetails);
+
+    //console.log(body);
+    return this._http.post(this.url + 'updateLicense', body, { 'headers': headers });
+  }
   getacceskey() {
 
     debugger

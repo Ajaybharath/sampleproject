@@ -202,11 +202,50 @@ export class DGTRAKMISComponent implements OnInit {
   currentDay: number = this.today.getDate();
   currentTime: number = this.today.getHours();
   currentMinute:number = this.today.getMinutes();
+  hideDate:any = false;
+  hideReset:any = false;
+  LicenseId:any;
+  buttonName:any = "Generate License";
+  LicenseTime:any;
   minDate: any;// =  new Date(this.currentYear, this.currentMonth, this.currentDay);
+  editLicense(LicenseId:any){
+    debugger
+    this.LicenseId = LicenseId;
+    var LicenseDetails = this.licenseTableDetails.filter(value => value.LicenseKey.toLowerCase().includes(LicenseId.toLowerCase()));
+    this.customerName = LicenseDetails[0].customerName;
+    this.customerEmailId = LicenseDetails[0].customerMailId;
+    this.minDate = LicenseDetails[0].endDate;
+    if(this.minDate){
+      let parts = this.minDate.split(' ')[0].split('-');
+      this.LicenseTime = this.minDate.split(' ')[1];
+      let newDateString = parts[2] + '-' + parts[1] + '-' + parts[0];
+      this.minDate = newDateString;
+      this.fromDateTime = this.minDate;
+      this.hideDate = true;
+    }
+    else {
+      this.hideDate = false;
+    }
+    this.hideReset = true;
+    this.buttonName = "Update License";
+  }
+  hidereset(){
+    this.customerEmailId = "";
+    this.customerName = "";
+    this.hideDate = false;
+    this.hideReset = false;
+    this.buttonName = "Generate License";
+  }
+  emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   getClientId(clientId:any){
     debugger
-    this.minDate = this.today.getFullYear() + "-0" +  (this.today.getMonth() + 1).toString() + "-" + this.today.getDate();
+    //this.minDate = this.today.getFullYear() + "-0" +  (this.today.getMonth() + 1).toString() + "-" + this.today.getDate();
     //this.minDate = "2023-03-21";
+    this.customerName = "";
+    this.customerEmailId ="";
+    this.hideDate = false;
+    this.hideReset = false;
+    this.buttonName = "Generate License";
     this.customerId = clientId;
     this.licenseTable = this.licenseTableDetails.filter(value => value.clientId.toLowerCase().includes(this.customerId));
   }
@@ -217,29 +256,90 @@ export class DGTRAKMISComponent implements OnInit {
     else if(!this.customerName){
       alert('Please Enter Customer Name');
     }
+    else if(!this.customerEmailId.match(this.emailPattern)){
+      alert("Invalid Mailid")
+    }
     // else if(!this.customerMobileNumber){
     //   alert('Please Enter Customer Mobile Number');
     // }
     else {
-      debugger
-      //ilter(value => value.clientId.toLowerCase().includes(this.customerId)to
-      var count = this.licenseTable.filter(value => value.customerName.toLowerCase().includes(this.customerName.toLowerCase())&&value.customerMailId.toLowerCase().includes(this.customerEmailId.toLowerCase())).length;//&&value.customerMobileNumber.toLowerCase().includes(this.customerMobileNumber.toLowerCase())
-      if(count == 1){
-        alert('Customer already Exist!!');
+      if(this.buttonName == "Generate License"){
+        //ilter(value => value.clientId.toLowerCase().includes(this.customerId)to
+        var count = this.licenseTable.filter(value => value.customerName.toLowerCase().includes(this.customerName.toLowerCase()) && value.customerMailId.toLowerCase().includes(this.customerEmailId.toLowerCase())).length;//&&value.customerMobileNumber.toLowerCase().includes(this.customerMobileNumber.toLowerCase())
+        if (count == 1) {
+          alert('Customer already Exist!!');
+        }
+        else {
+          if (this.buttonName == "Generate License") {
+            var send = { "customerId": this.customerId, "customerName": this.customerName, "customerMailId": this.customerEmailId };//, "customerMobileNumber":this.customerMobileNumber    
+            this.service.apiinsertLicense(send).subscribe(data => {
+              if (data == "updated") {
+                alert('License Generated Sucessfully!!');
+                this.customerEmailId = "";
+                //this.customerMobileNumber = "";
+                this.customerName = "";
+                this.getTotalDetails();
+              }
+            });
+
+          }
+        }
       }
       else {
-        var send = { "customerId": this.customerId ,"customerName":this.customerName, "customerMailId":this.customerEmailId};//, "customerMobileNumber":this.customerMobileNumber    
-        this.service.apiinsertLicense(send).subscribe(data => {
-          if(data == "updated"){
-            alert('License Generated Sucessfully!!');
-            this.customerEmailId = "";
-            //this.customerMobileNumber = "";
-            this.customerName = "";
-            this.getTotalDetails();
+        debugger
+        if(this.hideDate == true && !this.fromDateTime){
+          alert('Please Select Date!!');
+        }
+        else{
+          var dateTime = "";
+          if(this.fromDateTime){
+             dateTime = this.fromDateTime +" " + this.LicenseTime;
+             dateTime = this.epochDateTime(dateTime).toString();
           }
-        });
+          var sendDate = { "LicenseKey": this.LicenseId, "customerName": this.customerName, "customerMailId": this.customerEmailId,"endDate": dateTime};//, "customerMobileNumber":this.customerMobileNumber    
+          this.service.apiUpdateLicenseDate(sendDate).subscribe(data => {
+            if (data == "updated") {
+              alert('License Details Updated Sucessfully!!');
+              this.getTotalDetails();
+            }
+          });
+        }
       }
     }
+  }
+  MultipleMail:any;
+  Time:any;
+  emailConfigPattern = /^(\s?[^\s,]+@[^\s,]+\.[^\s,]+\s?,)*(\s?[^\s,]+@[^\s,]+\.[^\s,]+)$/;
+  submit(){
+    debugger
+    var mailid = this.MultipleMail;
+    var time = this.Time;
+    if(mailid == "" && time == "" || mailid == undefined && time == undefined){
+      alert("Please Enter Fields");
+    }
+    else if(mailid == undefined || mailid == ""){
+      alert("Mailids is Required")
+    }
+    else if(!mailid.match(this.emailConfigPattern)){
+      alert("Invalid Mailid's")
+    }
+    else if(time == undefined || time == ""){
+      alert("Time is Required")
+    }
+    else{
+      var send = { "Mails": mailid ,"Time":time};    
+      this.service.apimailconfig(send).subscribe(data => {
+      this.message = data;
+      alert(this.message);
+      this.MultipleMail = "";
+      this.Time = "";
+      //this.ishideData = false;
+      });
+    }  
+  }
+  epochDateTime(datetimestr:any){
+    const epochTime = Math.floor(new Date(datetimestr).getTime() / 1000);
+    return epochTime
   }
   Search() {
     this.windowsclose();
@@ -287,7 +387,9 @@ export class DGTRAKMISComponent implements OnInit {
   }
   TableDetails = [];
   getTotalDetails() {
+    this.totalDevice = 0;this.totalReporting = 0; this.totalNotReporting = 0;
     this.service.apiGetLicenseTable().subscribe(data => {
+      debugger
       this.licenseTableDetails = data;
       var licenseCount: number = 0;
       this.TableDetails = [];

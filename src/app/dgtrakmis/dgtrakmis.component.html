@@ -84,17 +84,17 @@
   </div>
 </div>-->
 <app-loading *ngIf="isLoading"></app-loading>
-<div id="Total Content" style="background-color: #fff;background-image: none;">
+<div id="Total Content" style="background-color: #fff;background-image: none;overflow-x: hidden;">
   <br />
-  <div class="topnav">
-    <div class="col-md-4" style="padding-top:1px ;"><span><img src="https://ideabytesiot.com/icn/ideabytes-iot.png"
-          style="border: 2px solid #696969;background-color: white; width: 50%;" /></span></div>
-    <div class="col-md-6" style="color:white;font-family:'Times New Roman';font-size:30px">Ideabytes IoT MIS Report
-    </div>
-    <div class="col-md-2" style="margin-top:8px;">
-      <h1 style="text-align:center;margin-top:0" [hidden]="hidelogout"><span (click)="Logout()" id="B-logout"><i
-            class="fa fa-sign-out" aria-hidden="true" title="Logout"></i></span></h1>
-    </div>
+  <div class="topnav" style="display: flex;">
+      <div class="part1" style="padding-top:1px; flex-basis: 35%; float: left;"><span><img src="https://ideabytesiot.com/icn/ideabytes-iot.png"
+            style="border: 2px solid #696969;background-color: white; width: 50%;" /></span></div>
+      <div class="part2" style="color:white;font-family:'Times New Roman';font-size:30px; flex-basis: 55%;">Ideabytes IoT MIS Report
+      </div>
+      <div class="part3" style="margin-top:8px; flex-basis: 10%;">
+        <h1 style="text-align:center;margin-top:0" [hidden]="hidelogout"><span (click)="Logout()" id="B-logout"><i
+              class="fa fa-sign-out" aria-hidden="true" title="Logout"></i></span></h1>
+      </div>
     <!-- <h1 class="col-md-11">Ideabytes IoT MIS Report</h1> -->
   </div>
   <!-- <header><h1 class="col-md-11">Ideabytes IoT MIS Report</h1><h1 style="height: 33px" class="col-md-1"><span (click)="Logout()" id="B-logout" ><i class="fa fa-sign-out" aria-hidden="true" title="Logout" ></i></span></h1></header> -->
@@ -141,7 +141,7 @@
       color: white;
       height: 26px;
       line-height: 2;
-      border-radius: 5px;cursor: pointer;" (click)="mailConfig()">
+      border-radius: 5px;cursor: pointer;" data-bs-target="#modalMailConfig" aria-hidden="true" data-bs-toggle="modal">
         <i class="fa fa-envelope-o" title="Mail Configuration"></i> Mail Config.
       </div>
     </div>
@@ -150,11 +150,12 @@
         class="search">
     </div>
   </div>
+  <!--(click)="mailConfig()"-->
   <!-- <input type="image"  src="../../assets/mailconfig.png" alt=""  (click)="mailConfig()" class="mailConfig" title="Mail Configuration"/>&nbsp;&nbsp; -->
   <!-- <img src="../../assets/mailconfig.png" alt=""  /></button> -->
   <!-- <input type="button" style="width: 100px;height: 25px;" value="mailConfig" (click)="mailConfig()" class="search"> -->
   <!-- </div> -->
-  <app-mailconfig-model #modal></app-mailconfig-model>
+  <!-- <app-mailconfig-model #modal style="width:100%"></app-mailconfig-model> -->
   <br />
   <div id="table2" style="padding-left: 1%;">
     <div class="child-div1"
@@ -201,7 +202,7 @@
             <td style="width:100px;text-align: center;">{{user.Warning}}</td>
             <td style="width:100px;text-align: center;">{{user.Critical}}</td>
             <td style="width:100px;text-align: center;">
-              {{user.License}} <i class="fa fa-server" aria-hidden="true" data-bs-toggle="modal"
+              {{user.License}} <i class="fa fa-server" style="cursor: pointer;" aria-hidden="true" data-bs-toggle="modal"
                 (click)="getClientId(user.C_CID)" data-bs-target="#exampleModal"></i>
             </td>
             <!-- -->
@@ -371,15 +372,15 @@
       <div class="modal-body">
         <div class="row">
           <div class="row">
-            <div class="col">
+            <div class="col-md-3">
               <input type="text" class="form-control" id="customerNameControl" [(ngModel)]="customerName"
                 placeholder="Customer Name">
             </div>
-            <div class="col">
+            <div class="col-md-3">
               <input type="email" class="form-control" id="emailControl" [(ngModel)]="customerEmailId"
                 placeholder="Customer MailId">
             </div>
-            <div class="col">
+            <div class="col-md-3" *ngIf="hideDate">
               <input type="date" class="form-control" id="dateControl" [(ngModel)]="fromDateTime" min={{minDate}}>
             </div>
             
@@ -387,15 +388,22 @@
               <input type="text" class="form-control" id="phoneNumberControl" [(ngModel)]="customerMobileNumber"
                 placeholder="Customer Contact No.">
             </div> -->
-            <div class="col">
-              <button type="submit" class="btn btn-primary" (click)="generateLicense()">Generate License</button>
+            <div class="col-md-3">
+              <div class="container" style="display: flex;">
+                <div class="part1" style="flex-basis: 20%;" *ngIf="hideReset">
+                  <i class="fa fa fa-refresh" aria-hidden="true" style="cursor: pointer;" (click)="hidereset()"></i>
+                </div>
+                <div class="part2" style="flex-basis: 80%;">
+                  <button type="submit" class="btn btn-primary" (click)="generateLicense()">{{buttonName}}</button>
+                </div>
+              </div>
             </div>
           </div>
           <br/><br/>
-          <div class="row licenseTable" style="overflow-y: scroll; Height:430px; width: 100%">
-            <table style="font-size:small">
+          <div class="row licenseTable" style="overflow-y: scroll; Height:430px; width: 110%">
+            <table>
               <thead>
-                <tr>
+                <tr style="font-size:11px">
                   <th style="width: 34px;text-align: center;">Sl.No.</th>
                   <th style="width:100px;text-align: center;">LicenseKey</th>
                   <th style="width:100px;text-align: center;">Organization</th>
@@ -403,12 +411,13 @@
                   <th style="width:100px;text-align: center;">MacAddress</th>
                   <th style="width:100px;text-align: center;">Start Date</th>
                   <th style="width:100px;text-align: center;">End Date</th>
-                  <th style="width:100px;text-align: center;">Customer Name</th>
-                  <th style="width:100px;text-align: center;">Customer Mail</th>
+                  <th style="width:110px;text-align: center;">Cus. Name</th>
+                  <th style="width:100px;text-align: center;">Cus. Mail</th>
+                  <th style="width:34px;text-align: center;">Action</th>
                   <!-- <th style="width:100px;text-align: center;">Customer Mobile</th> -->
                 </tr>
               </thead>
-              <tbody style="font-size:x-small">
+              <tbody style="font-size:13px">
                 <tr *ngFor="let license of licenseTable;let i = index"
                   [ngStyle]="{'background-color':i%2==0?' #FFFF':'#D8DFEE'}">
                   <td style="width:34px;text-align: center; height: 20px;">{{i+1}}.</td>
@@ -418,8 +427,9 @@
                   <td style="width:100px;text-align: center;height: 20px">{{license.MacAddress}}</td>
                   <td style="width:100px;text-align: center;height: 20px">{{license.startDate}}</td>
                   <td style="width:100px;text-align: center;height: 20px">{{license.endDate}}</td>
-                  <td style="width:100px;text-align: center;height: 20px">{{license.customerName}}</td>
+                  <td style="width:110px;text-align: center;height: 20px">{{license.customerName}}</td>
                   <td style="width:100px;text-align: center;height: 20px">{{license.customerMailId}}</td>
+                  <td style="width:34px;text-align: center; height: 20px;"><i class="fa fa-pencil-square-o" aria-hidden="true" style="cursor: pointer;" (click)="editLicense(license.LicenseKey)"></i></td>
                   <!-- <td style="width:100px;text-align: center;">{{license.customerMobileNumber}}</td> -->
                 </tr>
               </tbody>
@@ -431,6 +441,41 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div> -->
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modalMailConfig" tabindex="-1" aria-labelledby="modalMailConfig" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" style="background-color: white;color: black;" id="exampleModalLabel">Mail Configuration</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="mb-3">
+              <label class="form-label">Mail Id's</label>
+              <div class="container col-md-12" style="display: flex;width: 105%;">
+                <div class="part1" style="flex-basis: 100%; margin-left: -24px;">
+                  <input type="text"  id="MultipleMail" class="form-control" name="MultipleMail" pattern={{emailPattern}}
+                  [(ngModel)]="MultipleMail" placeholder="customer@gmail.com">
+                </div>
+                <div class="part2" style="flex-basis: 2%;">
+                  <span data-toggle="tooltip" data-placement="Top" class="form-control" title="Use Comma for Multiple Email ids">
+                    <i class="fa fa-info-circle"  aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3"> 
+              <label class="form-label">Time</label>
+              <input type="time" class="form-control" name="Time" [(ngModel)]="Time">
+            </div>
+            <div class="mb-3"> 
+              <input class="btn btn-primary"  type="button" value="Submit" (click)="submit()" />
+            </div>
+          </div>
+      </div>
     </div>
   </div>
 </div>
