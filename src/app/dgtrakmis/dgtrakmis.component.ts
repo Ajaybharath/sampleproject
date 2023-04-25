@@ -388,7 +388,9 @@ export class DGTRAKMISComponent implements OnInit {
   TableDetails = [];
   getTotalDetails() {
     this.totalDevice = 0;this.totalReporting = 0; this.totalNotReporting = 0;
-    this.service.apiGetLicenseTable().subscribe(data => {
+    var send = { };//, "customerMobileNumber":this.customerMobileNumber    
+
+    this.service.apiGetLicenseTable(send).subscribe(data => {
       debugger
       this.licenseTableDetails = data;
       var licenseCount: number = 0;

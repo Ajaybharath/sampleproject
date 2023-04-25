@@ -51,9 +51,13 @@ export class DgtrackserviceService {
     //let url = 'https://adminiot.iotsolution.net/summarydetails/API/TotalClientData/Access';
     return this._http.post(this.url + 'Access', obj);
   }
-  apiGetLicenseTable(){
-    
-    return this._http.get(this.url + 'GetLicenseTable');
+  apiGetLicenseTable(licenseDetails){
+    const headers = { 'Content-Type': 'application/json' };
+
+    const body = JSON.stringify(licenseDetails);
+
+    //console.log(body);
+    return this._http.post(this.url + 'GetLicenseTable', body, { 'headers': headers });
   }
   apiinsertLicense(licenseDetails){
     const headers = { 'Content-Type': 'application/json' };
