@@ -7,8 +7,8 @@ import { Injectable } from '@angular/core';
 export class DgtrackserviceService {
 
   constructor(private _http: HttpClient) { }
- // url = 'https://adminiot.iotsolution.net/summarydetails/API/TotalClientData/';
- url = 'https://localhost:44308/API/TotalClientData/';
+  //url = 'https://adminiot.iotsolution.net/summarydetails/API/TotalClientData/';
+  url = 'https://localhost:44308/API/TotalClientData/';
   apicall(inputs: any) {
     debugger
     //let url='https://adminiot.iotsolution.net/summarydetails/API/TotalClientData/ClientData';
